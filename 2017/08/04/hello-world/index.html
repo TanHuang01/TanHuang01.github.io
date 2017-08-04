@@ -90,13 +90,16 @@
 <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2017/07/16/hello-world/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/08/04/hello-world/index.html">
 <meta property="og:site_name" content="Congspark">
 <meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
-<meta property="og:updated_time" content="2017-08-04T02:57:40.000Z">
+<meta property="og:image" content="http://yoursite.com/images/hello-world/test.png">
+<meta property="og:image" content="http://yoursite.com/images/hello-world/testgif.gif">
+<meta property="og:updated_time" content="2017-08-04T07:18:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hello World">
 <meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+<meta name="twitter:image" content="http://yoursite.com/images/hello-world/test.png">
 
 
 
@@ -124,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/16/hello-world/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/04/hello-world/"/>
 
 
 
@@ -269,7 +272,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/16/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/04/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shao Cheng">
@@ -305,8 +308,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-16T17:11:29+08:00">
-                2017-07-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-04T11:39:34+08:00">
+                2017-08-04
               </time>
             
 
@@ -351,6 +354,29 @@
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+<p>第一篇 hexo 博客, 好不容易配置好了各种环境, 绕过了一些必要的坑, 心情有点小激动, 来测试一下 hexo 对于markdown 的支持. </p>
+<h1 id="题目1"><a href="#题目1" class="headerlink" title="题目1"></a>题目1</h1><h2 id="题目2"><a href="#题目2" class="headerlink" title="题目2"></a>题目2</h2><h3 id="题目3"><a href="#题目3" class="headerlink" title="题目3"></a>题目3</h3><h4 id="题目4"><a href="#题目4" class="headerlink" title="题目4"></a>题目4</h4><h5 id="题目5"><a href="#题目5" class="headerlink" title="题目5"></a>题目5</h5><h6 id="题目6"><a href="#题目6" class="headerlink" title="题目6"></a>题目6</h6><p><em>斜体</em><br><strong>粗体</strong></p>
+<ol>
+<li>有序列表</li>
+<li>有序列表</li>
+</ol>
+<ul>
+<li>无序列表</li>
+<li><p>无序列表</p>
+</li>
+<li><p>[ ] 复选框</p>
+</li>
+<li>[x] 复选框</li>
+</ul>
+<blockquote>
+<p>这里是引用的文字<br>引用内可以潜逃标题, 列表等</p>
+</blockquote>
+<p>这是一句<code>var a=1</code>行内代码, 一下是代码块代码.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">System.out.println(<span class="string">"Hello World"</span>);</div></pre></td></tr></table></figure></p>
+<p>下面的代码用 hexo 专用的 codeblock 实现.<br><figure class="highlight java"><figcaption><span>testcode</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">System.out.println(<span class="string">"Hello World"</span>);</div></pre></td></tr></table></figure></p>
+<p>hexo 文件不会读取空格, 如果需要空格需要用<code>&amp;nbsp;</code>代替. </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这里的两张图片都设置为 100 X 100, hexo 会以宽度为标准, 来等比例缩放图片. </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;This is an image test (png):<br><img src="/images/hello-world/test.png" width="100" height="100" title="test png pic"></p>
+<p>and this is an image of gif:<br><img src="/images/hello-world/testgif.gif" width="100" height="100" title="test gif pic"></p>
 
       
     </div>
@@ -383,22 +409,6 @@
         
       
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/04/testTags/" rel="prev" title="testTags">
-                testTags <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
 
       
@@ -467,32 +477,14 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
 
           
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
 
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
           
 
         </nav>
@@ -524,7 +516,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题目1"><span class="nav-number"></span> <span class="nav-text">题目1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目2"><span class="nav-number">1.</span> <span class="nav-text">题目2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目3"><span class="nav-number">1.1.</span> <span class="nav-text">题目3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#题目4"><span class="nav-number">1.1.1.</span> <span class="nav-text">题目4</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#题目5"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">题目5</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#题目6"><span class="nav-number">1.1.1.1.1.</span> <span class="nav-text">题目6</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
