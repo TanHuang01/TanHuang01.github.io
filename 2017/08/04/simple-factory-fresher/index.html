@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="Congspark">
 <meta property="og:description" content="1.1 面试受挫&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 小菜今年计算机专业大四了, 学了不少软件开发方面的东西, 也学这边了些小程序, 踌躇满志, 一心要找一个好单位. 当投了无数份简历后, 终于收到了一个面试通知, 小菜欣喜若狂.">
 <meta property="og:image" content="http://yoursite.com/images/simple-factory-fresher/pic01.png">
-<meta property="og:updated_time" content="2017-08-05T08:10:49.000Z">
+<meta property="og:updated_time" content="2017-08-05T08:12:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="01. 代码无错就是优?  ---简单工厂模式(Simple Factory Pattern)">
 <meta name="twitter:description" content="1.1 面试受挫&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 小菜今年计算机专业大四了, 学了不少软件开发方面的东西, 也学这边了些小程序, 踌躇满志, 一心要找一个好单位. 当投了无数份简历后, 终于收到了一个面试通知, 小菜欣喜若狂.">
@@ -438,7 +438,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Operation oper;</div><div class="line">        oper = OperationFactory.createOperation(<span class="string">"+"</span>);</div><div class="line">        oper.setNumberA(<span class="number">1</span>);</div><div class="line">        oper.setNumberB(<span class="number">2</span>);</div><div class="line">        <span class="keyword">double</span> result = oper.getResult();</div><div class="line">        System.out.println(result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;&nbsp;  大鸟: “哈, 界面的实现就是这样的代码, 不挂你是控制台程序, windows 程序, web 程序, pda 程序或手机程序, 都可以用这段代码来实现计算器的功能, 如果有一天我们需要更改加法运算, 我们只需要改<code>OperationAdd</code> 就可以了. 如果我们需要增加各种复杂运算, 比如平方根, 立方根, 自然对数, 正余弦等, 如何做?”<br>&nbsp;&nbsp;&nbsp; 小菜: “只要增加相应的运算子类就可以了.”<br>&nbsp;&nbsp;&nbsp; 大鸟: “嗯? 够了吗?”<br>&nbsp;&nbsp;&nbsp; 小菜: “对了, 还需要去修改运算类工厂, 在 switch 中增加分支. “<br>&nbsp;&nbsp;&nbsp; 大鸟: “哈, 那才对, 那如果要修改界面呢?”<br>&nbsp;&nbsp;&nbsp; 小菜: “那就去该界面, 不管运算的事.”<br>&nbsp;&nbsp;&nbsp; 大鸟: “最后, 我们来看看这几个类的结构图.”</p>
 <img src="/images/simple-factory-fresher/pic01.png" width="600" height="600">
-<h3 id="1-11-UML-类图"><a href="#1-11-UML-类图" class="headerlink" title="1.11 UML 类图"></a>1.11 UML 类图</h3><p><a href="https://tanhuang01.github.io/2017/08/05/UML/#more" target="_blank" rel="external">UML类图讲解_入门</a></p>
+<h3 id="1-11-UML-类图"><a href="#1-11-UML-类图" class="headerlink" title="1.11 UML 类图"></a>1.11 UML 类图</h3><p><a href="https://tanhuang01.github.io/2017/08/05/UML/" target="_blank" rel="external">UML类图讲解_入门</a></p>
 
       
     </div>
