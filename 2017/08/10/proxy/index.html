@@ -1,0 +1,792 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="7.1别为人做嫁衣! 时间: 3月17日19点  &amp;nbsp;&amp;nbsp;  地点: 小菜大鸟所住的客厅  &amp;nbsp;&amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 今天加这个叫娇娇的美女如何啊?” 大鸟一回家来就问小菜.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “嗨, 别提了, 人家是有男朋友的.” 小菜无精打采的回答道.">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="07.为别人做嫁衣 - 代理模式(Proxy)">
+<meta property="og:url" content="http://yoursite.com/2017/08/10/proxy/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="7.1别为人做嫁衣! 时间: 3月17日19点  &amp;nbsp;&amp;nbsp;  地点: 小菜大鸟所住的客厅  &amp;nbsp;&amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 今天加这个叫娇娇的美女如何啊?” 大鸟一回家来就问小菜.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “嗨, 别提了, 人家是有男朋友的.” 小菜无精打采的回答道.">
+<meta property="og:image" content="http://yoursite.com/images/proxy/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/proxy/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/proxy/pic03.png">
+<meta property="og:image" content="http://yoursite.com/images/proxy/pic04.png">
+<meta property="og:updated_time" content="2017-08-10T02:28:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="07.为别人做嫁衣 - 代理模式(Proxy)">
+<meta name="twitter:description" content="7.1别为人做嫁衣! 时间: 3月17日19点  &amp;nbsp;&amp;nbsp;  地点: 小菜大鸟所住的客厅  &amp;nbsp;&amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 今天加这个叫娇娇的美女如何啊?” 大鸟一回家来就问小菜.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “嗨, 别提了, 人家是有男朋友的.” 小菜无精打采的回答道.">
+<meta name="twitter:image" content="http://yoursite.com/images/proxy/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/10/proxy/"/>
+
+
+
+
+
+  <title> 07.为别人做嫁衣 - 代理模式(Proxy) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/10/proxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                07.为别人做嫁衣 - 代理模式(Proxy)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T09:27:42+08:00">
+                2017-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="7-1别为人做嫁衣"><a href="#7-1别为人做嫁衣" class="headerlink" title="7.1别为人做嫁衣!"></a>7.1别为人做嫁衣!</h3><ul>
+<li>时间: 3月17日19点  &nbsp;&nbsp;  地点: 小菜大鸟所住的客厅  &nbsp;&nbsp; 人物: 大鸟, 小菜</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “小菜, 今天加这个叫娇娇的美女如何啊?” 大鸟一回家来就问小菜.<br>&nbsp;&nbsp;&nbsp;&nbsp; “嗨, 别提了, 人家是有男朋友的.” 小菜无精打采的回答道.<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; “有男朋友了啊, 这倒是我没料到, 那为什么还找你帮忙修电脑?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “她男朋友叫戴励, 在北京读大学呢, 他们高中就开始谈恋爱了.” 小蔡说, “而且他还告诉我了一件比较有趣的事.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 是什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是这样的, 我们在吃饭的时候, 我就问他, 怎么不找男朋友帮忙修电脑. 他说男朋友在北京读书, 所以没办法帮助修. 我心里一想, ‘你在上海怎么男朋友会在北京’, 正想问他们是怎么认识的, 他却接着问我想不想知道她男朋友追他的事. 哈, 这不正是我所希望的吗, 于是我就跟着他开始了美好的回忆.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “又不是你谈恋爱, 说得这么肉麻, 还 ‘美好的回忆’. 她回忆什么了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当时他是这么说的: ‘那时我在高中二年级时的一个下午…….’”</p>
+<ul>
+<li>时间: 五年前的一天下午放学时 &nbsp; 地点: 缴交所在中学高中二年级教室 &nbsp; 人物: 娇娇, 戴励, 卓贾易</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “娇娇同学, 这是有人送你的礼物.” 一个男生手拿着一个芭比娃娃送到他的面前.<br>&nbsp;&nbsp;&nbsp;&nbsp; “戴励同学, 这是什么意思?” 娇娇望着同班的这个男生, 感觉很奇怪.<br>&nbsp;&nbsp;&nbsp;&nbsp; “是这样的, 我的好朋友, 隔壁三班的卓贾易同学, 请我带他送你这个礼物的.” 戴励有些脸红.<br>&nbsp;&nbsp;&nbsp;&nbsp; “为什么要送我礼物, 我不认识他呀.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “他说……他说…..他说想和你交个朋友.” 戴励脸更红了, 有手抓后脑勺, 说话吞吞吐吐.<br>&nbsp;&nbsp;&nbsp;&nbsp; “不用这样, 我不需要礼物的.” 娇娇显然想拒绝.<br>&nbsp;&nbsp;&nbsp;&nbsp; “别别别, 他是我最好的朋友, 他请我代他送礼物给你, 也是下了很大决心的, 你看在我之前时常帮你辅导数学提的面子上, 就接收一下吧.” 戴励有些着急.<br>&nbsp;&nbsp;&nbsp;&nbsp; “那好吧, 今天我对解析几何的椭圆那里还是不太懂, 你再给我讲讲.” 娇娇提出条件后结果礼物.<br>&nbsp;&nbsp;&nbsp;&nbsp; “没问题, 我们到教室去讲吧.” 戴励松了口气.<br>&nbsp;&nbsp;&nbsp;&nbsp; …….<br>&nbsp;&nbsp;&nbsp;&nbsp; 几天后<br>&nbsp;&nbsp;&nbsp;&nbsp; “娇娇, 这是卓贾易送你的花.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “娇娇, 这是卓贾易送你的巧克力.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我不要她送的东西了, 我也不想和他交朋友. 我愿意….我愿意和你做朋友!” 娇娇终于忍不住了. 直接表白.<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊!…..我不是在做梦吧…..” 戴励喜从天降, 不敢相信.<br>&nbsp;&nbsp;&nbsp;&nbsp; “呆子!” 娇娇微笑地骂道.<br>&nbsp;&nbsp;&nbsp;&nbsp; 戴励用手抓了抓头发说, “其实我也喜欢你. 不过….不过, 那我该如何向卓贾易交代呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; ……<br>&nbsp;&nbsp;&nbsp;&nbsp; 从此戴励何娇娇开始恋爱了. 毕业后, 戴励考上了北京xx大学, 而娇娇读了上海的大专.</p>
+<ul>
+<li>时间: 3月17日19点30分 &nbsp; 地点: 小菜大鸟住所的客厅 &nbsp; 人物: 大鸟 小菜</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “喂, 醒醒, 还在陶醉呀. 这个戴励根本就是一个大骗子, 那有什么卓贾易, 这是他自己想泡妞找的借口.” 大鸟不屑一顾.<br>&nbsp;&nbsp;&nbsp;&nbsp; “我当时也是这么想的, 但他说真的是有这么个人, 后来那个卓贾易气死了, 差点和代理翻脸.” 小擦肯定的说.<br>&nbsp;&nbsp;&nbsp;&nbsp; “那就不要怪戴励了, 卓贾易这个人就是在为被人做嫁衣, 所以自己苦恼也是活该, 谁家他不自己主动, 找人代理谈恋爱, 神经病啊.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 都怪他自己, 为别人做嫁衣的滋味不好受啊.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这里又可以谈到一个设计模式了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “代理模式吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “小菜真的是越来越聪明了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “去去去, 口是心非的东西, 代理模式又是怎么讲的?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你先试着写如果卓贾易直接去追娇娇, 应该如何做?”</p>
+<h3 id="7-2-没有代理的代码"><a href="#7-2-没有代理的代码" class="headerlink" title="7.2 没有代理的代码"></a>7.2 没有代理的代码</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 十分钟后, 小菜写出了第一份代码</p>
+<div align="center"><br><img src="/images/proxy/pic01.png" width="400" height="400" title="结构图"><br></div>
+
+<p> 追求者类.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Pursuit</span> </span>&#123;</div><div class="line">    SchoolGirl mm;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Pursuit</span><span class="params">(SchoolGirl mm)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mm = mm;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveDolls</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(mm.getName() + <span class="string">"送你洋娃娃"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveFlowers</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(mm.getName() + <span class="string">"送你鲜花"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveChocolate</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(mm.getName() + <span class="string">"送你巧克力"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> 被追求者类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SchoolGirl</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> 客户端代用代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">    SchoolGirl jiaojiao = <span class="keyword">new</span> SchoolGirl();</div><div class="line">    jiaojiao.setName(<span class="string">"李娇娇"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">// 娇娇不是卓贾易, 此处有问题</span></div><div class="line">    Pursuit zhuojiayi = <span class="keyword">new</span> Pursuit(jiaojiao); </div><div class="line">    </div><div class="line">    zhuojiayi.giveDolls();</div><div class="line">    zhuojiayi.giveFlowers();</div><div class="line">    zhuojiayi.giveChocolate();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “小菜, 娇娇并不认识卓贾易, 这样写不久等有他们之间相互认识, 并且是卓贾易亲自送东西给娇娇了吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 这如何处理?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “嗯哼, 你忘了戴励了?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 对的对的, 戴励就是代理呀”</p>
+<h3 id="7-3-只有代理的代码"><a href="#7-3-只有代理的代码" class="headerlink" title="7.3 只有代理的代码"></a>7.3 只有代理的代码</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 十分钟后</p>
+<div align="center"><br><img src="/images/proxy/pic02.png" width="400" height="400" title="结构图"><br></div>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> </span>&#123;</div><div class="line">    SchoolGirl mm;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Proxy</span><span class="params">(SchoolGirl mm)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mm = mm;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveDolls</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(mm.getName() + <span class="string">"送你洋娃娃"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveFlowers</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(mm.getName() + <span class="string">"送你鲜花"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveChocolate</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(mm.getName() + <span class="string">"送你巧克力"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">    SchoolGirl jiaojiao = <span class="keyword">new</span> SchoolGirl();</div><div class="line">    jiaojiao.setName(<span class="string">"李娇娇"</span>);</div><div class="line">    </div><div class="line">    Proxy daili = <span class="keyword">new</span> Proxy(jiaojiao);</div><div class="line">    </div><div class="line">    daili.giveDolls();</div><div class="line">    daili.giveFlowers();</div><div class="line">    daili.giveChocolate();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “小菜, 你又犯错了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这又有什么问题, 为什么出错的总是我.” 小菜非常的不爽.<br>&nbsp;&nbsp;&nbsp;&nbsp; “你把 <code>Pursuit</code> 换成了 <code>Proxy</code> , 把 ‘卓贾易’ 换成了 ‘戴励’ . 这就使得这个礼物变成了戴励送的, 而你刚才还肯定地说, ‘卓贾易’ 这个认识存在的, 礼物是他买的, 你这怎么能正确呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我明白了, 我这样写吧<code>Pursuit</code> 给忽略了, 事实上应该是<code>Pursuit</code>通过 <code>Proxy</code> 送给 <code>SchoolGirl</code> 礼物, 这才是合理的. 那我应该如何办呢? “<br>&nbsp;&nbsp;&nbsp;&nbsp; “不难啊, 你仔细观察一下, <code>Puisuit</code> 和 <code>Proxy</code> 有没有相似的地方?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “他们应该都有送礼物的是哪个方法, 只不过 <code>Proxy</code> 送的礼物是<code>Pursuit</code>买的, 实质是 <code>Pursuit</code> 送的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “很好, 既然两者都有相同的方法, 那就意味着他们都怎么样?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 你的意思是他们都实现了相同的接口? 我想, 我可以写出代码来了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “小菜开窍了.”</p>
+<h3 id="7-4-符合实际的代码"><a href="#7-4-符合实际的代码" class="headerlink" title="7.4 符合实际的代码"></a>7.4 符合实际的代码</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 十分钟后. 小菜的第三份代码.</p>
+<div align="center"><br><img src="/images/proxy/pic03.png" width="400" height="400" title="结构图"><br></div>
+
+<p> 代理接口如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IGiveGift</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">giveDolls</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">giveFlowers</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">giveChocolate</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> 追求者类如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Pursuit</span> <span class="keyword">implements</span> <span class="title">IGiveGift</span></span>&#123;  <span class="comment">// 让'追求者'实现'送礼物'接口</span></div><div class="line">    SchoolGirl mm;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Pursuit</span><span class="params">(SchoolGirl mm)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mm = mm;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveDolls</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(mm.getName() + <span class="string">"送你洋娃娃"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveFlowers</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(mm.getName() + <span class="string">"送你鲜花"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveChocolate</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(mm.getName() + <span class="string">"送你巧克力"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代理如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">IGiveGift</span></span>&#123; <span class="comment">// '代理'也去试下送礼物接口</span></div><div class="line">    Pursuit gg;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Proxy</span><span class="params">(SchoolGirl mm)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.gg = <span class="keyword">new</span> Pursuit(mm);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveDolls</span><span class="params">()</span> </span>&#123;</div><div class="line">        gg.giveDolls();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveFlowers</span><span class="params">()</span> </span>&#123;</div><div class="line">        gg.giveFlowers();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">giveChocolate</span><span class="params">()</span> </span>&#123;</div><div class="line">        gg.giveChocolate();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>客户端如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">    SchoolGirl jiaojiao = <span class="keyword">new</span> SchoolGirl();</div><div class="line">    jiaojiao.setName(<span class="string">"李娇娇"</span>);</div><div class="line">    </div><div class="line">    Proxy daili = <span class="keyword">new</span> Proxy(jiaojiao);</div><div class="line">    </div><div class="line">    daili.giveDolls();</div><div class="line">    daili.giveFlowers();</div><div class="line">    daili.giveChocolate();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这下好了, 娇娇不认识追去他的人, 但是可以通过代理人得到礼物. 效果其实是达到了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这就是代理模式. 好了, 我们来看看 GoF 对代理模式是如何描述的.”</p>
+<h3 id="7-5-代理模式-Proxy-Pattern"><a href="#7-5-代理模式-Proxy-Pattern" class="headerlink" title="7.5 代理模式 (Proxy Pattern)"></a>7.5 代理模式 (Proxy Pattern)</h3><blockquote>
+<p><strong>代理模式(Proxy Pattern)</strong>, 为其他对象提供一种代理以控制对这个对象的访问.[DP]</p>
+</blockquote>
+<div align="center"><br><img src="/images/proxy/pic04.png" width="600" height="600" title="代理模式结构图"><br></div>
+
+<p> <strong>Subject</strong> 类, 定义了一个了 <strong>RealSubject</strong> 和 <strong>Proxy</strong> 的公共接口, 这样就在任何使用 <strong>RealSubject</strong> 的地方都可以使用 <strong>Proxy</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">request</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> <strong>RealSubject</strong> 类, 定义 <strong>Proxy</strong> 所代表的真实实体<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">extends</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">request</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"真实的请求"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> <strong>Proxy</strong> 类, 保存一个引用是的代理可以访问实体, 并提供一个与 <strong>Subject</strong> 接口相同的接口, 这个代理就可以用来代替实体.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">extends</span> <span class="title">Subject</span> </span>&#123;</div><div class="line"></div><div class="line">    RealSubject realSubject;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">request</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != realSubject) &#123;</div><div class="line">            realSubject = <span class="keyword">new</span> RealSubject();</div><div class="line">        &#125;</div><div class="line">        realSubject.request();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> 客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">   Proxy proxy = <span class="keyword">new</span> Proxy();</div><div class="line">   proxy.request();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="7-6-代理模式应用"><a href="#7-6-代理模式应用" class="headerlink" title="7.6 代理模式应用"></a>7.6 代理模式应用</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “那代理模式都用在一些什么场合呢?” 小菜问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “一般来说分为几种, <strong>第一, 远程代理, 也就是为一个对象在不同的资质控件提供局部代表. 这样可以影藏一个对象存在与不同的地址空间的事实.[DP]</strong>.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “有没有什么例子?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 其实你是一定用过的, WebService 在 .NET 中的应用是怎么做的?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我明白什么叫做远程代理了, 当我在应用程序的项目中加入一个 Web 引用, 应用一个 WebService, 此是会在项目中生成一个 WebReference 的文件夹和一些文件, 其实他们就是代理, 这就使得客户端程序调用代理就可以解决远程访问的问题. 原来这就是代理模式的应用呀.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “第二种应用是<strong>虚拟代理, 是更具需要创建开销很大的对象. 通过他来存存放实例化需要很长时间的真是对象[DP].</strong> 这样就可以达到性能的最优化, 比如说, 你打开一个很大的 HTML 网页时, 里面可能有很多的文字和图片, 但是你还是可以很快的打开它, 此是你所看到的是所有的文字, 但是图片确实一张一张的下载才看到的. 那些未打开的图片框, 就是通过虚拟代理来代替的真是的图片, 此是代理取出了真实图片的路径和尺寸.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 原来浏览器当中使用代理模式来优化下载的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “第三种是<strong>安全代理, 用来控制真是对象访问时的权限[DP]</strong>,. 一般用于对象应该有不同的访问权限的时候. 第四种是<strong>智能指引, 是指调用真实的对象时, 代理处理另外一些事[DP]</strong>. 如计算真实对象的引用次数, 这样当该对象没有引用时, 就自动释放他; 或当地一次引用一个持久对象时, 将他装入内存; 或在访问一个实际对象前, 检查是否已经锁定他, 以确保其他对象不能改变它. 他们都是通过代理在访问一个对象时附加一些内务处理.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 原来代理可以做这么多的事情, 我还以为他是一个很不常用的模式呢.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “代理模式其实就是访问对象时引入一定程度的间接性, 因为这种间接性, 可以附加多种用途.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 明白. 说白了, 代理就是真是对象的代表.”</p>
+<h3 id="7-7-秀才让小刘代其求婚"><a href="#7-7-秀才让小刘代其求婚" class="headerlink" title="7.7 秀才让小刘代其求婚"></a>7.7 秀才让小刘代其求婚</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;”好了, 看会电视吧, 好几天没有看 武林外传 了.” 大鸟打开电视, 此是武林外传正在播放第22集.<br>&nbsp;&nbsp;&nbsp;&nbsp; “吕秀才, 是你让小刘想我求婚的吧?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “造物弄人!” 吕秀才惨惨的回答道, “这只是一个玩笑.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦!….玩笑!” 郭芙蓉冷冷的说, “我杀了你!”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/09/decorator/" rel="next" title="06.穿什么有这么重要? - 装饰模式(Decorator)">
+                <i class="fa fa-chevron-left"></i> 06.穿什么有这么重要? - 装饰模式(Decorator)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1别为人做嫁衣"><span class="nav-number">1.</span> <span class="nav-text">7.1别为人做嫁衣!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-没有代理的代码"><span class="nav-number">2.</span> <span class="nav-text">7.2 没有代理的代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-只有代理的代码"><span class="nav-number">3.</span> <span class="nav-text">7.3 只有代理的代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-符合实际的代码"><span class="nav-number">4.</span> <span class="nav-text">7.4 符合实际的代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-5-代理模式-Proxy-Pattern"><span class="nav-number">5.</span> <span class="nav-text">7.5 代理模式 (Proxy Pattern)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-6-代理模式应用"><span class="nav-number">6.</span> <span class="nav-text">7.6 代理模式应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-7-秀才让小刘代其求婚"><span class="nav-number">7.</span> <span class="nav-text">7.7 秀才让小刘代其求婚</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
