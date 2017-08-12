@@ -1,0 +1,834 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="9.1 夸张的简历 时间: 3月23日21点 &amp;nbsp; 地点: 小菜房间 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 在忙什么呢?” 大鸟回家来看到小菜在整理一堆材料.">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="09.简历复印 - 原型模式(Prototype Pattern)">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/prototype-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="9.1 夸张的简历 时间: 3月23日21点 &amp;nbsp; 地点: 小菜房间 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 在忙什么呢?” 大鸟回家来看到小菜在整理一堆材料.">
+<meta property="og:image" content="http://yoursite.com/images/prototype-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/prototype-fresher/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/prototype-fresher/pic03.png">
+<meta property="og:image" content="http://yoursite.com/images/prototype-fresher/pic04.png">
+<meta property="og:updated_time" content="2017-08-12T03:51:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="09.简历复印 - 原型模式(Prototype Pattern)">
+<meta name="twitter:description" content="9.1 夸张的简历 时间: 3月23日21点 &amp;nbsp; 地点: 小菜房间 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 在忙什么呢?” 大鸟回家来看到小菜在整理一堆材料.">
+<meta name="twitter:image" content="http://yoursite.com/images/prototype-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/12/prototype-fresher/"/>
+
+
+
+
+
+  <title> 09.简历复印 - 原型模式(Prototype Pattern) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/prototype-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                09.简历复印 - 原型模式(Prototype Pattern)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T11:20:26+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="9-1-夸张的简历"><a href="#9-1-夸张的简历" class="headerlink" title="9.1 夸张的简历"></a>9.1 夸张的简历</h3><ul>
+<li>时间: 3月23日21点 &nbsp; 地点: 小菜房间 &nbsp; 人物: 小菜, 大鸟</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “小菜, 在忙什么呢?” 大鸟回家来看到小菜在整理一堆材料.<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; “明天我要去参加一个招聘会, 所以在准备简历呢.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “怎么这么多, 可能发的出去吗?” 大鸟很惊讶于小菜的建立有很厚的一叠.<br>&nbsp;&nbsp;&nbsp;&nbsp; “没办法呀, 听其他同学说, 如果简历上什么也没有, 对于我们这种毕业生来说, 更加不会被重视了. 所以方式能写的, 我都写了, 明天能多投一些就多投一些, 以量取胜. 另外一些准备发给一些报纸上登广告的企业.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我看看.” 大鸟拿起小菜的简历, “啊, 不会吧, 你连小学在哪里读, 得了什么奖状都写上去了? 那个吗不把幼儿园在哪里读也写上去.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “嘿嘿!”<br>&nbsp;&nbsp;&nbsp;&nbsp; “C#精通, C++精通, Java 精通, SQL Server 精通, Oracle 精通, 搞没搞错, 你这些东西都精通?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “其实只是学过一些, 有什么办法呢, 要是不写, 人家就以为你什么都不懂, 我写的夸张一点, 可以多吸引吸引眼球吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “胡闹啊, 要是我是招聘的, 一个稍微懂点常识的人, 一看这种简历, 更加不会去理会. 这根本就是瞎扯嘛.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那你说我怎么办? 我只是一个还没毕业的学生, 哪来的什么经验或工作经历, 我能写什么呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 说的也是, 对你们要求高其实也是不切实际的. 那你有么有准备求职信呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “求职信? 没考虑过, 那有空呀. 再说, 就写些空话, 废话, 只会浪费纸张.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你以为你现在不是在浪费纸张? 你可知道, 当年的我们, 是如何写简历的吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “不知道, 难道都是手写?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当然, 我们当年有不少同学都是手写简历和求职信, 这手抄的建立其实效果不差的, 只是比较麻烦. 又一次, 我只写了一份简历在人才市场上转悠, 身上也没带什么钱, 复印就不可能了, 于是在谈一家公司时, 人家想留下我的简历, 我却强力要求要了回来, 只留了个电话.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 还有你这样的求职者? 估计后来没戏了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “错, 后来这家公司还真给我打电话了. 回想起来, 那时候对自己手写的简历很珍惜, 人家公司也很重视, 收到都会认真的看并答复, 哪像现在.” 大鸟感慨道, “印简历就像印草纸一样, 发简历更像是发广告. 我听说有些公司竟然在见面会结束是以拿不了不理由, 扔掉所受的简历就走的事情, 求职者要是看到岂不气晕啊. 不过话说回来, 像你这样自己都不重视的简历发出去, 人家公司不在意也在情理之中了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟不会是希望我也手抄那么十几份简历吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 那当然没必要. 毕竟时代不同了. 现在程序员写简历都知道复印, 在编程的时候, 就不是那么多人懂的应用了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哪里呀, 程序员别的不一定行, Ctrl + C 到 Ctrl + V 实在是太溜了, 复制代码谁还不懂啊.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “对编程来说, 简单的复制粘贴极有可能造成重复代码的灾难. 我所说的意思你根本没听懂. 那就以刚才的例子, 我出个需求你写写看, 要求有一个简历类, 必须要有姓名, 可以设置性别和年龄, 可以设置工作经历. 最终我需要三份简历.”</p>
+<h3 id="9-2-简历代码初步实现"><a href="#9-2-简历代码初步实现" class="headerlink" title="9.2 简历代码初步实现"></a>9.2 简历代码初步实现</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 二十分钟后, 小菜给出了一个版本.</p>
+<ul>
+<li><p>简历类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Resume</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> String sex;</div><div class="line">    <span class="keyword">private</span> String age;</div><div class="line">    <span class="keyword">private</span> String timeArea;</div><div class="line">    <span class="keyword">private</span> String company;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Resume</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPersonaleInfo</span><span class="params">(String sex, String age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.sex = sex;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWorkExperience</span><span class="params">(String timeArea, String company)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.timeArea = timeArea;</div><div class="line">        <span class="keyword">this</span>.company = company;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name + <span class="string">" "</span> + <span class="keyword">this</span>.sex + <span class="string">" "</span> + <span class="keyword">this</span>.age + <span class="string">"\n"</span> +</div><div class="line">                   <span class="string">"工作经历: "</span> + <span class="keyword">this</span>.timeArea + <span class="string">" "</span> + <span class="keyword">this</span>.company;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端调用代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">    Resume a = <span class="keyword">new</span> Resume(<span class="string">"大鸟"</span>);</div><div class="line">    a.setPersonaleInfo(<span class="string">"男"</span>, <span class="string">"29"</span>);</div><div class="line">    a.setWorkExperience(<span class="string">"1998-2000"</span>, <span class="string">"XX公司"</span>);</div><div class="line"></div><div class="line">    Resume b = <span class="keyword">new</span> Resume(<span class="string">"大鸟"</span>);</div><div class="line">    b.setPersonaleInfo(<span class="string">"男"</span>, <span class="string">"29"</span>);</div><div class="line">    b.setWorkExperience(<span class="string">"1998-2000"</span>, <span class="string">"XX公司"</span>);</div><div class="line"></div><div class="line">    Resume c = <span class="keyword">new</span> Resume(<span class="string">"大鸟"</span>);</div><div class="line">    c.setPersonaleInfo(<span class="string">"男"</span>, <span class="string">"29"</span>);</div><div class="line">    c.setWorkExperience(<span class="string">"1998-2000"</span>, <span class="string">"XX公司"</span>);</div><div class="line"></div><div class="line">    System.out.println(a + <span class="string">"\n"</span> + b + <span class="string">"\n"</span> + c);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>结果显示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">大鸟 男 <span class="number">29</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2000</span> XX公司</div><div class="line">大鸟 男 <span class="number">29</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2000</span> XX公司</div><div class="line">大鸟 男 <span class="number">29</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2000</span> XX公司</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “很好, 这其实就是当年我手写简历时代的代码. 三份简历需要三次实例化. 你觉得这样的客户端代码是不是很麻烦, 如果要二十份, 你就需要二十次实例化.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 而且如果我写错了一个字, 比如98年改成99年, 那就要改二十次.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你为什么不这样写呢?”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">    Resume a = <span class="keyword">new</span> Resume(<span class="string">"大鸟"</span>);</div><div class="line">    a.setPersonaleInfo(<span class="string">"男"</span>, <span class="string">"29"</span>);</div><div class="line">    a.setWorkExperience(<span class="string">"1998-2000"</span>, <span class="string">"XX公司"</span>);</div><div class="line"></div><div class="line">    Resume b = a;</div><div class="line">    Resume c = b;</div><div class="line"></div><div class="line">    System.out.println(a + <span class="string">"\n"</span> + b + <span class="string">"\n"</span> + c);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 这其实是传引用, 而不是传值, 这样做就如同是在 b 纸张和 c 纸张上写着建立在 a 出一样, 没有实际的内容的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “不错, 不错, 小菜的基本功还是很扎实的. 那你觉得有什么办法?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我好像听说过有Clone克隆这样的方法, 但怎么做不知道了.”</p>
+<h3 id="9-3-原型模式-Prototype"><a href="#9-3-原型模式-Prototype" class="headerlink" title="9.3 原型模式 (Prototype)"></a>9.3 原型模式 (Prototype)</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 就是他了. 讲它前, 要先提一个设计模式.”</p>
+<blockquote>
+<p><strong>原型模式(Prototype)</strong>, 用原型实例指定创建对象的种类, 并且通过拷贝这些原型创建新的对象.[DP]</p>
+</blockquote>
+<div align="center"><br><img src="/images/prototype-fresher/pic01.png" width="650" height="600" title="原型模式"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “<strong>原型模式其实就是从一个对象在创建另外一个可定制的对象, 而且不需要知道任何创建的细节.</strong> 我们来看看基本的原型模式的代码.”</p>
+<ul>
+<li><p>原型类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Prototype</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String id;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Prototype</span><span class="params">(String id)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.id = id;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> id;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 抽象类关键就是有这样一个 Clone 方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Prototype <span class="title">clone</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>具体原型类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcretePrototype</span> <span class="keyword">extends</span> <span class="title">Prototype</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcretePrototype</span><span class="params">(String id)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(id);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Prototype <span class="title">clone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcretePrototype(<span class="keyword">super</span>.getId());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    ConcretePrototype p1 = <span class="keyword">new</span> ConcretePrototype(<span class="string">"I"</span>);</div><div class="line">    ConcretePrototype c1 = (ConcretePrototype) p1.clone();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 这样就可以不用实例化 ConcretePrototypeA 了, 直接克隆就行了?” 小菜问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “说的没错, 就是这样. 但是对于 Java 来说, 那个原型抽象类 Prototype 根本用不着, 因为克隆模式实在是太常用了, 所以 <strong>命名空间中提供了 ICloneable 接口,</strong>, 其中之一就是唯一一个<strong>方法clone()</strong>, 这样你就知道只<strong>需要实现这个接口就可以完成原型模式了</strong>.现在明白了?去改吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “OK, 这东西看起来不难呀.”</p>
+<h3 id="9-4-简历的原型实现"><a href="#9-4-简历的原型实现" class="headerlink" title="9.4 简历的原型实现"></a>9.4 简历的原型实现</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 半小时后, 小菜的第二版本代码</p>
+<div align="center"><br><img src="/images/prototype-fresher/pic02.png" width="350" height="350"><br></div>
+
+<ul>
+<li><p>简历类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Resume</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> String sex;</div><div class="line">    <span class="keyword">private</span> String age;</div><div class="line">    <span class="keyword">private</span> String timeArea;</div><div class="line">    <span class="keyword">private</span> String company;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Resume</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPersonalInfo</span><span class="params">(String sex, String age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.sex = sex;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWorkExperience</span><span class="params">(String timeArea, String company)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.timeArea = timeArea;</div><div class="line">        <span class="keyword">this</span>.company = company;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name + <span class="string">" "</span> + <span class="keyword">this</span>.sex + <span class="string">" "</span> + <span class="keyword">this</span>.age + <span class="string">"\n"</span> +</div><div class="line">                        <span class="string">"工作经历: "</span> + <span class="keyword">this</span>.timeArea + <span class="string">" "</span> + <span class="keyword">this</span>.company;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Resume resume = (Resume) <span class="keyword">super</span>.clone();</div><div class="line">            resume.setPersonaleInfo(<span class="keyword">this</span>.sex, <span class="keyword">this</span>.age);</div><div class="line">            resume.setWorkExperience(<span class="keyword">this</span>.timeArea, <span class="keyword">this</span>.company);</div><div class="line">            <span class="keyword">return</span> resume;</div><div class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</div><div class="line">            <span class="comment">// this shouldn't happen, since we are Cloneable</span></div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端调用代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">    Resume a = <span class="keyword">new</span> Resume(<span class="string">"大鸟"</span>);</div><div class="line">    a.setPersonaleInfo(<span class="string">"男"</span>, <span class="string">"29"</span>);</div><div class="line">    a.setWorkExperience(<span class="string">"1998-2000"</span>, <span class="string">"XX公司"</span>);</div><div class="line"></div><div class="line">    <span class="comment">// 只需要 clone() 方法就可以新简历的生成,</span></div><div class="line">    <span class="comment">// 并且可以在修改新简历的细节</span></div><div class="line">    Resume b = (Resume) a.clone();</div><div class="line">    b.setWorkExperience(<span class="string">"1998-2006"</span>, <span class="string">"YY企业"</span>);</div><div class="line"></div><div class="line">    Resume c = (Resume) a.clone();</div><div class="line">    c.setPersonaleInfo(<span class="string">"男"</span>, <span class="string">"24"</span>);</div><div class="line"></div><div class="line">    System.out.println(a + <span class="string">"\n"</span> + b + <span class="string">"\n"</span> + c);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>结果显示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">大鸟 男 <span class="number">29</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2000</span> XX公司</div><div class="line">大鸟 男 <span class="number">29</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2006</span> YY企业</div><div class="line">大鸟 男 <span class="number">24</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2000</span> XX公司</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “怎么样大鸟, 这样一来, 客户端的代码就清爽多了, 而且你要是想改某份简历, 只需要对这份简历做一定的修改就可以了, 不会影响到其他的简历, 相同的部分就不用再重复了. 不过不知道这样子对性能是不是大大的提高了呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当然是大大提高, 你想呀, 每 NEW 一次, 都需要执行一次构造函数, 如果构造函数的执行时间很长, 那么多次的执行这个初始化操作就实在是太低效了.<strong>一般在初始化的信息不发生变化的情况下, 克隆是最好的办法. 这及隐藏了对象的创建细节, 又对性能是大大的提高,</strong> 何乐而不为呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “的确, 我开始也没感觉到他的号, 听你这么一说, 感觉这样做的好处还真是不少, 他等于是<strong>不用重新初始化对象, 二是动态的获得对象的运行时的状态.</strong> 这个模式真的很不错.”</p>
+<h3 id="9-5-深复制与浅复制"><a href="#9-5-深复制与浅复制" class="headerlink" title="9.5 深复制与浅复制"></a>9.5 深复制与浅复制</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “别高兴得太早, 如果我现在要改需求, 你又头疼了. 现在的 ‘简历’ 对象里的数据都是 String 类型的, 而 String 类型是一种用于值类型特点的特殊引用类型.<strong>super.clone() 方法如果字段是值类型, 则对该字段执行逐位复制, 如果字段是引用类型, 则复制引用但不复制引用的对象; 因此, 原始对象及其复本引用同一对象.</strong> 设么意思呢, 就是说如果你的 ‘简历’ 类当中有对象引用, 那么引用的对象数据是不会被克隆过来的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “没太听懂, 为什么不能一同复制过来呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “举个例子你就明白了, 你现在的 ‘简历’ 类当中有一个 ‘设置工作经历’ 的方法, 在现实设计当中, 一般会再有一个 ‘工作经历’ 类, 当中有 ‘时间区间’ 和 ‘公司名称’ 等属性, ‘简历’ 类直接调用这个对象即可. 你按照我说的在写写看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好的, 我试试.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 半小时后, 小菜的第三个版本.</p>
+<div align="center"><br><img src="/images/prototype-fresher/pic03.png" width="600" height="300"><br></div>
+
+
+<ul>
+<li><p>工作经历类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WorkExperience</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String workDate;</div><div class="line">    <span class="keyword">private</span> String company;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getWorkDate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> workDate;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWorkDate</span><span class="params">(String workDate)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.workDate = workDate;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCompany</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> company;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCompany</span><span class="params">(String company)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.company = company;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>简历类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Resume</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> String sex;</div><div class="line">    <span class="keyword">private</span> String age;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> WorkExperience work;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Resume</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        work = <span class="keyword">new</span> WorkExperience();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPersonalInfo</span><span class="params">(String sex, String age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.sex = sex;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWorkExperience</span><span class="params">(String timeArea, String company)</span> </span>&#123;</div><div class="line">        work.setCompany(company);</div><div class="line">        work.setWorkDate(timeArea);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name + <span class="string">" "</span> + <span class="keyword">this</span>.sex + <span class="string">" "</span> + <span class="keyword">this</span>.age + <span class="string">"\n"</span> +</div><div class="line">                <span class="string">"工作经历: "</span> + work.getWorkDate() + <span class="string">" "</span> + work.getCompany();</div><div class="line">                <span class="comment">// 显示时, 显示 "工作经历" 的两属性值.</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Resume resume = (Resume) <span class="keyword">super</span>.clone();</div><div class="line">            <span class="keyword">return</span> resume;</div><div class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</div><div class="line">            <span class="comment">// this shouldn't happen, since we are Cloneable</span></div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端代码调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Resume a = <span class="keyword">new</span> Resume(<span class="string">"大鸟"</span>);</div><div class="line">    a.setPersonaleInfo(<span class="string">"男"</span>, <span class="string">"29"</span>);</div><div class="line">    a.setWorkExperience(<span class="string">"1998-2000"</span>, <span class="string">"XX公司"</span>);</div><div class="line"></div><div class="line">	<span class="comment">// b 和 c 都克隆于a, 但当他们都设置了 "工作经历"</span></div><div class="line">	<span class="comment">// 时, 我们我们希望的结果是三哥的显示不一样.</span></div><div class="line">    Resume b = (Resume) a.clone();</div><div class="line">    b.setWorkExperience(<span class="string">"1998-2006"</span>, <span class="string">"YY企业"</span>);</div><div class="line"></div><div class="line">    Resume c = (Resume) a.clone();</div><div class="line">    c.setPersonaleInfo(<span class="string">"男"</span>, <span class="string">"24"</span>);</div><div class="line">    c.setWorkExperience(<span class="string">"1998-2003"</span>, <span class="string">"ZZ企业"</span>);</div><div class="line"></div><div class="line">    System.out.println(a + <span class="string">"\n"</span> + b + <span class="string">"\n"</span> + c);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>结果显示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 可惜, 没有达到我们的要求, 三次显示的结果</span></div><div class="line"><span class="comment">// 都是最后一次的值</span></div><div class="line">大鸟 男 <span class="number">29</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2006</span> <span class="number">1998</span>-<span class="number">2006</span></div><div class="line">大鸟 男 <span class="number">29</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2006</span> <span class="number">1998</span>-<span class="number">2006</span></div><div class="line">大鸟 男 <span class="number">24</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2006</span> <span class="number">1998</span>-<span class="number">2006</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “通过写代码, 我大概知道你的意思了, 由于他是浅表复制, 所以对于值类型, 没什么问题, 对引用类型, 就只是复制了引用, 对引用的对象还是指向了原来的对象, 所以就会出现我给a, b, c 三哥引用设置 ‘工作经历’, 但却同时看到三哥引用都是最后一次设置, 因为三个引用都指向了同一个对象.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你写的和说的都很好, 就是这个原因, 这叫做 <strong>‘浅复制’, 被复制对象的所有变量都含有与原来的对象相同的值, 而所有的对其他对象的引用都仍然指向原来的对象.</strong> 但是我们可能更需要这样一种需求,<strong> 把要复制的对象所引用的对象都复制一遍.</strong> 比如刚才的例子, 我们希望是 a, b, c 三个引用的对象都是不同的, 复制时就一变二, 二变三, 此时, 我们就叫这种方式为 ‘深复制’, <strong>深复制把引用对象的变量指向复制过程的新对象, 而不是原有的被引用的对象.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “那如果 ‘简历’ 对象引用了 ‘工作经历’, ‘工作经历’, 在引用 ‘公司’, ‘公司’ 在引用 ‘职位’ …. 这样一个引用一个, 很多层, 怎么办?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这的确是个很难回答的问题, 深复制要深入到多少层, 需要事先就考虑好, 而且要当心楚翔循环引用的问题, 需要小心处理, 这里比较复杂, 可以慢慢研究. 就现在这个例子, 问题应该不大, 深入到第一层就可以了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那应该如何改, 我没方向了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好, 来看我的.”</p>
+<h3 id="9-6-简历的深复制实现"><a href="#9-6-简历的深复制实现" class="headerlink" title="9.6 简历的深复制实现"></a>9.6 简历的深复制实现</h3><div align="center"><br><img src="/images/prototype-fresher/pic04.png" width="600" height="600"><br></div>
+
+<ul>
+<li><p>工作经历类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WorkExperience</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> String workDate;</div><div class="line">    <span class="keyword">private</span> String company;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getWorkDate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> workDate;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWorkDate</span><span class="params">(String workDate)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.workDate = workDate;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCompany</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> company;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCompany</span><span class="params">(String company)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.company = company;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="comment">// 工作经历类实现克隆方法</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            WorkExperience workExperience = (WorkExperience) <span class="keyword">super</span>.clone();</div><div class="line">            <span class="keyword">return</span> workExperience;</div><div class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</div><div class="line">            <span class="comment">// since we are cloneable, this shouldn't happen</span></div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>简历类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Resume</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> String sex;</div><div class="line">    <span class="keyword">private</span> String age;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> WorkExperience work;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Resume</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        work = <span class="keyword">new</span> WorkExperience();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPersonalInfo</span><span class="params">(String sex, String age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.sex = sex;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWorkExperience</span><span class="params">(String timeArea, String company)</span> </span>&#123;</div><div class="line">        work.setCompany(company);</div><div class="line">        work.setWorkDate(timeArea);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name + <span class="string">" "</span> + <span class="keyword">this</span>.sex + <span class="string">" "</span> + <span class="keyword">this</span>.age + <span class="string">"\n"</span> +</div><div class="line">                <span class="string">"工作经历: "</span> + work.getWorkDate() + <span class="string">" "</span> + work.getCompany();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 提供 clone 方法, 以便克隆 '工作经历'数据</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setWork</span><span class="params">(WorkExperience work)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.work = (WorkExperience) work.clone();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">        <span class="comment">// 让工作经历克隆完成, 最终返回一个深复制简历对象.</span></div><div class="line">            Resume resume = (Resume) <span class="keyword">super</span>.clone();</div><div class="line">            resume.setWork(<span class="keyword">this</span>.work);</div><div class="line">            <span class="keyword">return</span> resume;</div><div class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</div><div class="line">            <span class="comment">// this shouldn't happen, since we are Cloneable</span></div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>同之前客户端代码, 其结果显示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">大鸟 男 <span class="number">29</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2000</span> XX公司</div><div class="line">大鸟 男 <span class="number">29</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2006</span> YY企业</div><div class="line">大鸟 男 <span class="number">24</span></div><div class="line">工作经历: <span class="number">1998</span>-<span class="number">2003</span> ZZ企业		<span class="comment">// 达到了我们希望显示三次不同的结果</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 原来深复制是这个意思, 我明白了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “由于在一些特定的场合, 会经常涉及深复制或浅复制, 比如说, 数据集对象 DataSet, 他就有 clone() 方法, 和 copy() 方法, clone() 方法, clone() 方法用来复制 DataSet 的结构, 但不复制 DataSet 的数据, 实现了原型模式的浅复制. copy() 方法不但复制结构, 也复制数据, 其实就是实现了原型模式的深复制.”</p>
+<h3 id="9-7-复制简历-vs-手写求职信"><a href="#9-7-复制简历-vs-手写求职信" class="headerlink" title="9.7 复制简历 vs. 手写求职信"></a>9.7 复制简历 vs. 手写求职信</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 这样说来, 我大量的复制我的简历, 当然是原型模式的最佳体现, 你的首超时代已经结束了.” 小菜得意的说.<br>&nbsp;&nbsp;&nbsp;&nbsp; “我反倒认为, 与其简历写得如何如何, 不如认认真真的研究一下你要应聘的企业, 比如看看他们的网站和对职位的要求, 然后写一封比较中肯的求职信来的好. 加上你字还写得不错, 手写的求职信, 更加与众不同.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那多累呀, 也写不了多少.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “嗨! 高科技害人呀, 尽管打印, 复印是方便很多, 所有的应聘这都这样做. 但也正因为此, 招聘方的重视程度也就同样低很多. 如果你是手写的求职信, 那就会有鹤立鸡群的效果, 毕竟这样的简历或求职信太少了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你说的有道理. 不过一封封的写出来感觉还是很费事呀?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “如果是写代码, 我当然会鼓励你去应用原型模式简化代码, 优化设计. 但对于求职, 你是愿意你的简历和求职信备受重视呢, 还是愿意和所有的毕业生一样千篇一律的毫无新意的碰运气?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 行, 听大鸟的总没错. 那我得好好想想求职信如何写?” 小才开始拿起了笔, 边写边念叨着, “亲爱的领导, 冒号…..”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/11/factory-method-fresher/" rel="next" title="08.工厂方法模式(Factory Method Pattern)">
+                <i class="fa fa-chevron-left"></i> 08.工厂方法模式(Factory Method Pattern)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-夸张的简历"><span class="nav-number">1.</span> <span class="nav-text">9.1 夸张的简历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-简历代码初步实现"><span class="nav-number">2.</span> <span class="nav-text">9.2 简历代码初步实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3-原型模式-Prototype"><span class="nav-number">3.</span> <span class="nav-text">9.3 原型模式 (Prototype)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-4-简历的原型实现"><span class="nav-number">4.</span> <span class="nav-text">9.4 简历的原型实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-5-深复制与浅复制"><span class="nav-number">5.</span> <span class="nav-text">9.5 深复制与浅复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-6-简历的深复制实现"><span class="nav-number">6.</span> <span class="nav-text">9.6 简历的深复制实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-7-复制简历-vs-手写求职信"><span class="nav-number">7.</span> <span class="nav-text">9.7 复制简历 vs. 手写求职信</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
