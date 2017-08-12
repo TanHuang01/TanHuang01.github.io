@@ -1,0 +1,799 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;nbsp; 时间: 3月27日19点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  “小菜, 今天面试的情况如何?” 大鸟刚下班, 回来就敲开了小菜房门.">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10.考题抄错会做也白搭 - 模板方法模式(Template Method)">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/template-method-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="&amp;nbsp; 时间: 3月27日19点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  “小菜, 今天面试的情况如何?” 大鸟刚下班, 回来就敲开了小菜房门.">
+<meta property="og:image" content="http://yoursite.com/images/template-method-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/template-method-fresher/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/template-method-fresher/pic03.png">
+<meta property="og:updated_time" content="2017-08-12T12:38:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="10.考题抄错会做也白搭 - 模板方法模式(Template Method)">
+<meta name="twitter:description" content="&amp;nbsp; 时间: 3月27日19点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜. &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  “小菜, 今天面试的情况如何?” 大鸟刚下班, 回来就敲开了小菜房门.">
+<meta name="twitter:image" content="http://yoursite.com/images/template-method-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/12/template-method-fresher/"/>
+
+
+
+
+
+  <title> 10.考题抄错会做也白搭 - 模板方法模式(Template Method) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/template-method-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                10.考题抄错会做也白搭 - 模板方法模式(Template Method)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T20:21:29+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&nbsp; 时间: 3月27日19点 &nbsp; 地点: 小菜大鸟住所的客厅 &nbsp; 人物: 大鸟, 小菜.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;  “小菜, 今天面试的情况如何?” 大鸟刚下班, 回来就敲开了小菜房门.<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; “嗨,” 小菜叹了口气, “书到用时方恨少呀, 英语太烂, 没办法.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是让你英语对话还是让你做英语题目了?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “要是英语对话, 我可能马上就跟他们说拜拜了. 是做编程的英语题, 因为平时英语文章看得少, 所以好多单词都是似曾相识, 总之猜不出意思, 造成我不等不瞎蒙. 还好都是选择题, 一百道蒙起来也不断太困难.”<br>&nbsp;&nbsp;&nbsp;&nbsp; ……<br>&nbsp;&nbsp;&nbsp;&nbsp; “考试题目抄错了, 那就不是考试了, 而考试试卷最大的好处就是, 大家都是一样的题目, 特别是标准化的考试, 比如全是选择或判断的题目, 那就最大化的限制了答题者的发挥, 大家都是 ABCD 或打勾打叉, 非对即错的结果.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “说得好, 这其实就是一个典型的设计模式, 不过为了讲解这个设计模式, 你先把抄题目的程序写给我看看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好的.”</p>
+<h3 id="10-1-重复-易错-难改"><a href="#10-1-重复-易错-难改" class="headerlink" title="10.1 重复=易错+难改"></a>10.1 重复=易错+难改</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 二十分钟后, 小菜的第一份作业.</p>
+<div align="center"><br><img src="/images/template-method-fresher/pic01.png" width="500" height="500"><br></div>
+
+<ul>
+<li><p>学生甲抄的试卷类</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">// 学生甲抄的试卷</div><div class="line">public class TestPaperA &#123;</div><div class="line">    // 试题1</div><div class="line">    public void testQuestion1() &#123;</div><div class="line">        System.out.println("杨过得到, 后来给了郭靖.炼成倚天剑屠龙刀的玄铁可能是[]</div><div class="line">            a.球磨铸铁 b.马口铁. c.高速合金钢. d.碳素纤维 ");</div><div class="line">        System.out.println("答案: b");</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 试题2</div><div class="line">    public void testQuestion2() &#123;</div><div class="line">        System.out.println("杨过程英，陆无双铲除了情花, 造成[]</div><div class="line">            a.使这种植物不再害人 b.使一种珍稀植物灭绝 c.破坏了那个生物圈的生态平衡 d.造成该地区沙漠化");</div><div class="line">        System.out.println("答案: a");</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 试题3</div><div class="line">    public void testQuestion3() &#123;</div><div class="line">        System.out.println("蓝凤凰致使华山师,徒桃谷六仙呕吐不止, 如果你是大夫，你会给他开什么药[]</div><div class="line">            a.阿司匹林 b.牛黄解毒片 c.氟哌酸 d.让他们喝大量生牛奶 e.以上全不对");</div><div class="line">        System.out.println("答案: e");</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>学生乙抄的试卷类</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">// 学生乙抄的试卷</div><div class="line">public class TestPaperB &#123;</div><div class="line">    // 试题1</div><div class="line">    public void testQuestion1() &#123;</div><div class="line">        System.out.println("杨过得到, 后来给了郭靖.炼成倚天剑屠龙刀的玄铁可能是[]</div><div class="line">            a.球磨铸铁 b.马口铁. c.高速合金钢. d.碳素纤维 ");</div><div class="line">        System.out.println("答案: d");</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 试题2</div><div class="line">    public void testQuestion2() &#123;</div><div class="line">        System.out.println("杨过程英，陆无双铲除了情花, 造成[]</div><div class="line">            a.使这种植物不再害人 b.使一种珍稀植物灭绝 c.破坏了那个生物圈的生态平衡 d.造成该地区沙漠化");</div><div class="line">        System.out.println("答案: b");</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 试题3</div><div class="line">    public void testQuestion3() &#123;</div><div class="line">        System.out.println("蓝凤凰致使华山师,徒桃谷六仙呕吐不止, 如果你是大夫，你会给他开什么药[]</div><div class="line">            a.阿司匹林 b.牛黄解毒片 c.氟哌酸 d.让他们喝大量生牛奶 e.以上全不对");</div><div class="line">        System.out.println("答案: a");</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    System.out.println(<span class="string">"学生甲抄的试卷: "</span>);</div><div class="line">    TestPaperA studentA = <span class="keyword">new</span> TestPaperA();</div><div class="line">    studentA.testQuestion1();</div><div class="line">    studentA.testQuestion2();</div><div class="line">    studentA.testQuestion3();</div><div class="line"></div><div class="line">    System.out.println(<span class="string">"学生乙抄的试卷: "</span>);</div><div class="line">    TestPaperB studentB = <span class="keyword">new</span> TestPaperB();</div><div class="line">    studentB.testQuestion1();</div><div class="line">    studentB.testQuestion2();</div><div class="line">    studentB.testQuestion3();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="10-3-提炼代码"><a href="#10-3-提炼代码" class="headerlink" title="10.3 提炼代码"></a>10.3 提炼代码</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 我自己都感觉到了, 学生甲和学生乙两个抄试卷类非常类似, 除了答案不同, 没什么不一样, 这样写又容易写错, 又难以维护.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “说得对, 如果老师突然要改题目, 那两个人的代码都需要改, 如果某人抄错了, 那真是糟糕之极, 那你说怎么办?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “老师出一份试卷, 打印多份, 然学生填写答案就可以了. 在这里应该把试题和答案分享, 抽象出一个父类, 让两个子类继承于它, 公共的试题代码写到父类中就可以了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好的, 写写看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 十分钟后, 小菜的第二份作业.</p>
+<ul>
+<li><p>试卷父类代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">public class TestPaper &#123;</div><div class="line">    // 试题1</div><div class="line">    public void testQuestion1() &#123;</div><div class="line">        System.out.println("杨过得到, 后来给了郭靖.炼成倚天剑屠龙刀的玄铁可能是[]</div><div class="line">            a.球磨铸铁 b.马口铁. c.高速合金钢. d.碳素纤维 ");</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 试题2</div><div class="line">    public void testQuestion2() &#123;</div><div class="line">        System.out.println("杨过程英，陆无双铲除了情花, 造成[]</div><div class="line">            a.使这种植物不再害人 b.使一种珍稀植物灭绝 c.破坏了那个生物圈的生态平衡 d.造成该地区沙漠化");</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 试题3</div><div class="line">    public void testQuestion3() &#123;</div><div class="line">        System.out.println("蓝凤凰致使华山师,徒桃谷六仙呕吐不止, 如果你是大夫，你会给他开什么药[]</div><div class="line">            a.阿司匹林 b.牛黄解毒片 c.氟哌酸 d.让他们喝大量生牛奶 e.以上全不对");</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>学生子类代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 学生甲抄的试卷</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestPaperA</span> <span class="keyword">extends</span> <span class="title">TestPaper</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQuestion1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"答案: b"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQuestion2</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"答案: b"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQuestion3</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"答案: b"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码完全相同, 略.<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 这下子类就非常简单了, 只要填写答案就可以了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这还只是初步的泛化, 你仔细看看, 两个学生的类里面, 还有没有类似的代码.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 感觉相同的东西还是有的, 比如试题都有 <code>super.testQuestion1()</code>. 还有<code>sysotem.out.println(&quot;答案: &quot;)</code> , 感觉除了选项abcd, 其他都是重复的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “说得好, 我们<strong>既然用了继承, 并且肯定这个继承有意义, 就应该要称为子类的模板, 所有重复的代码都要上升到父类中去, 而不是让每个子类都去重复.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “那应该怎么做呢? 我想不出来了.” 小菜缴械投降.<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 模板方法登场了, <strong>当我们完成在某一细节层次的一个过程或一系列步骤, 但其个别步骤在更详细的层次上的实现可能不同时, 我们通常考虑用模板方法模式来处理.</strong> 现在来研究研究我们最初的试题方法.”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 试题1</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQuestion1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"杨过得到, 后来给了郭靖.炼成倚天剑屠龙刀的玄铁可能是[] a.球磨铸铁 b.马口铁. c.高速合金钢. d.碳素纤维 "</span>);</div><div class="line">        System.out.println(<span class="string">"答案: d"</span>); <span class="comment">// 只有答案学生会有不一样的结果, 其他全部是一样的.</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 试题1</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQuestion1</span><span class="params">()</span> </span>&#123;</div><div class="line">    System.out.println(<span class="string">"杨过得到, 后来给了郭靖.炼成倚天剑屠龙刀的玄铁可能是[] a.球磨铸铁 b.马口铁. c.高速合金钢. d.碳素纤维 "</span>);</div><div class="line">    System.out.println(<span class="string">"答案: "</span> + answer1()); <span class="comment">// 改成一个虚方法</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 此方法的目的就是让子类重写, 因为这里每个人的答案都是不同的.</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> String <span class="title">answer1</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “其余两个题目也用相同的方法”<br>&nbsp;&nbsp;&nbsp;&nbsp; “然后子类就非常简单了, 重写抽象方法后, 把答案填上, 其他什么都不用做. 因为父类简历了所有的重复模板.”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 学生甲抄的试卷</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestPaperA</span> <span class="keyword">extends</span> <span class="title">TestPaper</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">answer1</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"b"</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">answer2</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"b"</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">answer3</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"b"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/template-method-fresher/pic02.png" width="400" height="400"><br></div>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “客户端需要改动一个小地方, 集本来是子类变量的声明, 改成了父类, 这样就可以利用多态性实现代码的复用了.”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    System.out.println(<span class="string">"学生甲抄的试卷: "</span>);</div><div class="line">    TestPaper studentA = <span class="keyword">new</span> TestPaperA(); <span class="comment">// 将子类的声明改成父类</span></div><div class="line">    studentA.testQuestion1();</div><div class="line">    studentA.testQuestion2();</div><div class="line">    studentA.testQuestion3();</div><div class="line"></div><div class="line">    System.out.println(<span class="string">"学生乙抄的试卷: "</span>);</div><div class="line">    TestPaper studentB = <span class="keyword">new</span> TestPaperB();</div><div class="line">    studentB.testQuestion1();</div><div class="line">    studentB.testQuestion2();</div><div class="line">    studentB.testQuestion3();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “此时需要更多的学生来答试卷, 只不过是是在试卷的模板上填写选择题的答案, 这是每个人的试卷唯一的不同.” 大鸟说道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟太绝了吧, 还有姓名是不同的吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 小菜说得对, 除了题目答案, 每个人的姓名也是不同的. 但这样的做法的确是对试卷的最大复用.”</p>
+<h3 id="10-4-模板方法模式"><a href="#10-4-模板方法模式" class="headerlink" title="10.4 模板方法模式"></a>10.4 模板方法模式</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “而这其实就是最典型的模板方法模式.”</p>
+<blockquote>
+<p><strong>模板方法模式.</strong> 定义一个操作中的算法骨架, 而将一些步骤延迟到子类中. 模板方法使得子类可以不改变一个算法的结构即可重新定义该算法的某些特定的步骤.[DP]</p>
+</blockquote>
+<div align="center"><br><img src="/images/template-method-fresher/pic03.png" width="650" height="500"><br></div>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; AbstractClass 是抽象类, 其实也就是一抽象模板, 定义并实现了一个模板方法. 这个模板方法一般是一个具体的方法, 他给出了一个顶级逻辑的骨架, 而逻辑的组成步骤在相应的抽象类操作中, 推迟到子类实现. 顶级逻辑也有可能调用一些具体的方法.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractClass</span> </span>&#123;</div><div class="line">    <span class="comment">// 一些抽象行为, 放到子类去实现</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">primitiveOperation1</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">primitiveOperation2</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">// 模板方法, 给出了逻辑的骨架, 而逻辑的组成是一组相应的抽象操作</span></div><div class="line">    <span class="comment">// 它们都推迟到子类实现</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">templateMethod</span><span class="params">()</span> </span>&#123;</div><div class="line">        primitiveOperation1();</div><div class="line">        primitiveOperation2();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ConcreteClass, 实现父类所定义的一个获多个抽象方法. 每一个 AbstractClass 都可以有任意多个 ConcreteClass 与之对应, 而每一个 ConcreteClass 都可以给出这些抽象方法(也就是顶级逻辑的组成步骤) 的不同实现, 从而使得顶级逻辑的实现各不相同.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteClassA</span> <span class="keyword">extends</span> <span class="title">AbstractClass</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">primitiveOperation1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"具体类A实现方法1"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">primitiveOperation2</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"具体类A实现方法2"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>客户端调用<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">    AbstractClass c;</div><div class="line"></div><div class="line">    c = <span class="keyword">new</span> ConcreteClassA();</div><div class="line">    c.templateMethod();</div><div class="line"></div><div class="line">    c = <span class="keyword">new</span> ConcreteClassB();</div><div class="line">    c.templateMethod();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="10-5-模板方法的特点"><a href="#10-5-模板方法的特点" class="headerlink" title="10.5 模板方法的特点"></a>10.5 模板方法的特点</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 是不是可以这么说, <strong>模板方法方式是通过把不变的行为搬移到超类, 去除子类中的重复代码, 来体现它的优势.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “对的, <strong>模板方法模式模式就是提供了一个很好的代码复用的平台.</strong> 因为有时候, 我们会遇到有一系列步骤构成的过程需要执行. 这个过程从高层次上看是相通的, 但有些步骤的实现可能不同. 这时候, 我们通常就应该用模板方法模式了”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你的意思是说, 碰到这个情况, <strong>当不变的和可变的行为在方法的子类实现中混合在一起的时候, 不变的行为就会在子类中重复出现. 我们通过模板方法模式把这些行为搬移到单一的地方, 这样就帮助子类拜托重复的不变的行为的纠缠.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “总结的好. 看来这省心的事你总是学得最快.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哪里哪里, 这还不是大鸟教得好啊.” 小菜也不忘记谦虚两句, “不过老实讲, 这模板方法实在不算难, 我早就用过了, 只不过以前不知道这也算是一个设计模式.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 模板方法模式是很常用的设计模式, 对继承和多态玩儿的好的人几乎都会在继承体系中多多少少的用到它. 比如在 .net 或 java 的类库设计中, 通常都会利用模板方法模式提取类库中的公共行为到抽象类中.”</p>
+<h3 id="10-6-主观题-看你怎么蒙"><a href="#10-6-主观题-看你怎么蒙" class="headerlink" title="10.6 主观题, 看你怎么蒙"></a>10.6 主观题, 看你怎么蒙</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 此时小菜的手机响了.<br>&nbsp;&nbsp;&nbsp;&nbsp; “请问是菜遥先生吗?” 手机那边一女士的声音.<br>&nbsp;&nbsp;&nbsp;&nbsp; “我是, 请问您是?” 小菜不认识这手机号.<br>&nbsp;&nbsp;&nbsp;&nbsp; “我是您今天面试XX公司的人事部的经理……”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/12/prototype-fresher/" rel="next" title="09.简历复印 - 原型模式(Prototype Pattern)">
+                <i class="fa fa-chevron-left"></i> 09.简历复印 - 原型模式(Prototype Pattern)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-重复-易错-难改"><span class="nav-number">1.</span> <span class="nav-text">10.1 重复=易错+难改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-3-提炼代码"><span class="nav-number">2.</span> <span class="nav-text">10.3 提炼代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-4-模板方法模式"><span class="nav-number">3.</span> <span class="nav-text">10.4 模板方法模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-5-模板方法的特点"><span class="nav-number">4.</span> <span class="nav-text">10.5 模板方法的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-6-主观题-看你怎么蒙"><span class="nav-number">5.</span> <span class="nav-text">10.6 主观题, 看你怎么蒙</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
