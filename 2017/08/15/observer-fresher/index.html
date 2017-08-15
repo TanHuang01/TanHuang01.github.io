@@ -1,0 +1,941 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="14.1 老板回来? 我不知道! 时间 &amp;nbsp; 4月12日21点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 小菜对大鸟说: “今天白天真的笑死人了, 我们一同事在上班时间看股票行情.被老板当场看到, 老板很生气, 后果很严重.”">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="14.老板回来, 我不知道 - 观察者模式(Observer)">
+<meta property="og:url" content="http://yoursite.com/2017/08/15/observer-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="14.1 老板回来? 我不知道! 时间 &amp;nbsp; 4月12日21点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 小菜对大鸟说: “今天白天真的笑死人了, 我们一同事在上班时间看股票行情.被老板当场看到, 老板很生气, 后果很严重.”">
+<meta property="og:image" content="http://yoursite.com/images/observer-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/observer-fresher/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/observer-fresher/pic03.png">
+<meta property="og:image" content="http://yoursite.com/images/observer-fresher/pic04.png">
+<meta property="og:updated_time" content="2017-08-15T02:16:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="14.老板回来, 我不知道 - 观察者模式(Observer)">
+<meta name="twitter:description" content="14.1 老板回来? 我不知道! 时间 &amp;nbsp; 4月12日21点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 小菜对大鸟说: “今天白天真的笑死人了, 我们一同事在上班时间看股票行情.被老板当场看到, 老板很生气, 后果很严重.”">
+<meta name="twitter:image" content="http://yoursite.com/images/observer-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/15/observer-fresher/"/>
+
+
+
+
+
+  <title> 14.老板回来, 我不知道 - 观察者模式(Observer) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/15/observer-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                14.老板回来, 我不知道 - 观察者模式(Observer)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-15T09:42:30+08:00">
+                2017-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/15/observer-fresher/" class="leancloud_visitors" data-flag-title="14.老板回来, 我不知道 - 观察者模式(Observer)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="14-1-老板回来-我不知道"><a href="#14-1-老板回来-我不知道" class="headerlink" title="14.1 老板回来? 我不知道!"></a>14.1 老板回来? 我不知道!</h3><ul>
+<li>时间 &nbsp; 4月12日21点 &nbsp; 地点: 小菜大鸟住所的客厅 &nbsp; 人物: 小菜, 大鸟</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 小菜对大鸟说: “今天白天真的笑死人了, 我们一同事在上班时间看股票行情.被老板当场看到, 老板很生气, 后果很严重.”<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; “最近股市这么火, 也应该是可以理解的, 你们老板说不定也炒股.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “其实最近项目计划安排得紧, 是比较忙的. 而最近的股市有特别火, 所以很多人都在偷偷的通过网页看行情…….”</p>
+<h3 id="14-2-双向耦合的代码"><a href="#14-2-双向耦合的代码" class="headerlink" title="14.2 双向耦合的代码"></a>14.2 双向耦合的代码</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “你说的这件事的情形, 是一个典型的观察者模式.” 大鸟说, “你不妨把其间发生的事情写成程序看看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 好的, 我想想看.” 小才开始在纸上画起来.<br>&nbsp;&nbsp;&nbsp;&nbsp; 半分钟后, 小菜给大鸟程序.</p>
+<p>前台秘书类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Secretary</span> </span>&#123;</div><div class="line">    <span class="comment">// 同事列表</span></div><div class="line">    <span class="keyword">private</span> List&lt;StockObserver&gt; observers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="keyword">private</span> String action;</div><div class="line"></div><div class="line">    <span class="comment">// 增加</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(StockObserver observer)</span> </span>&#123;</div><div class="line">        observers.add(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 通知</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObservers</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (StockObserver o :</div><div class="line">                observers) &#123;</div><div class="line">            o.update();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 前台状态</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAction</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> action;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAction</span><span class="params">(String action)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.action = action;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>看股票的同事<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StockObserver</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> Secretary sub;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StockObserver</span><span class="params">(String name, Secretary sub)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.sub = sub;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(sub.getAction() + name + <span class="string">"关闭股票行情, 继续工作!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>客户端程序如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="comment">// 前台小姐童子喆</span></div><div class="line">    Secretary tongzizhe = <span class="keyword">new</span> Secretary();</div><div class="line">    <span class="comment">// 看股票的同事</span></div><div class="line">    StockObserver tongshi1 = <span class="keyword">new</span> StockObserver(<span class="string">"魏观姹"</span>, tongzizhe);</div><div class="line">    StockObserver tongshi2 = <span class="keyword">new</span> StockObserver(<span class="string">"易管查"</span>, tongzizhe);</div><div class="line"></div><div class="line">    <span class="comment">// 前台记下了两位同事</span></div><div class="line">    tongzizhe.attach(tongshi1);</div><div class="line">    tongzizhe.attach(tongshi2);</div><div class="line">    <span class="comment">// 发现老板回来</span></div><div class="line">    tongzizhe.setAction(<span class="string">"老板回来了!"</span>);</div><div class="line">    <span class="comment">// 通知两个同事</span></div><div class="line">    tongzizhe.notifyObservers();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行结果如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">老板回来了!魏观姹关闭股票行情, 继续工作!</div><div class="line">老板回来了!易管查关闭股票行情, 继续工作!</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “写的不错, 把整个事情都包括了. 现在的问题是, 你有没有发现, 这个 ‘前台’ 类和这个 ‘看股票者’ 类之间怎么样?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “恩, 你是不是之相互耦合? 我写的时候就感觉到了, 前台类要增加观察者, 观察者类需要前台的状态.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “对呀, 你想想看, 如果观察者当中还有人是想看 NBA 的网上直播(由于时差关系, 美国 NBA 篮球比赛通常都是在北京时间的上午开始), 你的 ‘前台’ 类代码怎么办?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那就得改动了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你都发现这个问题了, 你说该怎么办? 想想我们的设计原则?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我就知道, 已有要提醒我了. 首先是开放—封闭原则, 修改原有的代码就说明设计不好. 其次是依赖倒转原则, 我们应该让程序都依赖抽象, 而不是互相依赖. OK, 我去改改, 应该不难的.”</p>
+<h3 id="14-3-解耦实践一"><a href="#14-3-解耦实践一" class="headerlink" title="14.3 解耦实践一"></a>14.3 解耦实践一</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 半小时后, 小菜给出了第二版<br>增加了抽象的观察者<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> String name;</div><div class="line">    <span class="keyword">protected</span> Secretary sub;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Observer</span><span class="params">(String name, Secretary sub)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.sub = sub;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">updateObserver</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>增加了两个具体观察者<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 看股票的同事</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StockObserver</span> <span class="keyword">extends</span> <span class="title">Observer</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StockObserver</span><span class="params">(String name, Secretary sub)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(name, sub);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateObserver</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(sub.getAction() + name + <span class="string">"关闭股票行情, 继续工作!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 看 NBA 的同事</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NBAObserver</span> <span class="keyword">extends</span> <span class="title">Observer</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NBAObserver</span><span class="params">(String name, Secretary sub)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(name, sub);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateObserver</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(sub.getAction() + name + <span class="string">"关闭NBA直播, 继续工作!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这里让两个观察者去继承 ‘抽象观察者’, 对于 ‘UpdateObserver(更新)’ 的方法做重写操作.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “下面是前台秘书类的编写, 把所有的与具体观察者耦合的地方都改成了 ‘抽象观察者’ .”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Secretary</span> </span>&#123;</div><div class="line">    <span class="comment">// 同事列表</span></div><div class="line">    <span class="keyword">private</span> List&lt;Observer&gt; observers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="keyword">private</span> String action;</div><div class="line"></div><div class="line">    <span class="comment">// 增加</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Observer observer)</span> </span>&#123;</div><div class="line">        <span class="comment">// 针对抽象编程, 减少与具体类的耦合</span></div><div class="line">        observers.add(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detach</span><span class="params">(Observer observer)</span> </span>&#123;</div><div class="line">        <span class="comment">// 针对抽象编程, 减少与具体类的耦合</span></div><div class="line">        observers.remove(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 通知</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObservers</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Observer o :</div><div class="line">                observers) &#123;</div><div class="line">            o.updateObserver();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 前台状态</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAction</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> action;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAction</span><span class="params">(String action)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.action = action;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码同前面的一样.<br>&nbsp;&nbsp;&nbsp;&nbsp; “小菜, 你这样写只完成了一半.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “为什么, 我不是已经增加了一个抽象的观察者了吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你小子, 考虑问题为什么就不能全面一点呢, 你仔细看看, 在具体观察者中, 有没有与具体的类耦合的?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “恩?这里有么?哦!我明白了, 你的意思是 ‘前台秘书’ 是一个具体的类, 也应该抽象出来.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “对呀, 你想想看, 你们公司最后一次, 你们老板回来, 前台来不及电话了, 于是通知大家的任务变成谁来做?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是老板, 对的, 其实老板也好, 前台也好, 都是具体的通知者, 这里观察这也不应该以来具体的实现, 而是一个抽象的通知者.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “另外, 就算是你们的前台, 如果某一个同事和他闹矛盾, 她生气了, 于是不再通知这件事情, 此是, 他是不是应该把这个对象从她加入的观察者列表中删除?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这个容易, 调用 ‘detach’ 方法将其减去就可以了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好的, 再去写写看.”</p>
+<h3 id="14-4-解耦实践二"><a href="#14-4-解耦实践二" class="headerlink" title="14.4 解耦实践二"></a>14.4 解耦实践二</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 半小时后, 小菜又给出了第三版.<br>&nbsp;&nbsp;&nbsp;&nbsp; 增加了通知者的抽象接口.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">attach</span><span class="params">(Observer observer)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">detach</span><span class="params">(Observer observer)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">notifyObserver</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">String <span class="title">getSubjectState</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setSubjectState</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 具体的通知者类可能是前台, 也可能是老板, 他们也许会有各自的一些方法, 但对于通知者来说, 他们是一样的, 所以他们都会去实现这个接口.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Boss</span> <span class="keyword">implements</span> <span class="title">Subject</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;Observer&gt; observers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="keyword">private</span> String action;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Observer observer)</span> </span>&#123;</div><div class="line">        observers.add(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detach</span><span class="params">(Observer observer)</span> </span>&#123;</div><div class="line">        observers.remove(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObserver</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Observer o : observers) &#123;</div><div class="line">            o.updateObserver();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSubjectState</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> action;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSubjectState</span><span class="params">(String action)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.action = action;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 前台秘书类与老板类类似, 略.<br>&nbsp;&nbsp;&nbsp;&nbsp; 对于具体的观察者, 需要更改的地方就是把与 ‘前台’ 耦合的地方都改成针对的通知者.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StockObserver</span> <span class="keyword">extends</span> <span class="title">Observer</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StockObserver</span><span class="params">(String name, Subject sub)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(name, sub);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateObserver</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(sub.getSubjectState() + name + <span class="string">"关闭股票行情, 继续工作!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Subject huhansan = <span class="keyword">new</span> Boss();</div><div class="line"></div><div class="line">    <span class="comment">// 看股票的同事</span></div><div class="line">    Observer tongshi1 = <span class="keyword">new</span> StockObserver(<span class="string">"魏观姹"</span>, huhansan);</div><div class="line">    <span class="comment">// 看NBA 的同事</span></div><div class="line">    Observer tongshi2 = <span class="keyword">new</span> NBAObserver(<span class="string">"易管查"</span>, huhansan);</div><div class="line"></div><div class="line">    huhansan.attach(tongshi1);</div><div class="line">    huhansan.attach(tongshi2);</div><div class="line"></div><div class="line">    huhansan.detach(tongshi1);</div><div class="line"></div><div class="line">    <span class="comment">// 老板回来</span></div><div class="line">    huhansan.setSubjectState(<span class="string">"我胡汉三回来了 "</span>);</div><div class="line">    <span class="comment">// 发出通知</span></div><div class="line">    huhansan.notifyObserver();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 运行结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">我胡汉三回来了易管查关闭NBA直播, 继续工作!</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “由于 ‘魏观姹’ 么有被通知到, 所以他被当场 ‘抓获’, 下场很惨.” 小菜说道, “现在我做到了两者都不耦合了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “写得好, 把结构图画出来看看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这不难.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 小菜画出了代码的结构图.</p>
+<div align="center"><br><img src="/images/observer-fresher/pic01.png" width="500" height="500"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 小菜非常好, 你已经把观察者模式的计划都写出来了, 现在我们看看什么叫观察者模式.”</p>
+<h3 id="14-5-观察者模式-Observer-Pattern"><a href="#14-5-观察者模式-Observer-Pattern" class="headerlink" title="14.5 观察者模式(Observer Pattern)"></a>14.5 观察者模式(Observer Pattern)</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 观察者模式又叫做发布—订阅模式(Publish/Subscribe) 模式.</p>
+<blockquote>
+<p><strong>观察者模式</strong>定义了一种一对多的依赖关系, 让多个观察者的对象同时监听某一个主题对象. 这个主题对象在在状态发生变化是, 会通知所有的观察者对象, 让他们能够自动更新自己.[DP]</p>
+</blockquote>
+<div align="center"><br><img src="/images/observer-fresher/pic02.png" width="550" height="500" title="观察者模式"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Subject 类, 可翻译为主题或者抽象通知者, 一般用一个抽象类或者一个借口实现. 它把所有对观察者对象的引用保存在一个聚集里, 每个主题都可以有任何数量的观察者. 抽象主题提供一个借口, 可以增加和删除观察者对象.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> List&lt;Observer&gt; observers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="comment">// 增加观察者</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Observer observer)</span> </span>&#123;</div><div class="line">        observers.add(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 移除观察者</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detach</span><span class="params">(Observer observer)</span> </span>&#123;</div><div class="line">        observers.remove(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObservers</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Observer o : observers) &#123;</div><div class="line">            o.update();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Observer 类, 抽象观察者, 为所有的具体观察者定义一个接口, 在得到主题的通知时更新自己, 这个接口叫做更新接口. 抽象观察者一般用一个抽象类或者一个接口实现. 更新接口通常包含一个update() 方法, 这个方法叫做更新方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ConcreteSubject 类, 叫做具体主题或者具体通知者, 将有关状态存入具体观察者对象; 再具体主题的内部状态改变时, 给所有登记过的观察者发出通知. 具体主题角色通常用一个具体子类实现.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteSubject</span> <span class="keyword">extends</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String subjectState;</div><div class="line">    <span class="comment">// 具体发布者/被观察者的状态</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSubjectState</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> subjectState;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSubjectState</span><span class="params">(String subjectState)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.subjectState = subjectState;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ConcreteObserver 类, 具体观察者, 实现抽象观察者角色所要求的更新接口, 以便本身的状态与主体的状态相协调. 具体观察者角色可以保存一个指向具体主题的引用. 具体观察者角色通常用一个具体子类实现.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteObserver</span> <span class="keyword">extends</span> <span class="title">Observer</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> String observerState;</div><div class="line">    <span class="keyword">private</span> ConcreteSubject subject;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteObserver</span><span class="params">(String name, ConcreteSubject subject)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.subject = subject;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</div><div class="line">        observerState = subject.getSubjectState();</div><div class="line">        System.out.println(<span class="string">"观察者"</span> + name + <span class="string">"的状态是"</span> + observerState);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getObserverState</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> observerState;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setObserverState</span><span class="params">(String observerState)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.observerState = observerState;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    ConcreteSubject s = <span class="keyword">new</span> ConcreteSubject();</div><div class="line"></div><div class="line">    s.attach(<span class="keyword">new</span> ConcreteObserver(<span class="string">"X"</span>, s));</div><div class="line">    s.attach(<span class="keyword">new</span> ConcreteObserver(<span class="string">"Y"</span>, s));</div><div class="line">    s.attach(<span class="keyword">new</span> ConcreteObserver(<span class="string">"Z"</span>, s));</div><div class="line"></div><div class="line">    s.setSubjectState(<span class="string">"ABC"</span>);</div><div class="line">    s.notifyObservers();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 结果显示<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">观察者X的状态是ABC</div><div class="line">观察者Y的状态是ABC</div><div class="line">观察者Z的状态是ABC</div></pre></td></tr></table></figure></p>
+<h3 id="14-6-观察者模式的特点"><a href="#14-6-观察者模式的特点" class="headerlink" title="14. 6 观察者模式的特点"></a>14. 6 观察者模式的特点</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “用观察者模式的动机是什么?” 小菜问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “问得好, <strong>将一个系统分隔成相互协作的一系列类有一个很不好的副作用, 那就是需要维护相关对象的一致性. 我们不希望为了维持一致性而使各类紧密耦合, 这样会给维护, 扩展, 重用带来不便[DP].</strong> 而观察者模式的主要对象是 Subject 主题和观察者 Observer, 一个 Subject 可以有任意数目的依赖他的 Observer, 一旦 Subject 的状态发生了改变, 所有的 Observer 都会得到通知. Subject 发出通知时并不需要知道谁是他的观察者, 也就是说, 具体的观察这是谁, 他跟不就不需要知道. 而任何一个观察者也不需要知道其他具体观察者的存在.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “什么时候考虑使用观察者模式呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你说什么时候应当使用?” 大鸟反问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “<strong>当一个对象的改变需要同时改变其他对象的时候</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “补充一下, <strong>而且他不知道有多少具体的对象需要改变时, 应该考虑使用观察者模式. </strong>还有吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我感觉当一个抽象模型有两个方面, 其中一方面依赖于另一方面, 这时用观察者模式可以使他们封装在两个独立的对象中以便独立的改变和复用.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “非常好, 总的来讲, 观察者模式的工作就是在解耦合. 让耦合的双方都依赖于抽象, 而不是依赖于具体. 从而各自的变化都不会影响另一边的变化.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 这就是依赖倒转原则的最佳实现啊” 小菜感慨道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “我问你, 在抽象观察者时, 你的代码用的是抽象类, 为什么不用接口?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “因为我觉得两个具体的观察者, 看股票观察者和看NBA 观察者类是相似的, 所以用了抽象类, 这样可以公用一些代码, 用接口只是方法上的实现, 没有什么太大的意义.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那么抽象观察者可不可以用接口来定义?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “用接口, 我不知道, 应该没有必要吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 那是应为你不知道观察者模式的应用都是什么样的. 现实编程中, 具体的观察者完全可能是风马牛不想接的类, 但是他们都是根据通知者的通知做出来的 <code>update()</code> 的操作, 所以让他们都实现下面这一个接口就可以实现这个想法了.”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Observer</span></span>&#123;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “嘿, 大鸟说的好, 还是用接口比较好.” 小菜傻笑道, 突然表情一变, “等等, 这里还是有问题, 这些空间要么是 .net 类库, 要么是其他人事先写好的控件, 他如何在能去实现拥有<code>update()</code> 的 Observer 接口呢?”</p>
+<h3 id="14-7-观察模式的不足"><a href="#14-7-观察模式的不足" class="headerlink" title="14.7 观察模式的不足"></a>14.7 观察模式的不足</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 大鸟微笑着说: “举个例子给我听听.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这样的例子很好举啊,” 小蔡说, “比如, vs2005, 当你点击运行的时候, 整个界面是这个样子的.”</p>
+<div align="center"><br><img src="/images/observer-fresher/pic03.png" width="700" height="500"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “当运行程序后, 除了弹出一个控制台的窗体外, 工具栏发生了变化, 工具箱不见了, ‘错误列表’ 变成了 ‘自动窗口’ 和 ‘命令窗口’ 打开. 仅仅是点击一个 ‘运行’ 按钮, 就发生了这么多的变化, 而且这些变化都涉及到不同的控件.”</p>
+<div align="center"><br><img src="/images/observer-fresher/pic04.png" width="700" height="500"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “我觉得没办法让每个空间都去实现一个 Observer 接口, 因为这些空间早就被他们的制造商给封装了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “小菜聪明, 你问到点子上了, 尽管点击 ‘运行’ 按钮时, 确实是在通知相关的空间产生变化, 但是他们是不可能用观察者模式实现.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那怎么办呀?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 那怎么办呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “凉拌呗”. 大鸟得意至极.<br>&nbsp;&nbsp;&nbsp;&nbsp; “快说, 摆的什么架子”<br>&nbsp;&nbsp;&nbsp;&nbsp; “还是回到刚才那个 ‘老板, 前台与同事’的例子, 你看看他有没有什么不足之处.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “和刚才说的一样, 尽管使用了依赖倒转原则, 但是’抽象的通知者’ 还是依赖于 ‘抽象的观察者’ . 也就是说, 万一没有了抽象观察者这样的接口, 我们的通知功能就实现不了了. 另外就是, 每一个具体的观察者, 它不一定是 ‘更新’ 方法的调用啊, 就像我刚才说的, 我希望是 ‘工具箱’ 隐藏, ‘自动窗口’ 打开, 这根本就是不同命的方法. 这应该就是不足之处吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 如果通知者和观察者之间根本谁都不知道谁, 有客户端来决定通知谁, 那就好了. 来, 我们把原来的代码改造一下.”</p>
+<h3 id="14-8-事件委托的实现"><a href="#14-8-事件委托的实现" class="headerlink" title="14.8 事件委托的实现"></a>14.8 事件委托的实现</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “看股票观察者” 类和 “看NBA 观察者” 类, 去掉了父类 “抽象观察者”, 所以补上一些代码, 并将 “更新” 方法名改为自己适合的方法名.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 看股票的同事</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StockObserver</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> Subject sub;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StockObserver</span><span class="params">(String name, Subject sub)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.sub = sub;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">closeStockMarket</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(sub.getSubjectState() + name + <span class="string">"关闭股票行情, 继续工作!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 看 NBA 的同事</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NBAObserver</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> Subject sub;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NBAObserver</span><span class="params">(String name, Subject sub)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.sub = sub;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clockNBADirectSeeding</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(sub.getSubjectState() + name + <span class="string">"关闭NBA直播, 继续工作!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “现实中就是这样, 方法名本就不相同.” 小菜点头说.<br>&nbsp;&nbsp;&nbsp;&nbsp; “抽象通知者” 由于不希望依赖于 “抽象观察者”, 所以 “增加” 和 “减少” 的方法就没有必要了(抽象观察者已经不存在了).<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 通知者接口</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">notifyObserver</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">String <span class="title">getSubjectState</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setSubjectState</span><span class="params">(String action)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “下面就是如何处理 ‘老板’ 类和 ‘前台’ 类的问题, 他们当中 ‘通知’ 方法有了对 ‘观察者’ 遍历, 所以不可小视. 但是如果在 .net 中, 我们有一个非常好的方式实现这个问题. 它叫…”<br>&nbsp;&nbsp;&nbsp;&nbsp; “快说.” 小蔡眼睛瞪大, 盯着大鸟.<br>&nbsp;&nbsp;&nbsp;&nbsp; “他叫委托.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 就是委托呀, 我都认真的学过好几次了, 但是还是不太懂, 同学几个也差不多, 反正就是不太明白, 他到底是怎么回事, 如何用.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “先别管委托怎么回事, 我们先看看他如何用.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 在 Java 中, 并不像 .net 那样支持委托这种实现形式, 但是我们可以通过注解和反射实现委托操作, 在android 开发中, 有一个非常好的类库 EventBus 已经帮我们实现了很多功能. 可以直接拿来使用. 参考一下, <a href="">java 中委托的实现机制</a>.</p>
+<h3 id="14-9-事件委托的说明"><a href="#14-9-事件委托的说明" class="headerlink" title="14.9 事件委托的说明"></a>14.9 事件委托的说明</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “现在来解释一下, 委托是什么. <strong>委托就是一种引用方法的类型. 一旦委托分配了方法, 委托与该方法具有完全相同的行为. 委托方法的使用可以像其他任何方法一样, 具有参数返回值.委托可以看做是对函数的抽象, 是函数的 ‘类’ , 委托的实例将代表一个具体的函数.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; ….<br>&nbsp;&nbsp;&nbsp;&nbsp; “对了, 就是这个意思, 我刚才不是说, 一档委托分配了方法, 委托将于该方法具有完全相同的行为. 而且, <strong>一个委托可以打在多个方法, 所有的方法依次唤起</strong>. 更重要的是, 它<strong>可以使得委托对象所搭载的方法并不需要属于同一个类. </strong> 你还不明白?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 我明白了, 我明白了,” 小菜连笑开了花, “这样就使得, 本来是在 ‘老板’ 类中的增加和减少的抽象观察者集合以及通知时遍历的抽象观察者都不必要了. 转到客户端来让委托搭载多个房发,这就解决了本来与抽象观察者耦合的问题.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “但是委托也是有前提的, <strong>那就是委托对象所搭载的方法必须有相同的原型和形式, 也就是相同的参数列表和返回值类型.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “如果参数列表都不相同那还瞎掺和啥.” 小菜惊叹道, “太强了, 当时那些牛人是怎么设计出这些东西的, 本来观察者模式已经把依赖倒转原则做得非常好了, 现在看来, 委托和事件岂不是更加优秀, 解决问题岂不是更加优雅.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “注意, 是先有观察者模式, 再有委托技术的, 再说他们各有优缺点, 你不妨去看看官方文档.”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/14/builder-fresher/" rel="next" title="13.好菜每回味不同 - 建造者模式(Builder Pattern)">
+                <i class="fa fa-chevron-left"></i> 13.好菜每回味不同 - 建造者模式(Builder Pattern)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/15/delegate-fresher/" rel="prev" title="00.2 番外篇2 - java 中实现委托模式.(Delegate)">
+                00.2 番外篇2 - java 中实现委托模式.(Delegate) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#14-1-老板回来-我不知道"><span class="nav-number">1.</span> <span class="nav-text">14.1 老板回来? 我不知道!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-2-双向耦合的代码"><span class="nav-number">2.</span> <span class="nav-text">14.2 双向耦合的代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-3-解耦实践一"><span class="nav-number">3.</span> <span class="nav-text">14.3 解耦实践一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-4-解耦实践二"><span class="nav-number">4.</span> <span class="nav-text">14.4 解耦实践二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-5-观察者模式-Observer-Pattern"><span class="nav-number">5.</span> <span class="nav-text">14.5 观察者模式(Observer Pattern)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-6-观察者模式的特点"><span class="nav-number">6.</span> <span class="nav-text">14. 6 观察者模式的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-7-观察模式的不足"><span class="nav-number">7.</span> <span class="nav-text">14.7 观察模式的不足</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-8-事件委托的实现"><span class="nav-number">8.</span> <span class="nav-text">14.8 事件委托的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-9-事件委托的说明"><span class="nav-number">9.</span> <span class="nav-text">14.9 事件委托的说明</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
