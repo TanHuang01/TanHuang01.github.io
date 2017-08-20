@@ -1,0 +1,912 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="17.1 在NBA 我需要翻译! 时间: 4月22日13点 &amp;nbsp; 地点: 小区外饭馆 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 周日, 小菜与大鸟上午在家刚看完 NBA 季后赛的第一场比赛, 出去吃饭.">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="17.在NBA我需要翻译 - 适配器模式(Adapter Pattern)">
+<meta property="og:url" content="http://yoursite.com/2017/08/20/adapter-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="17.1 在NBA 我需要翻译! 时间: 4月22日13点 &amp;nbsp; 地点: 小区外饭馆 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 周日, 小菜与大鸟上午在家刚看完 NBA 季后赛的第一场比赛, 出去吃饭.">
+<meta property="og:image" content="http://yoursite.com/images/adapter-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/adapter-fresher/pic02.png">
+<meta property="og:updated_time" content="2017-08-20T03:11:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="17.在NBA我需要翻译 - 适配器模式(Adapter Pattern)">
+<meta name="twitter:description" content="17.1 在NBA 我需要翻译! 时间: 4月22日13点 &amp;nbsp; 地点: 小区外饭馆 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 周日, 小菜与大鸟上午在家刚看完 NBA 季后赛的第一场比赛, 出去吃饭.">
+<meta name="twitter:image" content="http://yoursite.com/images/adapter-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/20/adapter-fresher/"/>
+
+
+
+
+
+  <title> 17.在NBA我需要翻译 - 适配器模式(Adapter Pattern) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/20/adapter-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                17.在NBA我需要翻译 - 适配器模式(Adapter Pattern)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-20T10:58:13+08:00">
+                2017-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/20/adapter-fresher/" class="leancloud_visitors" data-flag-title="17.在NBA我需要翻译 - 适配器模式(Adapter Pattern)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="17-1-在NBA-我需要翻译"><a href="#17-1-在NBA-我需要翻译" class="headerlink" title="17.1 在NBA 我需要翻译!"></a>17.1 在NBA 我需要翻译!</h3><ul>
+<li>时间: 4月22日13点 &nbsp; 地点: 小区外饭馆 &nbsp; 人物: 小菜, 大鸟</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 周日, 小菜与大鸟上午在家刚看完 NBA 季后赛的第一场比赛, 出去吃饭.<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 今天火箭开门红, 赢得真是爽呀,” 小菜感慨万分.<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 希望能把这种势头保持到最后, 那就可以有所突破了.” 大鸟肯定地说.<br>&nbsp;&nbsp;&nbsp;&nbsp; “……”</p>
+<h3 id="17-2-适配器模式"><a href="#17-2-适配器模式" class="headerlink" title="17.2 适配器模式"></a>17.2 适配器模式</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “这个模式叫做适配器模式.”</p>
+<blockquote>
+<p><strong>适配器模式(Adapter)</strong>, 讲一个类的接口转换成客户希望的另外一个接口. Adapter 模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作.[DP]</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “适配器模式主要解决什么问题呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “简单地说, 就是需要的东西在眼前, 但却不能用, 而短时间内无法改造它, 于是我们就想到了适配器.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “前面听懂了, 有东西不能用, 又不能改造它. 但想办法 ‘适配’ 是什么意思?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “其实这个次最早的是出现在电工学里, 有些国家110v的电压, 而我们国家是220v的电压, 但我们的电器, 比如笔记本电脑是不能什么电压都能使用的, 但国家不同, 电压不同也是事实, 于是就用一个电源适配器, 只要是电, 不管多少伏, 动能把电源变成需要的电压, 这就是电源适配器的作用. 适配器的作用就是是一个东西适合零一个东西的东西.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这个我明白, 但是和适配器有什么关系?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, NBA 篮球运动员都会打球, 姚明也会打球….”<br>&nbsp;&nbsp;&nbsp;&nbsp; “废话”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你小子, 别打岔. 但是要明确不会说英语, 要在美国NBA打球, 不会英语如何交流?没有交流如何理解教练和同伴的意图? 又如何让他们理解自己的想法? 不能沟通就打不好求了. 于是就有了第三个办法, 第一, 让姚明学英语, 你看如何?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这个不符合实际啊, 姚明刚到NBA打球, 之前又没有在学校里认知学习英语, 马上学到可以听懂说英语的地步是很困难的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “说的不错, 第二种方法, 让教练和球员学会中文?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 大鸟又在搞笑了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “不可能, 你说怎么办?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “给姚明找个翻译. 哦, 我明白了, 你的意思是翻译就是适配器.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “对的, 在我们不能改变球队教练, 球员和姚明的前提下, 我们能做到的就是想办法找个适配器, 在软件开发中, 也就是<strong>系统的数据和行为都正确, 单接口不对, 我们应该考虑用适配器, 目的是控制范围之外的一个原有对象与某个接口适配. 适配器模式主要用于希望复用的一些现存类, 但是接口与复用环境要求不一致的情况.</strong> 比如在需要对早期的代码复用一些功能等应用上很有实际价值.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “在 GoF 的设计模式中, 对适配器模式讲了两种类型, <strong>类适配器模式和对象适配器模式,</strong> 由于类适配器模式通过多重继承对一个接口与另一个接口适配, 而 C#, VB.NET, JAVA 等语言都不支持多重继承(C++支持), 也就是一个类只有一个父类, 所以我们这里主要讲的是对象适配器.”</p>
+<div align="center"><br><img src="/images/adapter-fresher/pic01.png" width="550" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Target (这是客户所期待的接口. 目标可以是具体或抽象的类, 也可以是接口) 代码如下.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Target</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">request</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"普通请求!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Adaptee (需要适配的类) 代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adaptee</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sepcificRequest</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"特设请求!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Adapter(通过在内部包装一个 Adaptee 对象, 把源接口转换成目标接口) 代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adapter</span> <span class="keyword">extends</span> <span class="title">Target</span> </span>&#123;</div><div class="line">    <span class="comment">// 建立一个私有的 adaptee 对象</span></div><div class="line">    <span class="keyword">private</span> Adaptee adaptee = <span class="keyword">new</span> Adaptee();</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">request</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 这样就可以把表面上调用 request()</span></div><div class="line">        <span class="comment">// 方法变成实际调用 specificRequest()</span></div><div class="line">        adaptee.sepcificRequest();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="comment">// 对客户端来说, 调用的就是 target 的 request()</span></div><div class="line">    Target target = <span class="keyword">new</span> Adapter();</div><div class="line">    target.request();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="17-3-何时使用适配器模式"><a href="#17-3-何时使用适配器模式" class="headerlink" title="17.3 何时使用适配器模式"></a>17.3 何时使用适配器模式</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “你的意识是不是说, 在想<strong>使用一个已经存在的类, 但如果它的接口, 也就是方法和你要求的不相同时, 就应该考虑用适配器模式?</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “对的, <strong>两个类所做的事情相同或相似, 但是具有不同的接口时需要使用它.</strong> 而且由于类都共享同一个接口, 使得客户端代码如何?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “<strong>客户端代码可以统一调用统一接口</strong>就行了, 这样应该<strong>可以更简单, 更直接, 更紧凑</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “很好, 其实用适配器模式也是无奈之举, 很有点 ‘亡羊补牢’ 的感觉, 没办法呀, 软件就有维护的一天, 就有可能因为不同的开发人员, 不同的产品, 不同的厂家而造成功能类似而接口不同的情况, 此时就是适配器模式大展拳脚的时候了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你的意思是说, 我们通常是在软件开发后期或维护期在考虑使用适配器模式?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “如果是在设计阶段, 你有必要把类似的功能类的接口设计成不同的吗”<br>&nbsp;&nbsp;&nbsp;&nbsp; “话是这么说, 但不同的程序员定义的方法名称可能不相同啊”<br>&nbsp;&nbsp;&nbsp;&nbsp; “首先, 在公司内部, 类和方法的明明应该有规范, 最好前期就设计好, 然后如果真的如你说, 借口不相同时, 首先不应该考虑使用适配器, 而是应该考虑一下通过重构统一接口.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “明白了, 就是要<strong>在双方都不太容易修改的时候再使用适配器模式适配,</strong> 而不是一有不同时就是用他. 那有没有设计之初就考虑使用适配器的时候.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当然有, 比如公司设计一系统时考虑使用第三方开发组件, 而这个组件的接口与我们自己系统的接口是不同的, 而我们也完全没有必要为了迎合他们的接口而修改自己的接口, 此时尽管是在开发阶段, 也是可以考虑使用适配器模式来解决问题的.” 大鸟解释说, “好了, 说了这么多, 你都没有联系一下, 来来来, 试着把火箭队的比赛, 教练叫暂停时给后卫, 中锋, 前锋分配进攻和防守任务的代码模拟出来.”</p>
+<h3 id="17-4-篮球翻译适配器"><a href="#17-4-篮球翻译适配器" class="headerlink" title="17.4 篮球翻译适配器"></a>17.4 篮球翻译适配器</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 这有何难. 后卫, 中锋, 前锋都是球员, 所以应该有一个球员抽象类, 有进攻和防守的方法.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 球员类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Player</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> String name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Player</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="comment">// 进攻和防守的方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">defense</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 后卫, 中锋, 前锋类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 前锋</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Forwards</span> <span class="keyword">extends</span> <span class="title">Player</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Forwards</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Forwards"</span> + name + <span class="string">"attack"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">defense</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Forwards"</span> + name + <span class="string">"defense"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 中锋, 后卫代码类似, 省略</span></div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Player b = <span class="keyword">new</span> Forwards(<span class="string">"Battier"</span>);</div><div class="line">    b.attack();</div><div class="line">    Player m = <span class="keyword">new</span> Guards(<span class="string">"MacGrady"</span>);</div><div class="line">    m.attack();</div><div class="line"></div><div class="line">    Player c = <span class="keyword">new</span> Center(<span class="string">"姚明"</span>);</div><div class="line">    <span class="comment">// 姚明问, attack 和 defense 是什么意思呢</span></div><div class="line">    c.attack();</div><div class="line">    c.defense();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 结果显示<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Forwards Battier attack</div><div class="line">Guards MacGrady attack</div><div class="line">Center 姚明 attack</div><div class="line">Center 姚明 defense</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “注意, 姚明刚来到 NBA, 他身高够高, 球技够好, 但是他那是还不懂英语, 也就是说, 他听不懂教练的战术安排, Attach 和 Defence 是什么意思都不知道. 你这样的写法是有问题的. 事实上, 当时是如何解决这个矛盾的?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “姚明说 ‘我需要翻译.’ 我知道你的意思了, 姚明是一个外籍中锋, 需要有翻译这类来 ‘适配’”.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 外籍中锋<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForeignCenter</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="comment">// 外籍中锋只懂得中文进攻</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> 进攻() &#123;</div><div class="line">        System.out.println(<span class="string">"外籍中锋 "</span> + name + <span class="string">" 进攻"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="comment">// 只懂得中文防守</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> 防守() &#123;</div><div class="line">        System.out.println(<span class="string">"外籍中锋 "</span> + name + <span class="string">" 防守"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 翻译者类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 翻译者</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Translator</span> <span class="keyword">extends</span> <span class="title">Player</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">// 声明并实例化一个内部的'外籍中锋', 表明翻译者与外籍中锋有关</span></div><div class="line">    <span class="keyword">private</span> ForeignCenter foreignCenter = <span class="keyword">new</span> ForeignCenter();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Translator</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(name);</div><div class="line">        foreignCenter.setName(name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span> </span>&#123;</div><div class="line">	    <span class="comment">// 翻译者将 'attack' 告诉外籍中锋</span></div><div class="line">        foreignCenter.进攻();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">defense</span><span class="params">()</span> </span>&#123;</div><div class="line">	    <span class="comment">// 翻译者将 'defense' 告诉外籍中锋</span></div><div class="line">        foreignCenter.防守();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Player b = <span class="keyword">new</span> Forwards(<span class="string">"Battier"</span>);</div><div class="line">    b.attack();</div><div class="line">    Player m = <span class="keyword">new</span> Guards(<span class="string">"MacGrady"</span>);</div><div class="line">    m.attack();</div><div class="line"></div><div class="line">    <span class="comment">// 翻译者告诉姚明, 教练要你 '进攻','防守'</span></div><div class="line">    Player c = <span class="keyword">new</span> Translator(<span class="string">"姚明"</span>);</div><div class="line">    c.attack();</div><div class="line">    c.defense();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 结果显示:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Forwards Battier attack</div><div class="line">Guards MacGrady attack</div><div class="line">外籍中锋 姚明 进攻</div><div class="line">外籍中锋 姚明 防守</div></pre></td></tr></table></figure></p>
+<div align="center"><br><img src="/images/adapter-fresher/pic02.png" width="550" height="100"><br></div>
+
+<h3 id="17-5-适配器模式的-net-应用"><a href="#17-5-适配器模式的-net-应用" class="headerlink" title="17.5 适配器模式的 .net 应用"></a>17.5 适配器模式的 .net 应用</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “这模式当然好用, 我现在现实中也很常用吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当然, 比如在 .net 中有一个类库已经实现, 非常重要的适配器, 那就是 DataAdapter. <strong>Dataadapter 作用 DataSet 和数据源之间的适配器以便检索和保存数据. DataAdapter 通过映射 Fill (这更改了 DataSet 中的数据以便于数据源中的数据相配)  和Update(者更改了数据源中的数据以便与DataSet 中的数据相配) 来提供这一适配器[MSDN].</strong> 由于数据源可能来自 SQL Server, 可能来自 Oracle, 也可能来自Access DB2, 这些数据在组织上可能有不同之处, 但我们希望得到统一的DataSet(实质是 XML 数据库), 此时用 DataAdapter 就是非常好的手段, 我们不必关注不同的数据库的数据细节, 就可以灵活的使用数据.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, DataAdapter 我都用了无数次了, 原来他就是适配器模式的应用啊, 太棒了. 我喜欢这个模式. 我要经常的使用它.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “NO, NO, NO! 模式乱用不如不用.”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/19/state-fresher/" rel="next" title="16.无尽加班何时休 - 状态模式(State Pattern)">
+                <i class="fa fa-chevron-left"></i> 16.无尽加班何时休 - 状态模式(State Pattern)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#17-1-在NBA-我需要翻译"><span class="nav-number">1.</span> <span class="nav-text">17.1 在NBA 我需要翻译!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-2-适配器模式"><span class="nav-number">2.</span> <span class="nav-text">17.2 适配器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-3-何时使用适配器模式"><span class="nav-number">3.</span> <span class="nav-text">17.3 何时使用适配器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-4-篮球翻译适配器"><span class="nav-number">4.</span> <span class="nav-text">17.4 篮球翻译适配器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-5-适配器模式的-net-应用"><span class="nav-number">5.</span> <span class="nav-text">17.5 适配器模式的 .net 应用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
