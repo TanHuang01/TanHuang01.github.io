@@ -1,0 +1,907 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="20.1 乘车买票,不管你是谁? 时间: 5月26日10点 &amp;nbsp; 地点: 一公交车上 &amp;nbsp; 人物:大鸟,小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这天是周末, 小菜和大鸟一早出门玩儿, 上了公交, 车内很挤.">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20.想走?可以!先买票 - 迭代器模式(Iterator Pattern)">
+<meta property="og:url" content="http://yoursite.com/2017/08/23/iterator-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="20.1 乘车买票,不管你是谁? 时间: 5月26日10点 &amp;nbsp; 地点: 一公交车上 &amp;nbsp; 人物:大鸟,小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这天是周末, 小菜和大鸟一早出门玩儿, 上了公交, 车内很挤.">
+<meta property="og:image" content="http://yoursite.com/images/iterator-fresher/pic01.png">
+<meta property="og:updated_time" content="2017-08-23T01:40:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20.想走?可以!先买票 - 迭代器模式(Iterator Pattern)">
+<meta name="twitter:description" content="20.1 乘车买票,不管你是谁? 时间: 5月26日10点 &amp;nbsp; 地点: 一公交车上 &amp;nbsp; 人物:大鸟,小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这天是周末, 小菜和大鸟一早出门玩儿, 上了公交, 车内很挤.">
+<meta name="twitter:image" content="http://yoursite.com/images/iterator-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/23/iterator-fresher/"/>
+
+
+
+
+
+  <title> 20.想走?可以!先买票 - 迭代器模式(Iterator Pattern) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/23/iterator-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                20.想走?可以!先买票 - 迭代器模式(Iterator Pattern)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-23T09:30:46+08:00">
+                2017-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Desgin-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Desgin Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Desgin-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/23/iterator-fresher/" class="leancloud_visitors" data-flag-title="20.想走?可以!先买票 - 迭代器模式(Iterator Pattern)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="20-1-乘车买票-不管你是谁"><a href="#20-1-乘车买票-不管你是谁" class="headerlink" title="20.1 乘车买票,不管你是谁?"></a>20.1 乘车买票,不管你是谁?</h3><ul>
+<li>时间: 5月26日10点 &nbsp; 地点: 一公交车上 &nbsp; 人物:大鸟,小菜</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这天是周末, 小菜和大鸟一早出门玩儿, 上了公交, 车内很挤.<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; “上车的乘客请买票.” 售票员一边在人缝中穿插着, 一边说道.<br>&nbsp;&nbsp;&nbsp;&nbsp; ……</p>
+<h3 id="20-2-迭代器模式"><a href="#20-2-迭代器模式" class="headerlink" title="20.2 迭代器模式"></a>20.2 迭代器模式</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “小菜, 今天你真的见到强人了吧.” 大鸟下车后, 对小菜说道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “这个售票员, 是在够强,” 小菜学者模仿到, “想走,可以.先买票再说.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这售票员其实在做一件很重要的事情, 就是把车厢内所有的人都遍历一遍, 不放过每一个买票的乘客. 这也是一个设计模式的体现.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 你也够强, 什么都可以往设计模式上套, 这也是模式?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当然是模式. 这个模式就叫<strong>迭代器模式</strong>.”</p>
+<blockquote>
+<p><strong>迭代器模式(Iterator),</strong> 提供一种顺序访问一个聚合对象中各个元素, 而又不暴露该对象的内部表示.[DP]</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “你想呀, 售票员才不过你上来的是物(行李), 不管是中国人还是外国人, 不管是不是内部员工, 甚至哪怕是马上要被抓走的小偷, 只要是来乘车的乘客, 就必须买票. 同样道理, <strong>当你需要访问一个聚集对象, 而且不管这些对象是什么都需要遍历的时候, 你就应该考虑用迭代器模式.</strong> 另外, 售票员从车头到车尾来售票, 也可以从车尾到车头来售票, 也就是说, <strong>你需要对聚集有多种遍历时, 可以考虑使用迭代器模式.</strong> 由于不管乘客干了什么, 售票员的做法始终是相同的, 都是从第一个开始, 下一个是谁, 是否结束, 当前售到那个人了, 这些方法每天他都在做, 也就是说, <strong>为了遍历不同的聚集结构提供如, 开始, 下一个, 是否结束, 当前项是哪一个的接口.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “听你这么一说, 好像这个模式也不简单”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 本来这个模式还有点意思, 不过现今看来, 迭代器模式的实用价值远不如学习价值大了, MartinFlower 甚至在自己的网站上提出撤销此模式. 因为现在高级编程语言如 C#, Java, 等本身已经把这个模式做在语言中了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 是什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, foreach 你熟悉吧?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 原来是它, 没错没错, 他就是不需要知道集合对象是什么, 就可以遍历所有的对象的循环工具, 非常好用.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 另外还有 Iterable 接口也是为了迭代器模式而准备的. 不管如何, 学习一下 GoF 的迭代器模式的基本结构, 还是很有学习价值的.</p>
+<h3 id="20-3-迭代器模式"><a href="#20-3-迭代器模式" class="headerlink" title="20.3 迭代器模式"></a>20.3 迭代器模式</h3><div align="center"><br><img src="/images/iterator-fresher/pic01.png" width="600" height="100" title="迭代器模式结构图"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Iterator 迭代器抽象类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span> </span>&#123;</div><div class="line">    <span class="function">Object <span class="title">first</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">Object <span class="title">next</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">Object <span class="title">currentItem</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Aggregate 抽象类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Aggregate</span> </span>&#123;</div><div class="line">    <span class="function">Iterator <span class="title">createIterator</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ConcreteIterator 具体迭代器类, 继承Iterator<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ConcreteAggregate aggregate;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> current = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteIterator</span><span class="params">(ConcreteAggregate aggregate)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.aggregate = aggregate;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">first</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> aggregate.getObject(<span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">        Object ret = <span class="keyword">null</span>;</div><div class="line">        current++;</div><div class="line">        <span class="keyword">if</span> (current &lt; aggregate.count()) &#123;</div><div class="line">            ret = aggregate.getObject(current);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> ret;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> current &gt;= aggregate.count();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">currentItem</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> aggregate.getObject(current);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ConcreteAggregate 具体聚集类, 继承 Aggregate<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteAggregate</span> <span class="keyword">implements</span> <span class="title">Aggregate</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;Object&gt; items = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">createIterator</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteIterator(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> items.size();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setObject</span><span class="params">(<span class="keyword">int</span> index, Object value)</span> </span>&#123;</div><div class="line">        items.add(index, value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getObject</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> items.get(index);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    ConcreteAggregate a = <span class="keyword">new</span> ConcreteAggregate();</div><div class="line">    a.setObject(<span class="number">0</span>, <span class="string">"大鸟"</span>);</div><div class="line">    a.setObject(<span class="number">1</span>, <span class="string">"小菜"</span>);</div><div class="line">    a.setObject(<span class="number">2</span>, <span class="string">"行李"</span>);</div><div class="line">    a.setObject(<span class="number">3</span>, <span class="string">"老外"</span>);</div><div class="line">    a.setObject(<span class="number">4</span>, <span class="string">"公交内部员工"</span>);</div><div class="line">    a.setObject(<span class="number">5</span>, <span class="string">"小偷"</span>);</div><div class="line"></div><div class="line">    Iterator i = <span class="keyword">new</span> ConcreteIterator(a);</div><div class="line">    Object item = i.first();</div><div class="line">    <span class="keyword">while</span> (!i.isDone()) &#123;</div><div class="line">        System.out.println(i.currentItem() + <span class="string">"请买票"</span>);</div><div class="line">        i.next();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 运行结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">大鸟请买票</div><div class="line">小菜请买票</div><div class="line">行李请买票</div><div class="line">老外请买票</div><div class="line">公交内部员工请买票</div><div class="line">小偷请买票</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “看到没有, 这就是我们的优秀售票员售票—迭代器模式的整个运作模式.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 你说为什么要用具体的迭代器 ConcreteIterator 来实现抽象的 Iterator 呢? 我觉得这里不需要抽象啊, 直接访问 ConcreteIterator 不是更好吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 你是因为刚才有一个迭代器的好处你没注意, <strong>当你需要对聚集有多种方式遍历时, 可以考虑使用迭代器模式</strong>, 实际上, 售票员一定要从车头到车尾这样售票吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你意思是, 他还可以从后向前遍历?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当然是可以的, 你不妨再写一个实现从后往前具体迭代器类看看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好的.”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteIteratorDesc</span> <span class="keyword">implements</span> <span class="title">Iterator</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ConcreteAggregate aggregate;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> current = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteIteratorDesc</span><span class="params">(ConcreteAggregate aggregate)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.aggregate = aggregate;</div><div class="line">        current = aggregate.count() - <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">first</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> aggregate.getObject(aggregate.count() - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">        Object ret = <span class="keyword">null</span>;</div><div class="line">        current--;</div><div class="line">        <span class="keyword">if</span> (current &gt;= <span class="number">0</span>) &#123;</div><div class="line">            ret = aggregate.getObject(current);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> ret;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> current &lt; <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">currentItem</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> aggregate.getObject(current);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “写的不错, 这是你的客户端只要修改一个地方就可以实现反向遍历了.”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Iterator i = new ConcreteIterator(a);</span></div><div class="line">Iterator i = <span class="keyword">new</span> ConcreteIteratorDesc(a);</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 其实售票员完全可以更多的方式来遍历乘客, 比如从最高到最矮, 从最小到最老, 从最靓丽酷比到最猥琐龌龊.” 小菜已经开始头脑风暴.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “神经病, 你当时你呀.” 大鸟笑骂.</p>
+<h3 id="20-4-Java-的迭代器的实现"><a href="#20-4-Java-的迭代器的实现" class="headerlink" title="20.4 Java 的迭代器的实现"></a>20.4 Java 的迭代器的实现</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “刚才我们也说过, 实际使用当中是不需要这么麻烦的, 因为 java 框架已经为你准备好了相关的接口, 你只需要去实现就好.”<br>&nbsp;&nbsp;&nbsp;&nbsp; Iterator 接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Returns &#123;<span class="doctag">@code</span> true&#125; if the iteration has more elements.</div><div class="line">     * (In other words, returns &#123;<span class="doctag">@code</span> true&#125; if &#123;<span class="doctag">@link</span> #next&#125; would</div><div class="line">     * return an element rather than throwing an exception.)</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if the iteration has more elements</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Returns the next element in the iteration.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> the next element in the iteration</div><div class="line">     * <span class="doctag">@throws</span> NoSuchElementException if the iteration has no more elements</div><div class="line">     */</div><div class="line">    <span class="function">E <span class="title">next</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">// 省略删除等方法...</span></div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 再来看看我们熟悉的 foreach<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    List&lt;String&gt; a = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    a.add(<span class="number">0</span>, <span class="string">"大鸟"</span>);</div><div class="line">    a.add(<span class="number">1</span>, <span class="string">"小菜"</span>);</div><div class="line">    a.add(<span class="number">2</span>, <span class="string">"行李"</span>);</div><div class="line">    a.add(<span class="number">3</span>, <span class="string">"老外"</span>);</div><div class="line">    a.add(<span class="number">4</span>, <span class="string">"公交内部员工"</span>);</div><div class="line">    a.add(<span class="number">5</span>, <span class="string">"小偷"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (String s : a) &#123;</div><div class="line">        System.out.println(s + <span class="string">"请买车票"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这里用到的 foreach, 编译器其实就是做了下面的工作.”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Iterator&lt;String&gt; e = a.getIterator();</div><div class="line"></div><div class="line"><span class="keyword">while</span>(e.HasNext())&#123;</div><div class="line">	System.out.println(e.next() + <span class="string">"请买车票"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “原来, foreach 就是这两个接口实现循环遍历啊.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 尽管我们不需要显示的引用迭代器, 单系统本身还是通过迭代器来实现遍历的. 总的来说, <strong>迭代器(Iterator) 模式就是分离了集合对象的遍历行为, 抽象出一个迭代器类来负责, 这样即可以做到不暴露集合的内部结构, 又可让外部代码透明的访问集合内部的数据.</strong> 迭代器模式在访问数据, 集合, 列表等数据时, 尤其是数据库的操作时, 是非常普遍的应用, 但由于它太普遍了, 所以各种高级语言都对他进行了封装, 所以反而给人感觉他不太常用了.”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/22/composite-fresher/" rel="next" title="19.分公司=一部门 - 组合模式(Composite Pattern)">
+                <i class="fa fa-chevron-left"></i> 19.分公司=一部门 - 组合模式(Composite Pattern)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#20-1-乘车买票-不管你是谁"><span class="nav-number">1.</span> <span class="nav-text">20.1 乘车买票,不管你是谁?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-2-迭代器模式"><span class="nav-number">2.</span> <span class="nav-text">20.2 迭代器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-3-迭代器模式"><span class="nav-number">3.</span> <span class="nav-text">20.3 迭代器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-4-Java-的迭代器的实现"><span class="nav-number">4.</span> <span class="nav-text">20.4 Java 的迭代器的实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
