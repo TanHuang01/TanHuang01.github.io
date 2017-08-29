@@ -1,0 +1,952 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="22.1 凭什么你的手机我不能玩儿 时间: 5月31日20点 &amp;nbsp; 地点: 大鸟房间 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 捧着个手机, 玩儿什么?” 小菜冲进了大鸟的房门.">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="22.手机软件何时统一 - 桥接模式(Bridge Pattern)">
+<meta property="og:url" content="http://yoursite.com/2017/08/29/bridge-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="22.1 凭什么你的手机我不能玩儿 时间: 5月31日20点 &amp;nbsp; 地点: 大鸟房间 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 捧着个手机, 玩儿什么?” 小菜冲进了大鸟的房门.">
+<meta property="og:image" content="http://yoursite.com/images/bridge-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/bridge-fresher/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/bridge-fresher/pic03.png">
+<meta property="og:image" content="http://yoursite.com/images/bridge-fresher/pic04.png">
+<meta property="og:image" content="http://yoursite.com/images/bridge-fresher/pic05.png">
+<meta property="og:image" content="http://yoursite.com/images/bridge-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/bridge-fresher/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/bridge-fresher/pic04.png">
+<meta property="og:image" content="http://yoursite.com/images/bridge-fresher/pic03.png">
+<meta property="og:updated_time" content="2017-08-29T06:25:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="22.手机软件何时统一 - 桥接模式(Bridge Pattern)">
+<meta name="twitter:description" content="22.1 凭什么你的手机我不能玩儿 时间: 5月31日20点 &amp;nbsp; 地点: 大鸟房间 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 捧着个手机, 玩儿什么?” 小菜冲进了大鸟的房门.">
+<meta name="twitter:image" content="http://yoursite.com/images/bridge-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/29/bridge-fresher/"/>
+
+
+
+
+
+  <title> 22.手机软件何时统一 - 桥接模式(Bridge Pattern) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/29/bridge-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                22.手机软件何时统一 - 桥接模式(Bridge Pattern)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-29T14:07:44+08:00">
+                2017-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/29/bridge-fresher/" class="leancloud_visitors" data-flag-title="22.手机软件何时统一 - 桥接模式(Bridge Pattern)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="22-1-凭什么你的手机我不能玩儿"><a href="#22-1-凭什么你的手机我不能玩儿" class="headerlink" title="22.1 凭什么你的手机我不能玩儿"></a>22.1 凭什么你的手机我不能玩儿</h3><ul>
+<li>时间: 5月31日20点 &nbsp; 地点: 大鸟房间 &nbsp; 人物: 小菜, 大鸟</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 捧着个手机, 玩儿什么?” 小菜冲进了大鸟的房门.<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp;  “哈, 玩小游戏呢, 新买的手机, 竟然可以玩儿小时候的游戏 ‘魂斗罗’. 很久没有碰到这东西了, 感觉很爽啊.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “哦, 是吗, 连这游戏都有啊, 给我看看.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “等你死了, 你什么时候会死啊.” 小菜笑道.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “那还有段时间了, 至少半小时吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “半小时才死呀, 哦, 那我半小时之后来给你收尸.” 小菜故意提高了嗓门.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “你小子, 找死呀. 给你给你!” 大鸟笑着把手机递给了小菜, “和红白机上的一模一样, 很让人怀旧啊. 嗨, 我跟你们这种80后的小子说红白机, 不就等于对牛弹琴吗!”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “……”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 手机厂商为什么不可以学计算机呢? 由专业公司开发操作系统和应用软件, 手机商只要好好把手机硬件做好就行了.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “统一谈何容易, 谁做的才是标准呢? 而谁又不希望自己的硬件和软件成为标准, 然后一统天下. 这里有很多商业竞争的问题, 不是我们想的那么简单. 不过目前很多智能手机都在朝这个方向发展. 或许过几年, 我们手里的手机就可以实现软件完全兼容了.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “我想那个时候应该不叫手机了, 而是掌上电脑比较合适.”(Android, IOS)</p>
+<h3 id="22-2-紧耦合的程序演化"><a href="#22-2-紧耦合的程序演化" class="headerlink" title="22.2 紧耦合的程序演化."></a>22.2 紧耦合的程序演化.</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “说的有道理, 另外你有没有想过, 这里其实蕴含着两种完全不同的思维方式?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “你是说手机软硬件和 PC 软硬件?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “对的, 如果我现在有一个 N 品牌的手机, 他有一个小游戏, 我要玩儿游戏, 程序应该如何写?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “这还不简单. 先写一个此品牌的游戏类, 在用客户端调用即可.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  游戏类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// N 品牌手机中的游戏</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetNGame</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行N品牌手机的游戏"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;  客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    HandsetNGame game = <span class="keyword">new</span> HandsetNGame();</div><div class="line">    game.run();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “很好, 现在又有一个 M 品牌的手机, 也有小游戏, 客户端也可以调用, 如何做?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “恩, 我想想, 两个品牌, 都有游戏, 我觉得从面向对象的思想来说, 应该有一个父类 ‘手机品牌游戏’, 然后让N 和 M品牌的手机游戏都继承他, 这样可以实现相同的运行方式.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “小菜不错, 抽象的感觉来了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 手机游戏类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetGame</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; M 品牌手机游戏和 N 品牌手机游戏<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetMGame</span> <span class="keyword">extends</span> <span class="title">HandsetGame</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行M品牌手机的游戏"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetNGame</span> <span class="keyword">extends</span> <span class="title">HandsetGame</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行N品牌手机的游戏"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “然后, 由于手机都需要通讯录功能, 于是N品牌手机和 M 品牌都增加了通讯录功能的增删改查功能, 你如何处理?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 这就有点麻烦了, 那就意味着, 父类应该是 ‘手机品牌’, 下有 ‘手机品牌M’ 和 ‘手机品牌N’, 每个子类下各有 ‘通讯录’ 和 ‘游戏’ 子类.”</p>
+<div align="center"><br><img src="/images/bridge-fresher/pic01.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 手机类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 手机品牌</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrand</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 手机品牌N 和手机品牌M 类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 手机品牌M</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrandM</span> <span class="keyword">extends</span> <span class="title">HandsetBrand</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="comment">// 手机品牌N</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrandN</span> <span class="keyword">extends</span> <span class="title">HandsetBrand</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;  下属的各自通讯录类和游戏类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 手机品牌M 的游戏</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrandMGame</span> <span class="keyword">extends</span> <span class="title">HandsetBrandM</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行M品牌手机的游戏"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 手机品牌N 的游戏</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrandNGame</span> <span class="keyword">extends</span> <span class="title">HandsetBrandN</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行N品牌手机的游戏"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 手机品牌M 的通讯录</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrandMAddressList</span> <span class="keyword">extends</span> <span class="title">HandsetBrandM</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行N品牌手机的通讯录"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 手机品牌N 的通讯录</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrandNAddressList</span> <span class="keyword">extends</span> <span class="title">HandsetBrandN</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行N品牌手机的通讯录"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>客户端调用代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    HandsetBrand ab;</div><div class="line">    ab = <span class="keyword">new</span> HandsetBrandMAddressList();</div><div class="line">    ab.run();</div><div class="line"></div><div class="line">	ab = <span class="keyword">new</span> HandsetBrandMGame();</div><div class="line">	ab.run();</div><div class="line"></div><div class="line">	ab = <span class="keyword">new</span> HandsetBrandNAddressList();</div><div class="line">	ab.run();</div><div class="line"></div><div class="line">	ab = <span class="keyword">new</span> HandsetBrandNGame();</div><div class="line">	ab.run();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;  “哈, 这个结构应该还是可以的, 现在我问你, 如果我现在需要每个品牌都增加一个 MP3 音乐播放功能, 你如何做?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “这个? 那就在每个品牌的下面都增加一个子类.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “你觉得这两个子类差别大不大?” 大鸟追问道.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “应该是不大的, 不过没办法呀, 因为品牌不同, 增加功能就必须要这样做.” 小菜无奈的说.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “好, 那我现在又来了一家手机品牌 ‘S’, 它也有游戏, 通讯录, MP3 音乐播放功能, 你如何处理?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “啊, 那就得在增加 ‘手机品牌S’ 类和三个下属功能子类. 这好像有点麻烦了.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “你也感觉麻烦了? 如果我在增加 ‘输入法’ 功能, ‘拍照’ 功能, 在增加 ‘L品牌’, ‘X品牌’, 你的类如何写?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “啊哦,” 小才学了一声唐老鸭叫, 感慨道, “我要疯了. 要不这样, 我换一种方式.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  过了几分钟, 小菜活出了另一种结构图.</p>
+<div align="center"><br><img src="/images/bridge-fresher/pic02.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;  “你觉得这样问题就可以解决了吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “啊, “ 小菜摇了摇头, “不行, 要是增加手机功能或是增加品牌都会产生很大的影响.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “你知道问题出在哪里吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “我不知道呀,” 小菜很疑惑, “我感觉我一直在用面向对象的理论设计的, 现有一个品牌, 然后多个品牌就抽象出一个品牌抽象类, 对于每个功能, 就都集成各自的品牌. 或者, 不从品牌, 从手机软件的角度去分类, 这有什么问题吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “是呀, 就像我刚开始学会用面向对象的继承时, 感觉它集新颖又功能强大, 所以只要可用, 就都用上继承. 这就好比 ‘有了新锤子, 所有的东西看上去都是钉子’.[DPE] 但事实上, 很多情况用继承会带来麻烦. 比如, <strong>对象的继承关系是在编译时就定义好了, 所以无法在运行时改变从父类的实现. 子类的实现与他的父类有非常紧密的依赖关系, 以至于父类实现中的任何变化必然会导致子类发生变化. 当你需要复用子类时, 如果继承下来的实现不适合解决新的问题, 则父类必须重写或被其他更适合的类替换. 这种依赖关系限制了灵活性并最终限制了复用性[DP].</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 我这样的继承结构, 如果不断的增加新的品牌或新功能, 类会越来越多的.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “在面向对象的设计中, 我们还有一个很重要的设计原则, 那就是合成/聚合复用原则. 即优先使用对象的合成/聚合, 而不是类继承.”</p>
+<h3 id="22-3-合成-聚合复用原则"><a href="#22-3-合成-聚合复用原则" class="headerlink" title="22.3 合成/聚合复用原则"></a>22.3 合成/聚合复用原则</h3><blockquote>
+<p><strong>合成/聚合复用原则(CARP Composition Aggregation Reuse Principle), </strong> 尽量使用合成/聚合, 尽量不要使用类继承[J&amp;DP].</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 合成(Composition, 也有翻译成组合) 和聚合(Aggregation) 都死关联的特殊种类. <strong>聚合便是一种弱的 ‘拥有’ 关系, 体现的是A对象可以包含B对象, 但B 对象不是 A对象的一部分; 合成则是一种强的 ‘拥有’ 关系, 体现了严格的部分和整体的关系, 部分和整体的生命周期一样[DPE].</strong> 比方说, 打压有两个翅膀, 翅膀与大雁是部分和整体的关系, 并且它们的生命周期是相同的, 于是大雁和翅膀就是合成关系. 而大雁是群居动物, 所以每只大雁都是属于一个雁群, 一个雁群局可以有多只大雁, 所以大雁和雁群是聚合关系.</p>
+<div align="center"><br><img src="/images/bridge-fresher/pic03.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;  “合成/聚合复用的原则好处是, <strong>优先使用对象的合成/聚合将有助于你保持每个类被封装, 并被集中在单个任务上. 这样类和类的继承层级会保持在较小的规模, 并且不太可能增长成为不可控制的庞然大物[DP].</strong> 就刚才的例子, 你需要学会用对象的职责, 而不是结构来考虑问题. 其实答案就在之前我们聊到的手机与PC 电脑的差别上.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “哦, 我想想看, 手机是不同的品牌公司, 各自做自己的软件, 就像我现在设计的一样, 而PC 确实硬件厂商做硬件, 软件厂商做软件, 组合起来才是可以用的机器. 你是这个意思吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “很好, 我很喜欢你提到 ‘组合’ 这个词, 实际上, 像 ‘游戏’, ‘通讯录’, ‘MP3 音乐播放器’ 这些功能都是软件, 如果我们可以让其分离与手机的耦合, 那么就可以大大减少面对新需求时改动过大的不合理情况.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “好的好的, 我想想怎么弄, 你的意思其实就是应该有个 ‘手机品牌’ 抽象类和 ‘手机软件’ 抽象类, 让不同的品牌和功能都分别继承与他们, 这样增加减新的品牌或功能都不用影响其他类了.”</p>
+<div align="center"><br><img src="/images/bridge-fresher/pic04.png" width="550" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;  “还剩个问题, 手机品牌和手机软件之间的关系呢?” 大鸟问道.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “我觉得应该是手机品牌包含有手机软件, 单软件并不是品牌的一部分, 所以他们之间应该是聚合关系.”</p>
+<div align="center"><br><img src="/images/bridge-fresher/pic05.png" width="550" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “说得好. 来试着写写看吧.”</p>
+<h3 id="22-4-松耦合的程序"><a href="#22-4-松耦合的程序" class="headerlink" title="22.4 松耦合的程序"></a>22.4 松耦合的程序</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 小菜经过半小时, 改动代码如下.<br>&nbsp;&nbsp;&nbsp;&nbsp;  手机软件抽象类.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetSoft</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 游戏, 通讯录等具体类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 手机游戏</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetGame</span> <span class="keyword">extends</span> <span class="title">HandsetSoft</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行手机游戏"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 手机通讯录</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetAddressList</span> <span class="keyword">extends</span> <span class="title">HandsetSoft</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行手机通讯录"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 手机品牌类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 手机品牌</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrand</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> HandsetSoft soft;</div><div class="line"></div><div class="line">    <span class="comment">// 设置手机软件</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HandsetBrand</span><span class="params">(HandsetSoft soft)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.soft = soft;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 品牌N 品牌M具体类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 手机品牌N</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrandN</span> <span class="keyword">extends</span> <span class="title">HandsetBrand</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HandsetBrandN</span><span class="params">(HandsetSoft soft)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(soft);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        soft.run();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 手机品牌M</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrandM</span> <span class="keyword">extends</span> <span class="title">HandsetBrand</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HandsetBrandM</span><span class="params">(HandsetSoft soft)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(soft);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        soft.run();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端调用代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    HandsetBrand ab;</div><div class="line">    ab = <span class="keyword">new</span> HandsetBrandN(<span class="keyword">new</span> HandsetGame());</div><div class="line">    ab.run();</div><div class="line"></div><div class="line">    ab = <span class="keyword">new</span> HandsetBrandM(<span class="keyword">new</span> HandsetAddressList());</div><div class="line">    ab.run();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “感觉如何? 是不是好多了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 现在如果要增加一个功能, 比如MP3 音乐播放功能, 那么只需要增加着各类就行了. 不会影响其他任何类. 类的个数增加也只是一个.”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetMP3</span> <span class="keyword">extends</span> <span class="title">HandsetSoft</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"运行手机MP3"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “如果是要增加S 品牌, 只需要增加一个品牌的子类就可以了. 个数也是一个, 不会影响其他类的改动.”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandsetBrandS</span> <span class="keyword">extends</span> <span class="title">HandsetBrand</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HandsetBrandS</span><span class="params">(HandsetSoft soft)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(soft);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        soft.run();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;  “这显然也是符合了我们之前的一个什么设计原则?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “开放—封闭原则. 这样的设计显然不会修改原来的代码, 而只是扩展类就行了. 但今天我的感受最深的是合成/聚合复用原则, 也就是优先使用对象的合成或聚合, 而不是类继承. 聚合的魅力无限呀. 相比, 继承的确很容易造成不必要的麻烦.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “盲目的使用继承就会造成麻烦, 而其本质原因主要是什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我想应该是, 继承是一种强耦合的结构. 父类变, 子类就必须要变.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “OK, 所以我们再用继承时, 一定是要在 ‘is-a’ 的关系是在考虑使用, 而不是任何时候都去使用.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 今天这个例子是不是一个设计模式?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 当然, 你看看刚才画得那幅图, 两个抽象类之间有什么, 像什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “有一个聚合线, 像一座桥.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 说得好, 这个设计模式就叫做 ‘桥接模式’”.</p>
+<h3 id="22-5-桥接模式"><a href="#22-5-桥接模式" class="headerlink" title="22.5 桥接模式"></a>22.5 桥接模式</h3><blockquote>
+<p><strong>桥接模式(Bridge),</strong> 将抽象部分与它的实现部分分离, 是他们都可以独立的变化.[DP].</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这里需要解释一下, <strong>什么叫抽象与它的实现分离, 这并不是说, 让抽象类与其派生类分离, 因为这没有任何意义. 实现指的是抽象类和他的派生类用来实现自己的对象.</strong> 就刚才的例子而言, 就是让 ‘手机’ 既可以按照品牌来分类, 也可以按照功能来分类.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 按品牌分类实现结构图</p>
+<div align="center"><br><img src="/images/bridge-fresher/pic01.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 按软件分类实现结构图</p>
+<div align="center"><br><img src="/images/bridge-fresher/pic02.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “由于实现的方式有多种, 桥接模式的和兴意图就是把这些实现独立出来, 让他们各自的变化. 这就使得每种实现的变化不会影响其他的实现, 从而达到应对变化的目的.”</p>
+<div align="center"><br><img src="/images/bridge-fresher/pic04.png" width="500" height="100"><br></div>
+
+<h3 id="22-6-桥接模式的基本代码"><a href="#22-6-桥接模式的基本代码" class="headerlink" title="22.6 桥接模式的基本代码"></a>22.6 桥接模式的基本代码</h3><div align="center"><br><img src="/images/bridge-fresher/pic03.png" width="550" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Implementor 类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Implementor</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ConcreteImplementorA 和 ConcreteImplementorB 等派生类.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteImplementorA</span> <span class="keyword">extends</span> <span class="title">Implementor</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"具体实现A的方法执行"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteImplementorB</span> <span class="keyword">extends</span> <span class="title">Implementor</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"具体实现B的方法执行"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Abstraction 类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Abstraction</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> Implementor implementor;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setImplementor</span><span class="params">(Implementor implementor)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.implementor = implementor;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        implementor.operation();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; RefinedAbstraction 类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RefinedAbstraction</span> <span class="keyword">extends</span> <span class="title">Abstraction</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        implementor.operation();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Abstraction ab = <span class="keyword">new</span> RefinedAbstraction();</div><div class="line"></div><div class="line">    ab.setImplementor(<span class="keyword">new</span> ConcreteImplementorA());</div><div class="line">    ab.operation();</div><div class="line"></div><div class="line">    ab.setImplementor(<span class="keyword">new</span> ConcreteImplementorB());</div><div class="line">    ab.operation();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “我觉得桥接模式所说的 ‘将抽象部分与他的实现部分分离’, 还是不好理解, 我的理解就是<strong>实现系统可能有多角度分类, 每一种分类都有可能变化, 那么就把这种多角度分离出来让他们独立变化, 减少他们之间的耦合.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 小蔡说的和GoF 说的不就是一回事吗! 只不过你说得更通俗, 而人家却更简练而已. 也就是说, 在发现我们需要多角度去分类实现对象, 而只用继承会造成大量的类增加, 不能满足开放封闭原则时, 就应该考虑用桥接模式了.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “哈, 我感觉<strong>只要深入理解了设计原则, 很多设计模式其实就是原则的应用而已, 或许在不知不觉中就在使用设计模式了.</strong>“</p>
+<h3 id="22-7-我要开发’好’游戏"><a href="#22-7-我要开发’好’游戏" class="headerlink" title="22.7 我要开发’好’游戏"></a>22.7 我要开发’好’游戏</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “说得好, 好了, 你该干嘛去干嘛去, 我要继续玩儿游戏了.” 打鸟的注意回到了手机上.<br>&nbsp;&nbsp;&nbsp;&nbsp; “……”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/27/singleton-fresher/" rel="next" title="21.有些类也需要计划生育 - 单例模式 (Singleton pattern)">
+                <i class="fa fa-chevron-left"></i> 21.有些类也需要计划生育 - 单例模式 (Singleton pattern)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#22-1-凭什么你的手机我不能玩儿"><span class="nav-number">1.</span> <span class="nav-text">22.1 凭什么你的手机我不能玩儿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-2-紧耦合的程序演化"><span class="nav-number">2.</span> <span class="nav-text">22.2 紧耦合的程序演化.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-3-合成-聚合复用原则"><span class="nav-number">3.</span> <span class="nav-text">22.3 合成/聚合复用原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-4-松耦合的程序"><span class="nav-number">4.</span> <span class="nav-text">22.4 松耦合的程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-5-桥接模式"><span class="nav-number">5.</span> <span class="nav-text">22.5 桥接模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-6-桥接模式的基本代码"><span class="nav-number">6.</span> <span class="nav-text">22.6 桥接模式的基本代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-7-我要开发’好’游戏"><span class="nav-number">7.</span> <span class="nav-text">22.7 我要开发’好’游戏</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

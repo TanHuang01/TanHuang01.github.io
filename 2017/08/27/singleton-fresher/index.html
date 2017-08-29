@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="Congspark">
 <meta property="og:description" content="21.1 类也需要计划生育 时间: 5月29日20点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 今天我在公司写一个 MDI 窗体程序, 当中有一个是 ‘工具箱’ 的窗体, 问题就是, 我希望工具箱要目不出现, 出现也只出现一个, 可实际上却是我每次点击菜单, 实例化 ‘工具箱’, 它就会出来一个, 这">
 <meta property="og:image" content="http://yoursite.com/images/singleton-fresher/pic01.png">
-<meta property="og:updated_time" content="2017-08-27T01:14:33.000Z">
+<meta property="og:updated_time" content="2017-08-27T01:31:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="21.有些类也需要计划生育 - 单例模式 (Singleton pattern)">
 <meta name="twitter:description" content="21.1 类也需要计划生育 时间: 5月29日20点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 今天我在公司写一个 MDI 窗体程序, 当中有一个是 ‘工具箱’ 的窗体, 问题就是, 我希望工具箱要目不出现, 出现也只出现一个, 可实际上却是我每次点击菜单, 实例化 ‘工具箱’, 它就会出来一个, 这">
@@ -419,7 +419,7 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp; “现在这样, 我们不用让线程每次都加锁, 而是在实例未被创建的时候在加锁处理. 同时也能保证多线程的安全. 这种做法被称为 Double-Check Locking (双重锁定).”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我有问题, 我在外面已经判断了 instance 实例是否存在, 为什么在 synchronize 里还需要做一次 instance 实例是否存在的判断呢?”</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">	...</div><div class="line">    <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;  <span class="comment">// 这个点</span></div><div class="line">        <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">            <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123; <span class="comment">// 这个点</span></div><div class="line">                instance = <span class="keyword">new</span> Singleton();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> instance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; “那是因为你没有仔细分析. 对于instance 存在的情况, 就直接返回, 这没有问题. 当 instance 为 null, 并且同时有两个线程调用 <code>getInstance()</code> 方法是, 他们都可以通过第一重 <code>(instance == null)</code> 的判断. 然后又与 synchronize 机制, 这个两个线程只有一个进入, 另一个在外排队等候, 必须要其中一个进入并出来后, 另一个才能进入. 而此时如果没有了第二重的  <code>(instance == null)</code>判断, 则第一个线程创建了实例, 而第二个线程还是可以继续在创建新的实例, 这就没有达到单例的目的. 明白了吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我明白了, 原来有这么麻烦呀.”</p>
-<h3 id="21-7-静态初始化"><a href="#21-7-静态初始化" class="headerlink" title="21.7 静态初始化"></a>21.7 静态初始化</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “其实在实际应用当中,双重锁定模式已经可以满足需求了,  但是在高并发环境下, 双重锁定模式也是可能出问题的, 更推荐一种静态初始化的方式. (也被称为 Initialization Demand Holder | IoDH).”</p>
+<h3 id="21-7-静态初始化"><a href="#21-7-静态初始化" class="headerlink" title="21.7 静态初始化"></a>21.7 静态初始化</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “其实在实际应用当中,双重锁定模式已经可以满足需求了,  但是在高并发环境下, 双重锁定模式也是可能出问题的(JDK1.5 以前), 更推荐一种静态初始化的方式. (也被称为 Initialization Demand Holder | IoDH).”</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123; &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 让静态内部类来持有这个对象.</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">HolderClass</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> HolderClass.instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; “由于静态单例对象没有作为 Singleton 的成员变量直接实例化，因此类加载时不会实例化Singleton，第一次调用 <code>getInstance()</code> 时将加载内部类HolderClass，在该内部类中定义了一个static类型的变量instance，此时会首先初始化这个成员变量，由Java虚拟机来保证其线程安全性，确保该成员变量只能初始化一次。由于 <code>getInstance()</code> 方法没有任何线程锁定，因此其性能不会造成任何影响”<br>&nbsp;&nbsp;&nbsp;&nbsp; “通过使用IoDH，我们既可以实现延迟加载，又可以保证线程安全，不影响系统性能，不失为一种最好的Java语言单例模式实现方式, 只不过对于不同的平台会有限制, 在C# 就是另一种语法了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “没想到小小的单例模式也有这么多需要考虑的问题.” 小菜感慨道.</p>
 
@@ -495,6 +495,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/08/29/bridge-fresher/" rel="prev" title="22.手机软件何时统一 - 桥接模式(Bridge Pattern)">
+                22.手机软件何时统一 - 桥接模式(Bridge Pattern) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -565,7 +569,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -576,7 +580,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
