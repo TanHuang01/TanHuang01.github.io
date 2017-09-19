@@ -282,7 +282,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/14/work-log-2017/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/14/work-log-2017-9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shao Cheng">
@@ -304,8 +304,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/09/14/work-log-2017/" itemprop="url">
-                  工作日志(2017)
+                <a class="post-title-link" href="/2017/09/14/work-log-2017-9/" itemprop="url">
+                  工作日志(2017-9)
                 </a>
               
             
@@ -361,7 +361,7 @@
 
           
           
-             <span id="/2017/09/14/work-log-2017/" class="leancloud_visitors" data-flag-title="工作日志(2017)">
+             <span id="/2017/09/14/work-log-2017-9/" class="leancloud_visitors" data-flag-title="工作日志(2017-9)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -391,24 +391,14 @@
 
       
         
-          
-            <h3 id="September"><a href="#September" class="headerlink" title="September"></a>September</h3><h4 id="11th"><a href="#11th" class="headerlink" title="11th"></a>11th</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 一个流程图的绘制工具, 在线版本的, 可以绘制简单的流程图, 来自大兵的分享. <a href="https://www.processon.com/" target="_blank" rel="external">工具链接</a></p>
-<h4 id="13th"><a href="#13th" class="headerlink" title="13th"></a>13th</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; <code>ConstraintLayout</code> 的是用方式.</p>
-<ul>
-<li>与其他控件的约束(top, bottom, left, right, <strong>baseline</strong> )</li>
-<li>添加 GuideLine, 用百分比的方式.</li>
-<li>baseline 约束仅仅适用于有基线的控件, 部分控件没有基线 (例如: <code>spinner</code>, <code>ProgressBar</code> 等)</li>
-</ul>
-<p>&nbsp;&nbsp;&nbsp;&nbsp; <code>Switch</code> 控件的开关位置, 明明是 ‘左开右关’, 但是 UI 一定要 ‘右开左关’, 还好有一个属性 <code>LayoutDirect=&quot;rtl&quot;</code> 直接切换绘制方向, 搞定. New skill get~</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp; <code>ProgressBar</code> 自定义布局样式的 <code>.xml</code> 文件中, 有一个 <code>&lt;clip&gt;</code> 标签, 用于标注前景色, (如果不加这个标签, 那么通过 <code>android:progressDrawable</code> 设置的进度条的颜色会全部遮背景色, 也就是相当于 <code>setValue(getMax())</code> 的显示状态.</p>
-<h4 id="15th"><a href="#15th" class="headerlink" title="15th"></a>15th</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; <code>MVVM</code> 在使用过程中出现一个bug:<br>&nbsp;&nbsp;&nbsp;&nbsp; 在 <code>setValue(T value)</code> 之后, 不更新 <code>observer</code> 的情况. debug 了一下源码, 发现有一个 <code>mDispatchingValue</code> 布尔类型的变量, 一直为真, 导致无法通知的情况. 源码如下: (<code>setValue(T value)</code> 会间接的调用到 <code>dispatchingValue(..)</code> 方法)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dispatchingValue</span><span class="params">(@Nullable LifecycleBoundObserver initiator)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mDispatchingValue) &#123;</div><div class="line">        mDispatchInvalidated = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">return</span>;     <span class="comment">// 直接跳出循环.不再往下进行.</span></div><div class="line">    &#125;</div><div class="line">    mDispatchingValue = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">do</span> &#123;</div><div class="line">        mDispatchInvalidated = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">if</span> (initiator != <span class="keyword">null</span>) &#123;</div><div class="line">            considerNotify(initiator);</div><div class="line">            initiator = <span class="keyword">null</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">for</span> (Iterator&lt;Map.Entry&lt;Observer&lt;T&gt;, LifecycleBoundObserver&gt;&gt; iterator =</div><div class="line">                    mObservers.iteratorWithAdditions(); iterator.hasNext(); ) &#123;</div><div class="line">                considerNotify(iterator.next().getValue());</div><div class="line">                <span class="keyword">if</span> (mDispatchInvalidated) &#123;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">while</span> (mDispatchInvalidated);</div><div class="line">    mDispatchingValue = <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>&nbsp;&nbsp;&nbsp;&nbsp; 把 <code>setValue(T value)</code> 的调用放在 <code>onViewCreated()</code> 中, 会出现这种情况. <code>mDispathingValue</code> 是一个私有变量, 应该只之前 <code>setValue(T value)</code> 方法被调用了一次, 再次调用出现直接返回的情况, 至于是何时何处调用, 目前上不可知.</p>
-<div align="center"><br><img src="/images/hello-world/test.png" width="100" height="100" title="test png pic"><br></div>
-
-<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
-
-          
+          <h3 id="September"><a href="#September" class="headerlink" title="September"></a>September</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 开始自己的工作日志, 记录点滴吧, 不知道积累到什么样的程度.</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/14/work-log-2017-9/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
