@@ -108,7 +108,7 @@
 <meta property="og:description" content="26.1 项目多也别傻做! 时间: 7月9日21点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 最近一直在忙些什么呢? 回家就自个开始忙开了.” 大鸟问道.">
 <meta property="og:image" content="http://yoursite.com/images/fly-weight-fresher/pic01.png">
 <meta property="og:image" content="http://yoursite.com/images/fly-weight-fresher/pic02.png">
-<meta property="og:updated_time" content="2017-09-30T01:29:28.000Z">
+<meta property="og:updated_time" content="2017-09-30T06:39:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="26.项目多也别傻做 - 享元模式(Fly-Weight)">
 <meta name="twitter:description" content="26.1 项目多也别傻做! 时间: 7月9日21点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 最近一直在忙些什么呢? 回家就自个开始忙开了.” 大鸟问道.">
@@ -430,7 +430,7 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 结果显示<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">网站分类: 产品展示</div><div class="line">网站分类: 产品展示</div><div class="line">网站分类: 产品展示</div><div class="line">网站分类: 博客</div><div class="line">网站分类: 博客</div><div class="line">网站分类: 博客</div></pre></td></tr></table></figure></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; “这样写基本上算是实现了享元模式共享对象的目的, 也就是说, 不管几个网站, 只要是产品展示, 都是一样的, 只要是 ‘博客’ 都是相通的, 但是这样也是有问题的, 你给企业建网站不是一家企业, 他们的数据会有不同, 所以他们至少应该有不同的账号, 你怎么办.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 对的, 我这样写没有体现对象间的不同, 只是体现了他们的共享部分.”</p>
 <h3 id="26-4-内部状态与外部状态"><a href="#26-4-内部状态与外部状态" class="headerlink" title="26.4 内部状态与外部状态"></a>26.4 内部状态与外部状态</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “在享元对象内部, 并且不会随着环境改变而改变的共享部分, 可以称为是享元对象的内部状态, 而随着环境改变而改变的, 不可以共享的状态就是外部状态了. 事实上, <strong>享元模式可以避免大量的非常相似的开销. 在程序设计中, 有时需要生成大量细颗粒度的类实例来表示数据. 如果发现这几个实例除了几个参数外基本全是相同的, 有时候就能大幅度较少需要实例化的类的数量. 如果能把这些参数移到类实例外面, 在方法调用时将他们传递进来, 就可以通过共享大幅度减少实例的数目.</strong> 也就是说, 享元模式 Flyweight 执行时所需要的状态是是有内部的也可能是有外部的, 内部状态存储于 ConcreteFlyweight 对象之中, 而外部状态则应当考虑有客户端对象存储或计算, 当调用 Flyweight 对象操作时, 将该状态传递给他.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那你的意思是, 账号是外部状态, 应该有专门的类来处理.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “来, 你试试看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 大约20分钟后, 小才写出第三版代码.</p>
-<div align="center"><br><img src="/images/fly-weight-fresher/pic02.png" width="400" height="100"><br></div>
+<div align="center"><br><img src="/images/fly-weight-fresher/pic02.png" width="500" height="100"><br></div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 用户类, 用于网站的客户账号, 是 ‘网站类’ 的外部状态.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 网站抽象类.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSite</span> </span>&#123;</div><div class="line">    <span class="comment">// '使用' 方法需要传递 '用户' 对象</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">use</span><span class="params">(User user)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -517,6 +517,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/09/30/interpreter-fresher/" rel="prev" title="27.其实你不懂老板的心 - 解释器模式(Interpreter)">
+                27.其实你不懂老板的心 - 解释器模式(Interpreter) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -587,7 +591,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
