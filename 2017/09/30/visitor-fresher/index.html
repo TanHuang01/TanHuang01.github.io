@@ -1,0 +1,925 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern,fresher," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="28.1 男人和女人 时间: 7月18日21点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 小菜, 大鸟.  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “…..”">
+<meta name="keywords" content="Design Pattern,fresher">
+<meta property="og:type" content="article">
+<meta property="og:title" content="28.男人和女人 - 访问者模式(visitor)">
+<meta property="og:url" content="http://yoursite.com/2017/09/30/visitor-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="28.1 男人和女人 时间: 7月18日21点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 小菜, 大鸟.  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “…..”">
+<meta property="og:image" content="http://yoursite.com/images/visitor-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/visitor-fresher/pic02.png">
+<meta property="og:updated_time" content="2017-09-30T07:43:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="28.男人和女人 - 访问者模式(visitor)">
+<meta name="twitter:description" content="28.1 男人和女人 时间: 7月18日21点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 小菜, 大鸟.  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “…..”">
+<meta name="twitter:image" content="http://yoursite.com/images/visitor-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/30/visitor-fresher/"/>
+
+
+
+
+
+  <title> 28.男人和女人 - 访问者模式(visitor) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/30/visitor-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                28.男人和女人 - 访问者模式(visitor)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-30T15:33:00+08:00">
+                2017-09-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/09/30/visitor-fresher/" class="leancloud_visitors" data-flag-title="28.男人和女人 - 访问者模式(visitor)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="28-1-男人和女人"><a href="#28-1-男人和女人" class="headerlink" title="28.1 男人和女人"></a>28.1 男人和女人</h3><ul>
+<li>时间: 7月18日21点 &nbsp; 地点: 小菜大鸟住所的客厅 &nbsp; 人物: 小菜, 大鸟.</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “…..”</p>
+<a id="more"></a>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 那人这本书的内容要比封面更吸引人, 女人这本书的封面通常比内容更吸引人.<br>&nbsp;&nbsp;&nbsp;&nbsp; “….”<br>&nbsp;&nbsp;&nbsp;&nbsp; “行了, 行了, 没有事业的成功, 你找出再多的男女差异也找不到女朋友的. 还是好好学习吧.” 大鸟打断了小蔡说话, “今天我们需要了最后一个模式, 叫做访问者模式.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 那我们上课吧.” 小才不得不停止.<br>&nbsp;&nbsp;&nbsp;&nbsp; “访问者讲的是表示作用于某对象结构中的各元素的操作. 他是你可以在不改变个元素的类的前提下定义左右与这些元素的新操作.” 大鸟开始如夫子般念叨起来.<br>&nbsp;&nbsp;&nbsp;&nbsp; “….”<br>&nbsp;&nbsp;&nbsp;&nbsp; “先不谈模式, 你能不能把你刚才的那些对比, 用控制台的程序打印出来, 打到屏幕上?” 大鸟避而不答.</p>
+<h3 id="28-2-最简单的编程实现"><a href="#28-2-最简单的编程实现" class="headerlink" title="28.2 最简单的编程实现"></a>28.2 最简单的编程实现</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 十分钟后, 小菜的程序就出来了.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    System.out.println(<span class="string">"男人成功时, 背后多半有一个伟大的女人."</span>);</div><div class="line">    System.out.println(<span class="string">"女人成功时, 背后多半有一个不成功的男人."</span>);</div><div class="line">    System.out.println(<span class="string">"男人失败时, 闷头喝酒, 谁也不用劝."</span>);</div><div class="line">    System.out.println(<span class="string">"女人失败时, 两眼泪汪汪, 事业劝不了"</span>);</div><div class="line">    System.out.println(<span class="string">"男人恋爱时, 凡是不懂也要装懂."</span>);</div><div class="line">    System.out.println(<span class="string">"女士恋爱时, 遇事懂也装作不懂."</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “小菜呀, 这样的代码你也拿得出手.” 大鸟讥讽地说道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “你不是要把那些对比打印在屏幕上吗? 我做到了呀.” 小菜理直气壮.<br>&nbsp;&nbsp;&nbsp;&nbsp; “但这跟打印 ‘hello world’ 有什么区别, 难道你是第一天学习编程?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那你要我怎么写才可以?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你至少要分析一下, 这里面有没有什么类可以提炼, 有没有什么方法可以共享什么的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 你是这个意思, 早说呀. 这里面至少男人和女人应该是两个不同的类, 男人和女人应该继承人这样一个抽象类. 所谓成功, 失败, 恋爱是指一个人的属性, 一个状态. 成功是如何如何, 失败时如何如何不过是一种反应. 好了, 我写的出来了.” 小才开始得意道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “这还有点面向对象的意思. 快点写吧.”</p>
+<h3 id="28-3-简单的面向对象实现"><a href="#28-3-简单的面向对象实现" class="headerlink" title="28.3 简单的面向对象实现."></a>28.3 简单的面向对象实现.</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 半小时后, 小菜写出了第二版的程序.<br>&nbsp;&nbsp;&nbsp;&nbsp; “人” 类, 是 “男人” 和 “女人” 类的抽象类.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> String action;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAction</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> action;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAction</span><span class="params">(String action)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.action = action;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 得到结论或反映</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">getConclusion</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “男人” 类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="comment">// 得到结论或反应</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getConclusion</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (action == <span class="string">"成功"</span>) &#123;</div><div class="line">            System.out.println(<span class="string">"男人成功时, 背后多半有一个伟大的女人."</span>);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (action == <span class="string">"失败"</span>) &#123;</div><div class="line">            System.out.println(<span class="string">"男人失败时, 闷头喝酒, 谁也不用劝."</span>);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (action == <span class="string">"恋爱"</span>) &#123;</div><div class="line">            System.out.println(<span class="string">"男人恋爱时, 凡是不懂也要装懂."</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “女人” 类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="comment">// 得到结论或反应</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getConclusion</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (action == <span class="string">"成功"</span>) &#123;</div><div class="line">            System.out.println(<span class="string">"女人成功时, 背后多半有一个不成功的男人."</span>);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (action == <span class="string">"失败"</span>) &#123;</div><div class="line">            System.out.println(<span class="string">"女人失败时, 两眼泪汪汪, 事业劝不了"</span>);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (action == <span class="string">"恋爱"</span>) &#123;</div><div class="line">            System.out.println(<span class="string">"女士恋爱时, 遇事懂也装作不懂."</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    List&lt;Person&gt; persons = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    Person man1 = <span class="keyword">new</span> Man();</div><div class="line">    man1.setAction(<span class="string">"成功"</span>);</div><div class="line">    persons.add(man1);</div><div class="line">    Person woman1 = <span class="keyword">new</span> Woman();</div><div class="line">    woman1.setAction(<span class="string">"成功"</span>);</div><div class="line">    persons.add(woman1);</div><div class="line"></div><div class="line">    Person man2 = <span class="keyword">new</span> Man();</div><div class="line">    man2.setAction(<span class="string">"失败"</span>);</div><div class="line">    persons.add(man2);</div><div class="line">    Person woman2 = <span class="keyword">new</span> Woman();</div><div class="line">    woman2.setAction(<span class="string">"失败"</span>);</div><div class="line">    persons.add(woman2);</div><div class="line"></div><div class="line">    Person man3 = <span class="keyword">new</span> Man();</div><div class="line">    man3.setAction(<span class="string">"恋爱"</span>);</div><div class="line">    persons.add(man3);</div><div class="line">    Person woman3 = <span class="keyword">new</span> Woman();</div><div class="line">    woman3.setAction(<span class="string">"恋爱"</span>);</div><div class="line">    persons.add(woman3);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (Person person : persons) &#123;</div><div class="line">        person.getConclusion();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 结果显示.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">男人成功时, 背后多半有一个伟大的女人.</div><div class="line">女人成功时, 背后多半有一个不成功的男人.</div><div class="line">男人失败时, 闷头喝酒, 谁也不用劝.</div><div class="line">女人失败时, 两眼泪汪汪, 事业劝不了</div><div class="line">男人恋爱时, 凡是不懂也要装懂.</div><div class="line">女士恋爱时, 遇事懂也装作不懂.</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 现在算是面向对象的编程了吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “粗略看, 应该算是, 你不觉得你在 ‘男人’ 类与 ‘女人’ 类中的那些 if…else… 语句很碍眼吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “不这样不行啊, 反正也不多.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “如果我现在要增加一个 ‘结婚’ 的状态, 你需要改什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那这两个类都需要增加判断分支了.” 小菜无奈的说, “你说的意思我知道, 可是我真没有办法去处理这些分支, 我也想过, 把这些状态写成类, 可是哪有如何处理呢? 没办法.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 办法总是有, 只不过麻烦些.”</p>
+<h3 id="28-4-用了模式的实现"><a href="#28-4-用了模式的实现" class="headerlink" title="28.4 用了模式的实现"></a>28.4 用了模式的实现</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 大鸟帮助小菜活出了结构图并写出了代码.</p>
+<div align="center"><br><img src="/images/visitor-fresher/pic01.png" width="600" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 状态的抽象类和人的抽象类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Action</span> </span>&#123;</div><div class="line">    <span class="comment">// 得到男人的结论或反应</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">getManConclusion</span><span class="params">(Man ConcreteElementA)</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">// 得到女人的结论或反应</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">getWomanConclusion</span><span class="params">(Woman concreteElementB)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="comment">// 接受</span></div><div class="line">    <span class="comment">// 他是用来获得 '状态' 对象的.</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Action visitor)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这里的关键就在于只分为男人和女人, 这个性别分类是很稳定的, 所以可以在状态类中, 增加 ‘男人反应’ 和 ‘女人反应’ 这两个方法, 方法的个数也是很稳定的, 不会容易放生变化. 而 ‘人’ 抽象类中有一个方法 ‘接受’, 它是用来获得 ‘状态’ 对象的. 每一种状态都继承 ‘状态’ 抽象类, 事项具体两个反应方法.”</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 具体 ‘状态’ 类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 成功</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Success</span> <span class="keyword">extends</span> <span class="title">Action</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getManConclusion</span><span class="params">(Man concreteElementA)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementA.getClass().getSimpleName() + getClass().getSimpleName() +</div><div class="line">                <span class="string">"时, 背后多半有一个伟大的女人."</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getWomanConclusion</span><span class="params">(Woman concreteElementB)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementB.getClass().getSimpleName() + getClass().getSimpleName() +</div><div class="line">                <span class="string">"时, 背后多半有一个不成功的男人."</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Failing</span> <span class="keyword">extends</span> <span class="title">Action</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getManConclusion</span><span class="params">(Man concreteElementA)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementA.getClass().getSimpleName() + getClass().getSimpleName() +</div><div class="line">                <span class="string">"时, 闷头喝酒, 谁也不用劝."</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getWomanConclusion</span><span class="params">(Woman concreteElementB)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementB.getClass().getSimpleName() + getClass().getSimpleName() +</div><div class="line">                <span class="string">"时, 两眼泪汪汪, 事业劝不了"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 恋爱</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Amativeness</span> <span class="keyword">extends</span> <span class="title">Action</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getManConclusion</span><span class="params">(Man concreteElementA)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementA.getClass().getSimpleName() + getClass().getSimpleName() +</div><div class="line">                <span class="string">"时, 凡是不懂也要装懂."</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getWomanConclusion</span><span class="params">(Woman concreteElementB)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementB.getClass().getSimpleName() + getClass().getSimpleName() +</div><div class="line">                <span class="string">"时, 遇事懂也装作不懂."</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 男人和女人类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 男人</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Action visitor)</span> </span>&#123;</div><div class="line">        <span class="comment">// 首先在客户程序中将具体状态作为参数传递给 '男人' 类</span></div><div class="line">        <span class="comment">// 完成一次分派, 然后'男人'类, 调用作为参数的'具体状态'</span></div><div class="line">        <span class="comment">// 中的方法'男人反应', 同时将自己(this)作为参数传递进去.</span></div><div class="line">        <span class="comment">// 这边完成了第二次分派.</span></div><div class="line">        visitor.getManConclusion(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 女人</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Action visitor)</span> </span>&#123;</div><div class="line">        visitor.getWomanConclusion(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这里需要提一下当中用到一种双分派的技术, 首先在客户程序中将具体状态作为参数传递给 ‘男人’ 类完成一次分派, 然后 ‘男人’ 类调用作为参数的 ‘具体状态’ 中的方法 ‘男人反应’, 同时将自己(this)作为参数传递进去. 这边完成了第二次分派. 双分派以为着得到执行的操作决定于请求的种类和两个接受者的类型. ‘接受’ 方法就是一个双分派的操作, 他得到执行的操作不仅决定于 ‘状态’ 类的具体状态, 还决定于他访问的 ‘人’ 的类别.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 对象结构类, 由于总是需要 ‘男人’ 与 ‘女人’ 在不同状态的对比, 所以我们需要一个 ‘对象结构’ 类类针对不同的 ‘状态’ 遍历 ‘男人’ 与 ‘女人’, 得到不同的反应.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectStructure</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> List&lt;Person&gt; elements = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="comment">// 增加</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Person element)</span> </span>&#123;</div><div class="line">        elements.add(element);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 移除</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detach</span><span class="params">(Person element)</span> </span>&#123;</div><div class="line">        elements.remove(element);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 查看显示</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">(Action visitor)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Person e : elements) &#123;</div><div class="line">            e.accept(visitor);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    ObjectStructure o = <span class="keyword">new</span> ObjectStructure();</div><div class="line">    o.attach(<span class="keyword">new</span> Man());</div><div class="line">    o.attach(<span class="keyword">new</span> Woman());</div><div class="line"></div><div class="line">    <span class="comment">// 成功时的反应</span></div><div class="line">    Success v1 = <span class="keyword">new</span> Success();</div><div class="line">    o.display(v1);</div><div class="line"></div><div class="line">    <span class="comment">// 失败时的反应</span></div><div class="line">    Failing v2 = <span class="keyword">new</span> Failing();</div><div class="line">    o.display(v2);</div><div class="line"></div><div class="line">    <span class="comment">// 恋爱时的反应</span></div><div class="line">    Amativeness v3 = <span class="keyword">new</span> Amativeness();</div><div class="line">    o.display(v3);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这样做到底有什么好处呢?” 小菜问道<br>&nbsp;&nbsp;&nbsp;&nbsp; “你仔细看看, 现在这样做, 就意味着, 如果我们要增加 ‘结婚’ 的状态来考察 ‘男人’ 和 ‘女人’ 的反应. 只需要怎么就可以了?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我明白你的意思, 由于用了双分派, 使得我们只需要增加一个 ‘状态’ 子类, 就可以在客户端调用查看, 不需要改动任何其他类的代码.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “来, 写出来试试看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 结婚状态类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Marriage</span> <span class="keyword">extends</span> <span class="title">Action</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getManConclusion</span><span class="params">(Man concreteElementA)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementA.getClass().getSimpleName() + getClass().getSimpleName() +</div><div class="line">                <span class="string">"时, 感慨道: 恋爱游戏终结时, '有妻徒刑' 遥无期"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getWomanConclusion</span><span class="params">(Woman concreteElementB)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementB.getClass().getSimpleName() + getClass().getSimpleName() +</div><div class="line">                <span class="string">"时, 欣慰曰: 爱情长跑路漫漫, 婚姻保险保平安"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码, 增加下面一段代码就可以完成.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">......</div><div class="line">Marriage v4 = <span class="keyword">new</span> Marriage();</div><div class="line">o.display(v4);</div><div class="line">.....</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 完美的体现的开放封闭原则, 实在是高呀. 这叫什么模式来着?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “他应该算是 GOF 最复杂的一个模式了, 叫做访问者模式.”</p>
+<h3 id="28-5-访问者模式"><a href="#28-5-访问者模式" class="headerlink" title="28.5 访问者模式"></a>28.5 访问者模式</h3><blockquote>
+<p><strong>访问者模式(Visitor)</strong>, 表示一个作用于某对象结构中的个元素的操作. 他可以是你在不改变各元素类的前提下定义作用于这些元素的新操作.</p>
+</blockquote>
+<div align="center"><br><img src="/images/visitor-fresher/pic02.png" width="600" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “在这里, Element 就是我们的 ‘人’ 类, 而 ConcreteElementA 和 ConcreteElementB 就是 ‘男人’ 和 ‘女人’, Visitor 就是我们写的 ‘状态’ 类, 具体的 ConcreteVisitor 就是那些 ‘成功’, ‘失败’, ‘恋爱’ 等状态. 至于 ObjectStructure 就是 ‘对象结构’ 类了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “怪不得这幅类图我感觉跟刚才写的代码类图完全对应.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “本来我是想直接说访问者模式的, 但是我为什么突然愿意与你聊男人和女人的对比呢, 原因就因为你说了一句话: ‘男女对比这么多的原因就是因为人类在性别上就只有男人和女人两类.’ 而这也正是访问者模式可以实施的前提.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这个前提是什么呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你想呀, 如果人类的性别不止是男是女, 而是可能由多种性别, 那就意味着 ‘状态’ 类中的抽象方法就不稳定了, 每加一种类别, 就需要在状态类和它所有的下属类中增加一个方法, 这就不符合开放封闭原则.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 也就是说, <strong>访问者模式是用于数据结构相对稳定的系统?</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “对的, <strong>它把数据结构和作用于数据结构上的操作之间的耦合解脱开, 时的操作集合可以相对自由的演化.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “访问者模式的目的是什么?” 小菜问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “<strong>访问者模式的目的是要把处理从数据结构中分离出来.</strong>很多系统可以按照算法和数据结构分开, 如果这的<strong>系统有比较稳定的数据结构, 又有已与变化的算法的话, 使用访问者模式就是比较合适的, 因为访问者模式使得算法操作的增加变得容易.</strong> 反之, 如果这样的系统的数据结构对象易于变化, 经常要有新的数据对象增加近来, 就不适合使用访问者模式.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那其实<strong>访问者模式的优点就是增加新的操作很容易, 因为增加一个新的操作就意味着增加一个新的访问者. 访问者模式将有关的行为集中到一个访问者对象中.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 总结的很好.” 大鸟接着说, “通常 ConcreteVisitor 可以单独开发, 不必跟 ConcreteElementA 或 ConcreteElementB 写在一起. 正因为这样, ConcreteVisitor 能提高 ConcreteElement 之间的独立性, 如果把一个处理动作设计成 ConcreteElementA 和 ConcreteElementB 类的方法, 每次想新增 ‘处理’ 以扩充功能时就得去修改 ConcreteElementA 和 ConcreteElementB了. 这也就是你之前写的代码, 在 ‘男人’ 和 ‘女人’ 类中增加了对 ‘成功’, ‘失败’ 等状态的判断, 造成了处理方法和数据结构的紧耦合.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “</strong>那访问者没模式的缺点就是使新增的数据结构变得困难了.**”<br>&nbsp;&nbsp;&nbsp;&nbsp; “所以GoF 四人中的一个作者就说过: ‘大多数时候你并不需要访问者模式, 但当一旦你需要访问者模式时, 你就真的需要它了.’ 实际上, 我们很难找到数据结构不变化的情况, 所以用访问者模式的机会就不太多了. 这也就是为什么你谈到男人和女人的对比时, 我很高兴和你讨论的原因, 因为人类的性别这样的数据结构是不会变化的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 看来是我为你找到了一个教学的好案例.” 小菜得意道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “和往常一样, 我们需要些一些基本的代码来巩固我们的学习. 有了 UML 图, 相信你应该没什么问题了.”</p>
+<h3 id="28-6-访问者模式的基本代码"><a href="#28-6-访问者模式的基本代码" class="headerlink" title="28.6 访问者模式的基本代码."></a>28.6 访问者模式的基本代码.</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; Visitor 类, 为该对象结构中 ConcreteElement 的每一个类声明一个 Visit 操作.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Visitor</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">visitConcreteElementA</span><span class="params">(ConcreteElementA concreteElementA)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">visitConcreteElementB</span><span class="params">(ConcreteElementB concreteElementB)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “ConcreteVisitor1 和 ConcreteVisitor2 类, 具体访问者, 实现每个由 Visitor 声明的操作. 每个操作实现算法的一部分, 该算法片段乃是对应于结构中对象的类.”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteVisitor1</span> <span class="keyword">extends</span> <span class="title">Visitor</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitConcreteElementA</span><span class="params">(ConcreteElementA concreteElementA)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementA.getClass().getSimpleName() + <span class="string">"被"</span></div><div class="line">                + getClass().getSimpleName() + <span class="string">"访问"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitConcreteElementB</span><span class="params">(ConcreteElementB concreteElementB)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementB.getClass().getSimpleName() + <span class="string">"被"</span></div><div class="line">                + getClass().getSimpleName() + <span class="string">"访问"</span>);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteVisitor2</span> <span class="keyword">extends</span> <span class="title">Visitor</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitConcreteElementA</span><span class="params">(ConcreteElementA concreteElementA)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementA.getClass().getSimpleName() + <span class="string">"被"</span></div><div class="line">                + getClass().getSimpleName() + <span class="string">"访问"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitConcreteElementB</span><span class="params">(ConcreteElementB concreteElementB)</span> </span>&#123;</div><div class="line">        System.out.println(concreteElementB.getClass().getSimpleName() + <span class="string">"被"</span></div><div class="line">                + getClass().getSimpleName() + <span class="string">"访问"</span>);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Element 类, 定义一个 Accept 操作, 他以一个访问者为参数.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Element</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Visitor visitor)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ConcreteElementA 和 ConcreteElementB 类, 具体元素, 实现 Accept 操作.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteElementA</span> <span class="keyword">extends</span> <span class="title">Element</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Visitor visitor)</span> </span>&#123;</div><div class="line">        visitor.visitConcreteElementA(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 其他相关方法.</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operationA</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteElementB</span> <span class="keyword">extends</span> <span class="title">Element</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Visitor visitor)</span> </span>&#123;</div><div class="line">        visitor.visitConcreteElementB(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 其他相关方法.</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operationA</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ObjectStructure 类, 能枚举它的元素, 可以提供一个高层的接口以允许访问者访问它的元素.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectStructure</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> List&lt;Element&gt; elements = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Element element)</span> </span>&#123;</div><div class="line">        elements.add(element);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detach</span><span class="params">(Element element)</span> </span>&#123;</div><div class="line">        elements.remove(element);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Visitor visitor)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Element e : elements) &#123;</div><div class="line">            e.accept(visitor);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    ObjectStructure o = <span class="keyword">new</span> ObjectStructure();</div><div class="line">    o.attach(<span class="keyword">new</span> ConcreteElementA());</div><div class="line">    o.attach(<span class="keyword">new</span> ConcreteElementB());</div><div class="line"></div><div class="line">    ConcreteVisitor1 v1 = <span class="keyword">new</span> ConcreteVisitor1();</div><div class="line">    o.accept(v1);</div><div class="line"></div><div class="line">    ConcreteVisitor2 v2 = <span class="keyword">new</span> ConcreteVisitor2();</div><div class="line">    o.accept(v2);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="28-7-比上不足-比下有余"><a href="#28-7-比上不足-比下有余" class="headerlink" title="28.7 比上不足, 比下有余"></a>28.7 比上不足, 比下有余</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 访问者模式比较麻烦哦…”<br>&nbsp;&nbsp;&nbsp;&nbsp; “…….”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+            <a href="/tags/fresher/" rel="tag"># fresher</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/30/interpreter-fresher/" rel="next" title="27.其实你不懂老板的心 - 解释器模式(Interpreter)">
+                <i class="fa fa-chevron-left"></i> 27.其实你不懂老板的心 - 解释器模式(Interpreter)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#28-1-男人和女人"><span class="nav-number">1.</span> <span class="nav-text">28.1 男人和女人</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-2-最简单的编程实现"><span class="nav-number">2.</span> <span class="nav-text">28.2 最简单的编程实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-3-简单的面向对象实现"><span class="nav-number">3.</span> <span class="nav-text">28.3 简单的面向对象实现.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-4-用了模式的实现"><span class="nav-number">4.</span> <span class="nav-text">28.4 用了模式的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-5-访问者模式"><span class="nav-number">5.</span> <span class="nav-text">28.5 访问者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-6-访问者模式的基本代码"><span class="nav-number">6.</span> <span class="nav-text">28.6 访问者模式的基本代码.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-7-比上不足-比下有余"><span class="nav-number">7.</span> <span class="nav-text">28.7 比上不足, 比下有余</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
