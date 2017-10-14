@@ -1,0 +1,917 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 公司新开发的项目, 前两天测试童鞋跑过来说, 开发的兄弟们, 你们开发的项目中有内存泄漏啊.">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MAT 使用入门 (1).">
+<meta property="og:url" content="http://yoursite.com/2017/10/14/android-leak-mat-first-try/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 公司新开发的项目, 前两天测试童鞋跑过来说, 开发的兄弟们, 你们开发的项目中有内存泄漏啊.">
+<meta property="og:image" content="http://yoursite.com/images/android-leak-mat-first-try/pic01.gif">
+<meta property="og:image" content="http://yoursite.com/images/android-leak-mat-first-try/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/android-leak-mat-first-try/pic03.png">
+<meta property="og:image" content="http://yoursite.com/images/android-leak-mat-first-try/pic04.png">
+<meta property="og:image" content="http://yoursite.com/images/android-leak-mat-first-try/pic05.png">
+<meta property="og:image" content="http://yoursite.com/images/android-leak-mat-first-try/pic06.png">
+<meta property="og:updated_time" content="2017-10-14T10:04:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MAT 使用入门 (1).">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 公司新开发的项目, 前两天测试童鞋跑过来说, 开发的兄弟们, 你们开发的项目中有内存泄漏啊.">
+<meta name="twitter:image" content="http://yoursite.com/images/android-leak-mat-first-try/pic01.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/14/android-leak-mat-first-try/"/>
+
+
+
+
+
+  <title> MAT 使用入门 (1). | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/14/android-leak-mat-first-try/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MAT 使用入门 (1).
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-14T15:41:54+08:00">
+                2017-10-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/optimize/" itemprop="url" rel="index">
+                    <span itemprop="name">optimize</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/10/14/android-leak-mat-first-try/" class="leancloud_visitors" data-flag-title="MAT 使用入门 (1).">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; 公司新开发的项目, 前两天测试童鞋跑过来说, 开发的兄弟们, 你们开发的项目中有内存泄漏啊.<br><a id="more"></a></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; what! 是谁在写往项目中写 bug! 作为一个有洁癖的程序员, 优化代码是必须的(其实是想把这个写 bug 的童鞋找出来.. = = ) 所以决定好好研究一下 MAT 这个超高门槛的内存分析工具.<br>&nbsp;&nbsp;&nbsp;&nbsp; 感谢之前在某视网一起工作的旺神, 让我接触到这个工具.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 首先需要安装配置, 直接科学上网, 下载就好, 但是 Mac 版本的 MAT 工具可能需要对配置文件做一定的修改, 否侧会提示启动错误. <a href="http://www.jianshu.com/p/9bbbe3c4cc8b" target="_blank" rel="external">Eclipse Memory Analyzer在Mac启动报错</a></p>
+<h3 id="真的有泄漏"><a href="#真的有泄漏" class="headerlink" title="真的有泄漏"></a>真的有泄漏</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 跑了一下项目, 随便点了点, 还真的有泄漏. 在设置页面, ViewPager + TabLayout + Fragment 的方式中, 来回不断的切换页面, 内存上升, 而且手动 GC 之后, 内存不会降低. 就像是这个样子乱点一通.</p>
+<div align="center"><br><img src="/images/android-leak-mat-first-try/pic01.gif" width="700" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 纳尼!? 居然是我负责的设置页面, 还好一起开发的小伙伴们都还不知道, 赶紧搞定.<br>&nbsp;&nbsp;&nbsp;&nbsp; 于是乎, 导出内存 .hprof 文件, 这里可以直接使用 Android Studio, 不需要命令行.</p>
+<div align="center"><br><img src="/images/android-leak-mat-first-try/pic02.png" width="550" height="100"><br></div>
+
+<h3 id="MAT-操练起来"><a href="#MAT-操练起来" class="headerlink" title="MAT 操练起来"></a>MAT 操练起来</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 赶紧的 MAT, 导入走起来. 说真的, 这个 MAT 用起来还真的费劲, 不过没办法, 为了追赶大神的脚步, 硬着头皮上吧.<br>&nbsp;&nbsp;&nbsp;&nbsp; 先来看两张 Histogram 和 Dominator_tree 这两张表(其实目前我也就会看这两张.. = = ).</p>
+<div align="center"><br><img src="/images/android-leak-mat-first-try/pic03.png" width="700" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 通过 Histogram 可以看到, <code>HotKeyAdapter</code> 占用了大量的存储空间. 而 <code>RecyclerView</code> 居然有莫名的 27 个之多.</p>
+<div align="center"><br><img src="/images/android-leak-mat-first-try/pic04.png" width="700" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 通过 Dominator_tree, <code>HotKeyAdapter</code> 占用的约 56% 的内存. 铁定是它或者是它相关的类 leak memory 了. 挨个找吧.<br>&nbsp;&nbsp;&nbsp;&nbsp; 先来看一下有什么引用了, <code>HotKeyAdapter</code> 造成其无法释放.<br>&nbsp;&nbsp;&nbsp;&nbsp; 右键 <code>HotkeyAdapter</code> 这一项. 选择 Merge short key path to GD root –&gt; exclude all plantform/weak/soft reference. etc 只看强引用.</p>
+<div align="center"><br><img src="/images/android-leak-mat-first-try/pic05.png" width="700" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 乍一看, 只有一个 DecorView 的引用, 没有什么问题.<br>&nbsp;&nbsp;&nbsp;&nbsp; 那就是 <code>HotKeyAdapter</code> 持有了其他资源, 没法释放. 导致内存泄漏.</p>
+<div align="center"><br><img src="/images/android-leak-mat-first-try/pic06.png" width="700" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这里有一个 <code>mObserver</code> 持有了大量的对象, 无法释放, 不过让人头疼的是这个是 adapter 的源码, 无奈, 只能硬着头皮自己看.</p>
+<h3 id="偷窥源码"><a href="#偷窥源码" class="headerlink" title="偷窥源码."></a>偷窥源码.</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 先去源码中找一下这个 Observer.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Base class for an Adapter</div><div class="line"> *</div><div class="line"> * &lt;p&gt;Adapters provide a binding from an app-specific data set to views that are displayed</div><div class="line"> * within a &#123;<span class="doctag">@link</span> RecyclerView&#125;.&lt;/p&gt;</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Adapter</span>&lt;<span class="title">VH</span> <span class="keyword">extends</span> <span class="title">ViewHolder</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AdapterDataObservable mObservable = <span class="keyword">new</span> AdapterDataObservable();</div><div class="line"></div><div class="line">    <span class="comment">// ..省略无关源码</span></div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后接着点进去, 找到对应的数组.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Provides methods for registering or unregistering arbitrary observers in an &#123;<span class="doctag">@link</span> ArrayList&#125;.</div><div class="line"> *</div><div class="line"> * This abstract class is intended to be subclassed and specialized to maintain</div><div class="line"> * a registry of observers of specific types and dispatch notifications to them.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Observable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * The list of observers.  An observer can be in the list at most</div><div class="line">     * once and will never be null.</div><div class="line">     */</div><div class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> ArrayList&lt;T&gt; mObservers = <span class="keyword">new</span> ArrayList&lt;T&gt;();</div><div class="line"></div><div class="line">       <span class="comment">// 省略无关代码...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 就是这个 <code>mObserver</code> 持有了大量的对象. 但是我们需要知道他持有的什么对象.<br>&nbsp;&nbsp;&nbsp;&nbsp; 不知道是晚生运气不错, 还是 google 的大神们设计的号, 偶然间发现了这里有一个 <code>registerObserver(T observer)</code> 会向其中添加数据.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Adds an observer to the list. The observer cannot be null and it must not already</div><div class="line"> * be registered.</div><div class="line"> * <span class="doctag">@param</span> observer the observer to register</div><div class="line"> * <span class="doctag">@throws</span> IllegalArgumentException the observer is null</div><div class="line"> * <span class="doctag">@throws</span> IllegalStateException the observer is already registered</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerObserver</span><span class="params">(T observer)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (observer == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"The observer is null."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">synchronized</span>(mObservers) &#123;</div><div class="line">        <span class="keyword">if</span> (mObservers.contains(observer)) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Observer "</span> + observer + <span class="string">" is already registered."</span>);</div><div class="line">        &#125;</div><div class="line">        mObservers.add(observer);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后一路追踪上去. 看是那里调用了.<br>&nbsp;&nbsp;&nbsp;&nbsp; <code>RecyclerView$Adapter#registerAdapterDataObserver()</code> –&gt; <code>RecyclerView#setAdapterInternal()</code> –&gt; <code>RecyclerView#setAdapter()</code><br>&nbsp;&nbsp;&nbsp;&nbsp; 我去, 原来是调用了疯狂的调用了, <code>setAdapter()</code> 方法.<br>&nbsp;&nbsp;&nbsp;&nbsp; 然后再去瞅一眼项目中的代码.</p>
+<h3 id="总结与修复"><a href="#总结与修复" class="headerlink" title="总结与修复"></a>总结与修复</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// adapter 采用 Dagger2 框架初始化.</span></div><div class="line"><span class="meta">@Inject</span></div><div class="line">HotKeyAdapter hotKeyAdapter;</div><div class="line"></div><div class="line"><span class="comment">// RecyclerView 通过 BufferKnife 初始化.</span></div><div class="line"><span class="meta">@BindView</span>(R.id.recycler_hot_list)</div><div class="line">RecyclerView recycler_hotKeyList;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 在默认的情况下, Dagger2 框架初始化的变量是 Activity 单例的, 可能整个项目的生命周期只有一个. 而 RecyclerView 每次切换到 Fragment 界面就会初始化一次.<br>&nbsp;&nbsp;&nbsp;&nbsp; 每次调用 <code>RecyclerView.setAdapter()</code> 方法的时, 会向 adapter 中添加一个 Observer,  每次添加会判断是否包含, 但是 Observer 的实现类 <code>RecyclerView$AdapterDataObserver</code> 并没有实现 equals() 方法, 也就是说, 只要是新的对象, 就会添加到集合中.<br>&nbsp;&nbsp;&nbsp;&nbsp; 所以, 每次滑动到该界面时, 就会添加一个<code>Observer</code>.  Adapter 持有该引用, 也就间接持有了 RecyclerView 的引用, 导致 RecyclerView 无法释放, 所以就会内存中就会出现大量的 RecyclerView. Leak memory 了.<br>&nbsp;&nbsp;&nbsp;&nbsp; 解决方案很是简单, <code>HotKeyAdapter</code> 直接初始化就好, 不使用 dagger2 框架.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/10/work-log-2017-10/" rel="next" title="工作日志(2017-10)">
+                <i class="fa fa-chevron-left"></i> 工作日志(2017-10)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#真的有泄漏"><span class="nav-number">1.</span> <span class="nav-text">真的有泄漏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAT-操练起来"><span class="nav-number">2.</span> <span class="nav-text">MAT 操练起来</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#偷窥源码"><span class="nav-number">3.</span> <span class="nav-text">偷窥源码.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结与修复"><span class="nav-number">4.</span> <span class="nav-text">总结与修复</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
