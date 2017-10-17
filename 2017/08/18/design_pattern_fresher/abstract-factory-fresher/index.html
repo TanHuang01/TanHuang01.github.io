@@ -1,0 +1,951 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="15.1 就不能不换 DB 吗? 时间: 4月17日23点   地点: 小菜大鸟住所的客厅  人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “这么晚才回来, 都11点了.” 大鸟看着刚推门而入小菜问道.">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="15.就不能不换DB吗? - 抽象工厂模式(Abstract Factory Pattern)">
+<meta property="og:url" content="http://yoursite.com/2017/08/18/design_pattern_fresher/abstract-factory-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="15.1 就不能不换 DB 吗? 时间: 4月17日23点   地点: 小菜大鸟住所的客厅  人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “这么晚才回来, 都11点了.” 大鸟看着刚推门而入小菜问道.">
+<meta property="og:image" content="http://yoursite.com/images/abstract-factory-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/abstract-factory-fresher/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/abstract-factory-fresher/pic03.png">
+<meta property="og:image" content="http://yoursite.com/images/abstract-factory-fresher/pic04.png">
+<meta property="og:updated_time" content="2017-08-18T03:58:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="15.就不能不换DB吗? - 抽象工厂模式(Abstract Factory Pattern)">
+<meta name="twitter:description" content="15.1 就不能不换 DB 吗? 时间: 4月17日23点   地点: 小菜大鸟住所的客厅  人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “这么晚才回来, 都11点了.” 大鸟看着刚推门而入小菜问道.">
+<meta name="twitter:image" content="http://yoursite.com/images/abstract-factory-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/18/design_pattern_fresher/abstract-factory-fresher/"/>
+
+
+
+
+
+  <title> 15.就不能不换DB吗? - 抽象工厂模式(Abstract Factory Pattern) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/18/design_pattern_fresher/abstract-factory-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                15.就不能不换DB吗? - 抽象工厂模式(Abstract Factory Pattern)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T10:14:39+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/18/design_pattern_fresher/abstract-factory-fresher/" class="leancloud_visitors" data-flag-title="15.就不能不换DB吗? - 抽象工厂模式(Abstract Factory Pattern)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="15-1-就不能不换-DB-吗"><a href="#15-1-就不能不换-DB-吗" class="headerlink" title="15.1 就不能不换 DB 吗?"></a>15.1 就不能不换 DB 吗?</h3><ul>
+<li>时间: 4月17日23点   地点: 小菜大鸟住所的客厅  人物: 小菜, 大鸟</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这么晚才回来, 都11点了.” 大鸟看着刚推门而入小菜问道.<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; “嗨, 没办法呀, 工作忙.” 小菜叹气说道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “怎么会这么忙, 加班有点过头了啊.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “都是换数据库惹的祸呗.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “怎么了?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我本来写好了一个项目, 是给一家企业做的电子商务网站, 是用 Sql server 作为数据库的, 应该说上线后除了开始有些小问题, 基本都还可以. 而后, 公司接到另外一家公司类似需求的项目, 但这家公司想省钱, 租用了一个空间, 只能用 Access, 不能用 SQL Server, 于是要求我今天改做原来那个项目的代码.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈哈, 你的麻烦来了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是啊, 那是相当的麻烦. 但是开始我觉得很简单呀, 因为地球人都知道, SQL Server 和 Access 在 ADO.NET 上的使用是不同的, 在SQL Server 上用的是 System.Data.SqlClient 命名空间下的 SqlConnection, SQLCommand, SQLParameter, SqlDataReader, SQLDataAdapter, 而 Access 则要用 System.Data.OleDb 命名空间下的相应对象, 我以为只要做一个全体替换就可以了, 哪知道, 替换后, 错误百出.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那是一定的, 两者有不少不同地方. 你都找到了什么问题?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “实在是多呀. 在出入数据时 Access 必须要 insert into 而 Sql Server 可以不用 into 的; Sql Server 中的 GetData() Access 中没有, 需要改成 Now(); Sql server 中有字符创函数 SubString, 而 Access 中根本不能用, 我找了很久才知道, 可以用 Mid, 这好像是VB 中的函数.”<br>&nbsp;&nbsp;&nbsp;&nbsp;”小菜还真犯了不少错呀, insert into 是标准语法, 你干嘛不加 into 这是自找麻烦.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这些小问题也就罢了, 最气人的是程序的登陆代码, 老是报错, 我怎么也找不到出了什么问题, 搞了几个小时. 最后才知道, 原来是 Access 对一些关键字, 例如 password 是不能作为数据库字段的, 如果密码的字段名是 password, Sql server 中什么问题都没有, 运行正常, 在 Access 中就是报错, 而且报的让人莫名其妙.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “关键字应该用 ‘[‘ 和 ‘]‘ 括起来, 不然当然是容易出错的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “就这样, 今天加班到这时候才回来.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “以后你还有的是班要加了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “为什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “只要网站要维护, 比如修改或增加一些功能, 你就得改两个项目吧, 至少在数据库中做改动, 相应的程序代码都要改, 甚至和数据库不相干的代码也要改, 你既然有两个不同的版本, 两本的工作量也是必然的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 如果那一天要用, Oracel 数据库, 估计我要改动的地方更多了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那是当然, Oracle 的 Sql 语法与 Sql Server 的差别更大. 你的改动将是空前的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟只会夸张, 哪有这么严重,  大不了我再加两天班就什么都搞定了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哼哼”, 大鸟笑着摇了摇头, 很不屑一顾, “<strong>菜鸟程序员碰到问题, 只会用时间来摆平</strong>, 所以即使整天加班, 老板也不想给菜鸟加工资, 原因就在于此.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你什么意思嘛!” 小菜气到, “我是菜鸟我怕谁.” 接着又拉了拉大鸟, “那你说怎么搞定才是好呢”<br>&nbsp;&nbsp;&nbsp;&nbsp; 大鸟端起架子, “教你可以, 这一周的碗你洗.”</p>
+<h3 id="15-2-最基本的数据问程序"><a href="#15-2-最基本的数据问程序" class="headerlink" title="15.2 最基本的数据问程序"></a>15.2 最基本的数据问程序</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “你先写一段你原来的数据访问的做法给我看看吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那就用 ‘新增用户’ 和 ‘得到用户’ 为例吧”</p>
+<p>用户类,   假设只有 ID 和 Name 两个字段, 其余省略<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> _id;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get_id</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _id; &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set_id</span><span class="params">(<span class="keyword">int</span> _id)</span> </span>&#123; <span class="keyword">this</span>._id = _id; &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> name; &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123; <span class="keyword">this</span>.name = name; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>SqlserverUser 类 — 用于操作 User 表, 假设只有 “新增用户” 和 “得到用户” 方法, 其与方法以及具体的 sql 语句省略.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SqlserverUser</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Insert</span><span class="params">(User user)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 Sql server 中给 User 表增加一条记录"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(<span class="keyword">int</span> id)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 sql server 中根据"</span> + id + <span class="string">"得到User 表的一条记录"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    User user = <span class="keyword">new</span> User();</div><div class="line">    SqlserverUser su = <span class="keyword">new</span> SqlserverUser();</div><div class="line">    su.Insert(user);</div><div class="line">    su.getUser(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “我最开始就是这样写的, 非常点单.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这里之所以不能换数据库, 原因就在于<code>SqlserverUser su = new SqlserverUser()</code> 使得 su 这个对象被框死在  sql server 上了. 如果这里是灵活的, 专业点的说法, 是多态的, 那么在执行 <code>su.insert(user);</code> 和<code>su.getUser(1);</code> 时, 就不用考虑是在用 sql server 还是 Access.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我明白你的意思了, 你是希望我用 ‘工厂方法模式’ 来封装<code>new SqlserverUser()</code> 所造成的变化?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “小菜到了半夜, 还是很清醒嘛, 不错不错.” 大鸟表扬到, “<strong>工厂方法模式是定义一个用于创建对象的接口, 让子类决定实例化哪一个类.</strong>“ 接着说, “来试试看吧.”</p>
+<h3 id="15-3-用了工厂方法模式的数据访问程序"><a href="#15-3-用了工厂方法模式的数据访问程序" class="headerlink" title="15.3 用了工厂方法模式的数据访问程序"></a>15.3 用了工厂方法模式的数据访问程序</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 小菜很快的给出了工厂方法实现的代码.</p>
+<div align="center"><br><img src="/images/abstract-factory-fresher/pic01.png" width="700" height="100" title="工厂方法模式类图"><br></div>
+
+<p>IUser 接口, 用于访问客户端, 解除与具体数据库访问的耦合<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IUser</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">(User user)</span></span>;</div><div class="line">    <span class="function">User <span class="title">getUser</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>SqlserverUser 类, 用于访问 Sql server 的 User<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SqlserverUser</span> <span class="keyword">implements</span> <span class="title">IUser</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Insert</span><span class="params">(User user)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 sql server 中给 User 表增加一条记录"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 sql server 中根据 id 得到 user 表一条记录"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>AccessUser 类, 用于访问 Access 的 User<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessUser</span> <span class="keyword">implements</span> <span class="title">IUser</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Insert</span><span class="params">(User user)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 access 中给 User 表增加一条记录"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 access 中根据 id 得到 user 表一条记录"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>IFactory 接口 , 定义一个创建访问 User  表对象的抽象的工厂接口.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IFactory</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> IUser <span class="title">createUser</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>SqlserverFactory 类, 实现Ifactory 接口,  实例化 SqlserverUser<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SqlserverFactory</span> <span class="keyword">implements</span> <span class="title">IFactory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> IUser <span class="title">createUser</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SqlserverUser();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>AccessFactory 类, 实现 IFactory 接口, 实例化 AccessUser.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessFactory</span> <span class="keyword">implements</span> <span class="title">IFactory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> IUser <span class="title">createUser</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AccessUser();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    User user = <span class="keyword">new</span> User();</div><div class="line"></div><div class="line">    <span class="comment">// 若改成Access 数据库, 只需将本剧改成 IFactory Factory = new AccessFactory()</span></div><div class="line">    IFactory factory = <span class="keyword">new</span> SqlServerFactory();</div><div class="line"></div><div class="line">    IUser iu = factory.createUser();</div><div class="line"></div><div class="line">    iu.Insert(user);</div><div class="line">    iu.getUser(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 来看看这样写对不对?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “非常好. 现在如果要更换数据库, 只需要把<code>new SqlServerFactory()</code> 改成 <code>new AccessFactory()</code>,此时由于多态的关系, 使得声明 IUser 的接口的对象 iu 实现根本不知道是在访问那个数据库, 却可以在运行时很好地完成工作, 这就是所谓的业务逻辑与数据访问的解耦.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “但是, 大鸟, 这样写, 代码里还是有声明<code>new SqlserverFactory()</code>呀, 我要改的地方, 依然很多.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这个先不急, 待会再说, 问题没有完全解决, 你的数据库里不能只有一个 User 表吧, 很可能有其他表, 比如增加部门表(Department 表), 此是如何办呢?”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Department</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> _id;</div><div class="line">    <span class="keyword">private</span> String Name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get_id</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> _id;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set_id</span><span class="params">(<span class="keyword">int</span> _id)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>._id = _id;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> Name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        Name = name;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 我觉得那要增加好多类了, 我来试试看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “多写点类有什么关系, 只要能增加灵活性, 以后就不用加班了. 小菜好好加油.”</p>
+<h3 id="15-4-用了抽象工厂模式-Abstract-Factory-Pattern-的数据访问程序"><a href="#15-4-用了抽象工厂模式-Abstract-Factory-Pattern-的数据访问程序" class="headerlink" title="15.4 用了抽象工厂模式(Abstract Factory Pattern)的数据访问程序"></a>15.4 用了抽象工厂模式(Abstract Factory Pattern)的数据访问程序</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “小菜再次修改代码, 增加了关于部门表的处理.”</p>
+<div align="center"><br><img src="/images/abstract-factory-fresher/pic02.png" width="700" height="100" title="抽象工厂模式类图"><br></div>
+
+<p>IDepartment 接口, 用于客户端访问, 解除与具体数据库访问的耦合.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IDepartment</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(Department department)</span></span>;</div><div class="line">    <span class="function">Department <span class="title">getDepartment</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>SqlserverDepartment 类, 用于访问 sql server 的 Department<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SqlserverDepartment</span> <span class="keyword">implements</span> <span class="title">IDepartment</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(Department department)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 sql server 中给 department 表增加一条记录"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Department <span class="title">getDepartment</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 Sqlserver 中根据id 得到 department表一条记录"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>AccessDepartment 类,  用于访问 Access 的 Department<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessDepartment</span> <span class="keyword">implements</span> <span class="title">IDepartment</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(Department department)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 access 中给 department 表增加一条记录"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Department <span class="title">getDepartment</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"在 access 中根据id 得到 department表一条记录"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>IFactory 接口, 定义一个创建访问 Department 表对象的抽象的工厂接口.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IFactory</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> IUser <span class="title">createUser</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">public</span> IDepartment <span class="title">createDepartment</span><span class="params">()</span></span>;  <span class="comment">// 增加的接口方法.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>SqlserverFactory 类, 实现 IFactory 接口, 实例化 SqlserverUser 和 SqlserverDepartment.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SqlserverFactory</span> <span class="keyword">implements</span> <span class="title">IFactory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> IUser <span class="title">createUser</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SqlserverUser();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 增加了 SqlserverDepartment 工厂</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> IDepartment <span class="title">createDepartment</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SqlserverDepartment();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>AccessFactory 类, 实现 IFactory 接口, 实例化 AccessUser 和 AccessDepartment.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessFactory</span> <span class="keyword">implements</span> <span class="title">IFactory</span> </span>&#123;</div><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> IUser <span class="title">createUser</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AccessUser();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 增加了 AccessDepartment 工厂</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> IDepartment <span class="title">createDepartment</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AccessDepartment();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    User user = <span class="keyword">new</span> User();</div><div class="line">    Department dept = <span class="keyword">new</span> Department();</div><div class="line"></div><div class="line">    <span class="comment">// 需要确定实例化哪一个数据库访问对象给 factory</span></div><div class="line">    <span class="comment">//IFactory factory = new SqlserverFactory();</span></div><div class="line">    IFactory factory = <span class="keyword">new</span> AccessFactory();</div><div class="line"></div><div class="line">    IUser iu = factory.createUser(); <span class="comment">// 此是已解除与具体工厂的依赖</span></div><div class="line">    iu.Insert(user);</div><div class="line">    iu.getUser(<span class="number">1</span>);</div><div class="line"></div><div class="line">    IDepartment idept = factory.createDepartment(); <span class="comment">// 同理, 已解除依赖</span></div><div class="line">    idept.insert(dept);</div><div class="line">    idept.getDepartment(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>显示结果如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">在 access 中给 User 表增加一条记录</div><div class="line">在 access 中根据 id 得到 user 表一条记录</div><div class="line">在 access 中给 department 表增加一条记录</div><div class="line">在 access 中根据id 得到 department表一条记录</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 这样就可以做到, 只需要改<code>IFactory factory = newAccessFactory()</code> 为 <code>IFactory factory = new SqlserverFactory()</code>, 就实现了数据库访问的切换了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “很好, 实际上, 在不知不觉间, 你已经通过需求的不断演化, 重构出一个非常重要的设计模式.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “刚才不就是工厂方法模式吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “只有一个User 类和 User 操作系统的时候, 是只需要工厂方法模式的, 但现在显然你的数据库中有很多的表, 而 Sql server 与 Access 又是两大不同的分类, 所以解决这种设计到多个产品系列的问题, 有一个专门的工厂模式叫抽象工厂模式.”</p>
+<h3 id="15-5-抽象工厂模式-Abstract-Factory-Pattern"><a href="#15-5-抽象工厂模式-Abstract-Factory-Pattern" class="headerlink" title="15.5 抽象工厂模式(Abstract Factory Pattern)"></a>15.5 抽象工厂模式(Abstract Factory Pattern)</h3><blockquote>
+<p><strong>抽象工厂模式(Abstract Factory)</strong>, 提供一个创建一系列相关或相互依赖对象的接口, 而无需指定他们具体的类.</p>
+</blockquote>
+<div align="center"><br><img src="/images/abstract-factory-fresher/pic03.png" width="700" height="100" title="抽象工厂模式"><br></div>
+
+<h3 id="15-6-抽象工厂模式的优点与缺点"><a href="#15-6-抽象工厂模式的优点与缺点" class="headerlink" title="15.6 抽象工厂模式的优点与缺点"></a>15.6 抽象工厂模式的优点与缺点</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “这样做的好处是什么呢”<br>&nbsp;&nbsp;&nbsp;&nbsp; “最大的<strong>好处便是已与交换产品系列, 由于具体工厂类,</strong> 例如<code>IFactory factory = new AccessFactory()</code> <strong>在一个引用中只需要在初始化的时候出现一次, 这就使得改变一个应用的具体工厂变得非常容易, 他只需要改变具体工厂即可使用不同的产品配置.</strong> 我们的设计不能去防止需求的更改, 那么我们的理想便是让改动变得最小, 现在如果你要更改数据库的访问, 我们只需要更改具体工厂就可以做到. 第二大好处是, <strong>他让具体的创建实例过程与客户端分离, 客户端是通过它们的抽象接口操纵实例, 产品的具体类名也被具体工厂实现分离, 不会出现在客户代码中. </strong> 事实上, 你刚才写的例子, 客户端所认识的还有 IUser 和 IDepartment, 至于它使用 Sql Server 来实现还是 Access 来实现就不知道了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 我感觉抽象工厂模式把开放-封闭原则, 依赖倒转原则发挥到极致了.” 小蔡说.<br>&nbsp;&nbsp;&nbsp;&nbsp; “没这么夸张, 应该说就是这些设计原则的良好运用. 抽象工厂模式也有缺点. 你想得出来吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “想不出来, 我觉得他已经很好用了, 那有什么缺点.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是个模式都是会有缺点的, 都有不适用的时候, 要辩证的看待问题哦. 抽象共产模式可以很方便的切换两个数据库访问的代码, 但是如果你的需求来自增加功能, 比如我们现在要增加项目表 Project, 你需要改动哪些地方?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 那就至少要增加三个类, IProduct, SqlserverProject, AccessProject, 还需要修改Ifactory, SqlserverFactory 和 AccessFactory 才可以完全实现. 啊, 要改这三个类, 者太糟糕了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 这非常糟糕.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “还有就是刚才你问的, 我的客户端程序类显然会不会只有一个, 有很多地方都在使用 IUser 或 IDepartment, 而这样的设计, 其实在每一个累的开始都需要声声明 <code>IFactory  factory = new SqlserverFactory();</code>如果我有100个钓友数据库访问的类, 是不是就要改100次 <code>IFactory factory = new AccessFactory()</code> 这样的代码才行了? 这部门管解决我要更改数据库访问时, 改动一处就完全改的要求啊!”<br>&nbsp;&nbsp;&nbsp;&nbsp; “改就改了, 公司花这么多钱养你干嘛? 100个改动, 不算难得, 加个班什么都搞定了.” 大鸟一脸坏笑的说.</p>
+<h3 id="15-7-用简单工厂来改进抽象工厂"><a href="#15-7-用简单工厂来改进抽象工厂" class="headerlink" title="15.7 用简单工厂来改进抽象工厂"></a>15.7 用简单工厂来改进抽象工厂</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 十分钟后, 小菜给出了一个改进方案. 去除 IFactory , SqlserverFactory 和 AccessFactory 三个工厂类, 取而代之的是 DataAccess 类, 用一个简单工厂模式来实现.</p>
+<div align="center"><br><img src="/images/abstract-factory-fresher/pic04.png" width="620" height="100" title="抽象工厂模式"><br></div>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataAccess</span> </span>&#123;</div><div class="line">    <span class="comment">// private static final String db = "Sqlserver"; // 数据库名称, 可替换</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> fianl String db = <span class="string">"Access"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 由于db 的事先设置, 所以此处可以根据选择实例化出相应的对象.</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IUser <span class="title">createUser</span><span class="params">()</span></span>&#123;</div><div class="line">        IUser result = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">switch</span>(db)&#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">"Sqlserver"</span>:</div><div class="line">                result = <span class="keyword">new</span> SqlserverUser();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"Access"</span>:</div><div class="line">                result = <span class="keyword">new</span> AccessUser();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IUser <span class="title">createUser</span><span class="params">()</span></span>&#123;</div><div class="line">        IDepartment result = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">switch</span>(db)&#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">"Sqlserver"</span>:</div><div class="line">                result = <span class="keyword">new</span> SqlserverDepartment();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"Access"</span>:</div><div class="line">                result = <span class="keyword">new</span> AccessDepartment();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    User user = <span class="keyword">new</span> User();</div><div class="line">    Department dept = <span class="keyword">new</span> Department();</div><div class="line"></div><div class="line">    IUser iu = DataAccess.createUser();</div><div class="line">    iu.Insert(user);</div><div class="line">    iu.getUser(<span class="number">1</span>);</div><div class="line"></div><div class="line">    IDepartment idept = DataAccess.createDepartment();</div><div class="line">    idept.insert(dept);</div><div class="line">    idept.getDepartment(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 来看看我的设计, 我觉得在设立与其用那么多工厂类, 不如直接用一个简单工厂来实现, 我抛弃了 IFactory , SqlserverFactory 和 AccessFactory 三个工厂类, 由于事先设置了 db 的值(Sqlserver 或 Access), 所以简单工厂的方法都不需要输入参数, 这样在客户端就只需要 <code>DataAccess.createUser()</code> 和 <code>DataAccess.createDepartment()</code> 来生成具体的数据库访问类实例, <strong>客户端没有出现任何一个Sql server 和 Access 字样, 达到了解耦的目的.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 小才厉害了, 你的改进确实比之前的代码要更进一步了, 客户端已经不再受改动数据库访问的影响了. 可以打95分了.” 大鸟拍了拍小菜, 鼓励的说, “为什么不能得满分, 原因是如果我需要增加 Oracle 数据库访问, 本来抽象工厂只怎加一个 OracleFactory 工厂类就可以了, 现在就比较麻烦了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 没办法, 这样就需要在 DataAccess 类中每个方法的switch 中加 case 了.”</p>
+<h3 id="15-8-用反射-抽象工厂的数据访问程序"><a href="#15-8-用反射-抽象工厂的数据访问程序" class="headerlink" title="15.8 用反射+抽象工厂的数据访问程序"></a>15.8 用反射+抽象工厂的数据访问程序</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “我们要考虑的是可不可以不再程序里写明 ‘如果是 Sqlserver 就去实例化 Sql server 数据库相关类, 如果是 Access 就去实例化 Access 相关类’ 这样的语句, 而是根据字符串 db 的值去某个地方找应该要实实例化的类是哪一个. 这样, 我们的switch 就可以对他说再见了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “听不太懂哦, 设么叫 ‘去某个地方找应该要实例化的类是哪一个’ ?” 小菜糊涂地问.<br>&nbsp;&nbsp;&nbsp;&nbsp; “我要说的是就是一种编程方式: 依赖注入(Dependency Injection), 从字面上不太好理解, 我们也不去管它. 关键在于如何去用这种方法来解决我们的 switch 问题. 本来依赖注是需要专门的 loC 容器提供, 比如 Spring.NET, 显然当前这个程序不需要这么麻烦, 你只需要在了解一个简单的 .NET 技术 ‘反射’ 就可以了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 你一下在说有事 ‘依赖注入’ 又是 ‘反射’ 这些莫名的名词, 很晕.” 小菜有些犯困, “我就想知道, 如何向switch 说 bye-bye! 至于那些什么概念我不想了解.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “心急讨不了好媳妇! 你急什么?” 大鸟嘲笑道, “反射技术看起来很玄乎 其实实际用起来不算难. 他的格式是: “</p>
+<blockquote>
+<p> <strong>Class<iuser> cl = (Class<iuser>) Class.forName(“包名+类名”);</iuser></iuser></strong><br> <strong>result = cl.newInstance();</strong></p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “引用反射就可以帮助我们来客服抽象工厂模式的先天不足了. 我们获得实例可以用下面两种写法”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 常规写法</span></div><div class="line">IUser result = <span class="keyword">new</span> SqlserverUser();</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 反射的写法</span></div><div class="line">Class&lt;IUser&gt; cl = (Class&lt;IUser&gt;) Class.forName(<span class="string">"包名.SqlserverUser"</span>);</div><div class="line">result = cl.newInstance();</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “实例化的效果是一样的, 但这两种方法的区别在哪里?” 大鸟问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “常规方法是写明了要实例化 SqlserverUser 对象. 反射的写法, 其实也是致命了要实例化的 SqlserverUser 对象啊.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “常规的方法你可以灵活的换为AccessUser 吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “不可以, 这都是实现编译好的代码.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那你看看, 在反射中 ‘createInstance(“包名.SqlserverUser”)’ 可以灵活的换 ‘SqlserverUser’ 为 ‘AccessUser’ 吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “还不是一样, 写死在代码中…….等等, 哦!!! 我明白了.” 小菜一下子顿悟过来, 兴奋起来. “因为这里是字符串, 可以用变量来处理, 也就是可以根据需要更换. 哦, My God! 太妙了!”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈哈, 之前跟你说过, ‘体会到面向对象带来的好处, 怎么一个爽子了得啊’, 你有这种感觉了?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “恩, 我一下子知道这里的差别主要在原来的实例化是写死在程序里, 而现在用了反射就可以利用字符串来实例化对象, 而变量是可以更换的.” 小菜说道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “写死在程序里, 太难听了. 准确的说, 是将程序邮编意识转为运行时. 由于 ‘createInstance(“包名.SqlserverUser”)’ 中的字符串是可以写成变量的, 耳边两的事到底是 sql server, 还是 Access, 完全可以有实现的那个 db 变量来决定. 所以就除去了 switch 分支的判断.”</p>
+<p>DataAccess类, 用反射技术, 取代 IFactory, SqlserverFactory 和 AccessFactory.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataAccess</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String <span class="keyword">package</span> = <span class="string">"second"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String db = <span class="string">"Sqlserver"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IUser <span class="title">createUser</span><span class="params">()</span></span>&#123;</div><div class="line">        IUser result = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Class&lt;IUser&gt; cl = (Class&lt;IUser&gt;) Class.forName(</div><div class="line">                <span class="keyword">package</span> + <span class="string">"."</span>+ db + <span class="string">"User"</span>);</div><div class="line">            result = cl.newInstance();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">finally</span>&#123;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IDepartment <span class="title">createDepartment</span><span class="params">()</span> </span>&#123;</div><div class="line">        IDepartment result = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Class&lt;IDepartment&gt; cl = (Class&lt;IDepartment&gt;) Class.forName(</div><div class="line">                <span class="keyword">package</span> + <span class="string">"."</span> + getDataBase() + <span class="string">"Department"</span>);</div><div class="line">            result = cl.newInstance();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">finally</span>&#123;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “如果我们增加了 Oracle 数据访问, 相关的类的增加是不可避免的, 这点我们用任何办法都解决不了, 不过这叫扩展, 开放-封闭原则告诉我们, 对于扩展, 我们开放. 但对于修改, 我们应该要尽量关闭, 就目前而言, 我们只需要更改 <code>private static final String db = &quot;Sqlserver&quot;;</code> 为 <code>private static final String db = &quot;Oracle&quot;;</code> 也就意味着, <code>Class&lt;IUser&gt; cl = (Class&lt;IUser&gt;) Class.forName(&quot;包名.SqlserverUser&quot;);</code> 这一句发生了变化.”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Class&lt;IUser&gt; cl = (Class&lt;IUser&gt;) Class.forName(<span class="string">"包名.SqlserverUser"</span>);</div></pre></td></tr></table></figure></p>
+<p>更改为:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Class&lt;IUser&gt; cl = (Class&lt;IUser&gt;) Class.forName(<span class="string">"包名.OracleUser"</span>);</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这样的结果就是 <code>DataAccess.createUser()</code> 本来得到的是 SqlserverUser 的实例, 而现在变成了 OracleUser 的实例了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那么如果我们需要增加 Project 产品时, 如何做呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “只需要增加三个与 Project 相关的类, 在修改 DataAccess, 在其中增加一个 <code>public static IProject createProject()</code> 方法就可以了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “怎么样, 编程的艺术感是不是出来了?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 比以前, 这代码是漂亮多了. 但是, 总感觉还是有点缺陷, 因为在更换数据库访问时, 我还是需要去该程序(db 这个字符串的值) 重新编译, 如果不修改程序, 那才是真正的符合开放封闭原则.”</p>
+<h3 id="15-9-用反射-配置文件实现数据访问程序"><a href="#15-9-用反射-配置文件实现数据访问程序" class="headerlink" title="15.9 用反射+配置文件实现数据访问程序"></a>15.9 用反射+配置文件实现数据访问程序</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “小菜追求很完美嘛! 我们还可以利用配置文件来解决更改 DataAccess 的问题.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 对的, 对的, 我也可以读取文件来个 DB 字符串复制, 在配置文件中写明是 Sqlserver 还是 Access, 这样就连 DataAccess 类也不用改了.”</p>
+<p>添加配置文件 database.properties<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sql=Access</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “再添加反射, 更改 DataAccess 类字段的 DB 赋值代码”<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> second;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataAccess</span> </span>&#123;</div><div class="line">    <span class="comment">// 包名</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PACKAGE_NAME = <span class="string">"second"</span>;</div><div class="line">    <span class="comment">// 待访问的数据库</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String db;</div><div class="line"></div><div class="line">    <span class="comment">// 数据库表表示</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String user = <span class="string">"User"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String dept = <span class="string">"Department"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 从配置文件中获取访问字段</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getDataBase</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>( db != <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> db;</div><div class="line">        &#125;</div><div class="line">        Properties prop = <span class="keyword">new</span> Properties();</div><div class="line">        InputStream in = DataAccess.class.getResourceAsStream(<span class="string">"database.properties"</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            prop.load(in);</div><div class="line">            db = prop.getProperty(<span class="string">"sql"</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> db;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 返回 User 表的访问类</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IUser <span class="title">createUser</span><span class="params">()</span></span>&#123;</div><div class="line">        IUser result = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Class&lt;IUser&gt; cl = (Class&lt;IUser&gt;) Class.forName(</div><div class="line">                PACKAGE_NAME + <span class="string">"."</span>+ getDataBase() + user);</div><div class="line">            result = cl.newInstance();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 返回 Department 表的访问类</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IDepartment <span class="title">createDepartment</span><span class="params">()</span> </span>&#123;</div><div class="line">        IDepartment result = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Class&lt;IDepartment&gt; cl = (Class&lt;IDepartment&gt;) Class.forName(</div><div class="line">                PACKAGE_NAME + <span class="string">"."</span> + getDataBase() + dept);</div><div class="line">            result = cl.newInstance();</div><div class="line">        &#125;  <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="15-10-无痴迷-不成功"><a href="#15-10-无痴迷-不成功" class="headerlink" title="15.10 无痴迷, 不成功"></a>15.10 无痴迷, 不成功</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “设计模式真的好神奇啊, 如果早先是这样设计的话, 我今天就不要用加班加点了”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好了, 都快1点了, 你还要不要睡觉呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 今天都加了一晚上的班, 但是学起来设计模式, 我把时间都给忘记了,  什么劳累都没了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这说明你是做程序员的料, <strong>一个程序员如果从来没有熬夜写程序的经历, 不能锁是一个好程序员, 因为他没有痴迷过, 所以他不会有大成就.</strong>(其实吧, 我觉得早晨起来写也是可以的, 不要太死板).”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 无痴迷不成功,. 我一定会成为优秀的程序员. 我坚信.” 小菜非常自信的说到.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/15/design_pattern_fresher/delegate-fresher/" rel="next" title="00.2 番外篇2 - java 中实现委托模式.(Delegate)">
+                <i class="fa fa-chevron-left"></i> 00.2 番外篇2 - java 中实现委托模式.(Delegate)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/19/design_pattern_fresher/state-fresher/" rel="prev" title="16.无尽加班何时休 - 状态模式(State Pattern)">
+                16.无尽加班何时休 - 状态模式(State Pattern) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#15-1-就不能不换-DB-吗"><span class="nav-number">1.</span> <span class="nav-text">15.1 就不能不换 DB 吗?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-2-最基本的数据问程序"><span class="nav-number">2.</span> <span class="nav-text">15.2 最基本的数据问程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-3-用了工厂方法模式的数据访问程序"><span class="nav-number">3.</span> <span class="nav-text">15.3 用了工厂方法模式的数据访问程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-4-用了抽象工厂模式-Abstract-Factory-Pattern-的数据访问程序"><span class="nav-number">4.</span> <span class="nav-text">15.4 用了抽象工厂模式(Abstract Factory Pattern)的数据访问程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-5-抽象工厂模式-Abstract-Factory-Pattern"><span class="nav-number">5.</span> <span class="nav-text">15.5 抽象工厂模式(Abstract Factory Pattern)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-6-抽象工厂模式的优点与缺点"><span class="nav-number">6.</span> <span class="nav-text">15.6 抽象工厂模式的优点与缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-7-用简单工厂来改进抽象工厂"><span class="nav-number">7.</span> <span class="nav-text">15.7 用简单工厂来改进抽象工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-8-用反射-抽象工厂的数据访问程序"><span class="nav-number">8.</span> <span class="nav-text">15.8 用反射+抽象工厂的数据访问程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-9-用反射-配置文件实现数据访问程序"><span class="nav-number">9.</span> <span class="nav-text">15.9 用反射+配置文件实现数据访问程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-10-无痴迷-不成功"><span class="nav-number">10.</span> <span class="nav-text">15.10 无痴迷, 不成功</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

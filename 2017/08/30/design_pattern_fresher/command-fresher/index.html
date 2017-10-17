@@ -1,0 +1,927 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="23.1 吃烤羊肉串! 时间: 6月23日17点 &amp;nbsp; 地点: 小区门口 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 肚子饿了, 走, 我请你去吃羊肉串.”">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="23.烤羊肉串引来的思考 — 命令模式(Command Pattern)">
+<meta property="og:url" content="http://yoursite.com/2017/08/30/design_pattern_fresher/command-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="23.1 吃烤羊肉串! 时间: 6月23日17点 &amp;nbsp; 地点: 小区门口 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 肚子饿了, 走, 我请你去吃羊肉串.”">
+<meta property="og:image" content="http://yoursite.com/images/command-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/command-fresher/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/command-fresher/pic03.png">
+<meta property="og:updated_time" content="2017-08-30T11:01:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="23.烤羊肉串引来的思考 — 命令模式(Command Pattern)">
+<meta name="twitter:description" content="23.1 吃烤羊肉串! 时间: 6月23日17点 &amp;nbsp; 地点: 小区门口 &amp;nbsp; 人物: 小菜, 大鸟  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “小菜, 肚子饿了, 走, 我请你去吃羊肉串.”">
+<meta name="twitter:image" content="http://yoursite.com/images/command-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/30/design_pattern_fresher/command-fresher/"/>
+
+
+
+
+
+  <title> 23.烤羊肉串引来的思考 — 命令模式(Command Pattern) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/30/design_pattern_fresher/command-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                23.烤羊肉串引来的思考 — 命令模式(Command Pattern)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-30T18:41:29+08:00">
+                2017-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/30/design_pattern_fresher/command-fresher/" class="leancloud_visitors" data-flag-title="23.烤羊肉串引来的思考 — 命令模式(Command Pattern)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="23-1-吃烤羊肉串"><a href="#23-1-吃烤羊肉串" class="headerlink" title="23.1 吃烤羊肉串!"></a>23.1 吃烤羊肉串!</h3><ul>
+<li>时间: 6月23日17点 &nbsp; 地点: 小区门口 &nbsp; 人物: 小菜, 大鸟</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “小菜, 肚子饿了, 走, 我请你去吃羊肉串.”<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; “好呀, 小区门口的那新疆人烤的就很不错的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 小菜和 大鸟来到了小区门口.<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 这么多人, 都围了十几个了.” 小菜感叹道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “现在读大学, 进公司, 做白领, 其实未必有人家烤羊肉串的挣得多.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这是两回事, 人家也是很辛苦的”<br>&nbsp;&nbsp;&nbsp;&nbsp; “…..”<br>&nbsp;&nbsp;&nbsp;&nbsp; 旁边等着拿肉的人七嘴八舌的叫开了. 场面有些混乱, 由于人实在太多, 烤羊肉串的老板已经分不清谁是谁了, 造成分发错误, 收钱错误, 烤肉质量不过关等等.<br>&nbsp;&nbsp;&nbsp;&nbsp; “小菜, 我们换一家吧, 这里实在是太混乱了, 过去不远有一家烤肉店是有店面的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “恩, 他这样子生意是做不好. 咱们去那一家吧.”</p>
+<ul>
+<li>时间: 6月23日18点 &nbsp; 地点: 烤肉店 &nbsp; 人物: 小菜, 大鸟</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 小菜和大鸟走到了那家烤肉店.<br>&nbsp;&nbsp;&nbsp;&nbsp; “服务员, 我们要十串羊肉串, 两串鸡翅, 两瓶啤酒.” 大鸟根本没有看菜单.<br>&nbsp;&nbsp;&nbsp;&nbsp; “鸡翅没有了, 你点点别的烧烤吧.” 服务员答道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “那来四串牛板筋, 烤肉要辣的.” 大鸟很轻车熟路.<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟常来这里吃吗? 很熟悉嘛!” 小菜问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “太熟悉了, 这年头, 单身在外混, 哪有不熟悉家门口附近的吃饭的地儿. 不然每天晚上的肚皮问题怎么解决?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你说, 在外面打游击烤羊肉串和这种开门店做烤肉, 哪个更赚钱?” 小菜问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 这很难讲, 毕竟各有各的好, 在外面打游击, 好处是不用租房, 不用上税, 最多就是交点儿保护费, 但下雨天不行, 大白天不行, 太晚也不行, 一般都是傍晚几个钟头, 顾客也不固定, 像刚才那个, 由于人多造成混乱, 于是就放跑了我们这两条大鱼, 其实他的生意是不稳定的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大白天不行? 太晚不行?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大白天, 城管没下班呢, 怎能容他如此安逸. 超过晚上11点, 夜深人静, 谁还愿意在路边吃烤肉. 单开门店就不一样了, 不管什么时间做生意, 由于环境相对较好, 所以固定的顾客就多, 看似房租好像是交出去了, 但其实由于顾客多, 而且是正经做生意, 所以最终可以赚到大钱.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟研究得很透嘛!”<br>&nbsp;&nbsp;&nbsp;&nbsp; “其实这门店好过马路游击队, 还可以对应一个很重要的设计模式呢!”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 此话怎讲?”</p>
+<h3 id="23-2-烧烤摊-vs-烤肉店"><a href="#23-2-烧烤摊-vs-烤肉店" class="headerlink" title="23.2 烧烤摊 vs. 烤肉店"></a>23.2 烧烤摊 vs. 烤肉店</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “你在回忆刚才我们在小区门口烤肉摊看到的情景.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “因为要吃烤肉的人太多, 都希望能最快吃到肉串, 烤肉老板一个人, 所以有些混乱.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “还不止这些, 老板一个人, 来的人一多, 他就未必记得住谁交没交过钱, 要几串, 需不需要放辣椒等等.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 大家都站在这里, 没什么事, 于是都盯着烤肉去了, 那一串多, 那一串少, 那一串烤的好, 那一串烤的焦都看的清清楚楚, 于是挑剔也就接踵而至.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这其实就是我们在编程中说的什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我想想, 你是想说 ‘紧耦合’?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 不错, 不枉我的精心栽培.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “由于客户和烤羊肉串老板的 ‘紧耦合’ 所以是的容易出错, 容易混乱, 也容易挑剔.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “说得对, <strong>这其实就是 ‘行为请求者’ 与 ‘行为实现者’ 的紧耦合</strong>. 我们需要记录那个人要几串羊肉串, 有没有特殊要求(放辣不放辣), 付没付过钱, 谁先谁后, 这其实都相当于请求做什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “对请求做记录, 啊, 应该是做日志.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “很好, 那么如果有人需要退回请求, 或者要求烤肉重考, 这其实就是?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “相当于撤销和重做吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “OK, 所以<strong>对请求排队或记录请求日志, 以及支持可撤销的操作</strong>等行为, ‘行为请求者’ 与 ‘行为实现者’ 的紧耦合是不太适合的. 你说怎么办?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “开家门店.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 这是最终结果, 不是这个意思, 我们是烤肉请求者, 烤肉的师傅是烤肉的的实现者, 对于开门店来说, 我们用得着去看烤肉的实现过程吗? 现实是怎么做的呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我明白你的意思了, 我们不用去认识烤肉者是谁, 连他的面都不用见到, 我们只需要给接待我们的服务员说我们要什么就可以了. 他可以记录请求, 然后在有他去通知烤肉师傅做.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “而且, 由于我们所做的请求, 其实也就是我们点肉的订单, 上面与很详细的我们的要求, 所有的客户都有着一份订单, 烤肉师傅可以按照先后顺序操作 不会混乱, 也不会遗忘.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “收钱的时候, 也不会多收或少收.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “优点还不止这些, 比如说,” 大鸟突然大声叫道, “服务员, 我们那十串羊肉串太多了, 改成六串就可以了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好的!” 服务员答道.<br>&nbsp;&nbsp;&nbsp;&nbsp; 大鸟接着说: “你注意看他接下来接着做什么了”<br>&nbsp;&nbsp;&nbsp;&nbsp; “他好像在一个小本子上划了一下, 然后去通知烤肉师傅了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “对呀, 这其实是在做撤销行为的操作. 由于有了记录, 所以最终算账还是不会错的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “对对对, 这里用一个服务员来解除客户和烤肉师傅的处理好处真的是很多.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好了, 这里有纸和笔, 你把刚才的想法写成代码吧?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 在这?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这才叫<strong>让编程融入生活.</strong> 来吧, 不写出来, 你是不能完全理解的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好吧, 我试试看.”</p>
+<h3 id="23-3-紧耦合设计"><a href="#23-3-紧耦合设计" class="headerlink" title="23.3 紧耦合设计"></a>23.3 紧耦合设计</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 边吃着烤肉串, 编写代码, 小才完成了第一版.<br>&nbsp;&nbsp;&nbsp;&nbsp; 代码结构图</p>
+<div align="center"><br><img src="/images/command-fresher/pic01.png" width="300" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 路边烤羊肉串的实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 烤羊肉串者</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Barbecuer</span> </span>&#123;</div><div class="line">    <span class="comment">// 烤羊肉</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">backMutton</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"烤羊肉串!"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 烤鸡翅</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">backChickenWing</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"烤鸡翅!"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端调用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Barbecuer boy = <span class="keyword">new</span> Barbecuer();</div><div class="line">    <span class="comment">// 客户端程序与 '烤肉串者' 紧耦合, 尽管简单</span></div><div class="line">    <span class="comment">// 但却极为僵化, 有许许多多的隐患</span></div><div class="line">    boy.backMutton();</div><div class="line">    boy.backMutton();</div><div class="line">    boy.backMutton();</div><div class="line">    boy.backChickenWing();</div><div class="line">    boy.backMutton();</div><div class="line">    boy.backMutton();</div><div class="line">    boy.backChickenWing();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “很好, 这就是路边烤肉的对应, 如果用户多了, 请求多了, 就容易乱了. 那你在尝试用门店的方式来实现它.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我知道一定要增加服务员类, 但怎么做有些不太明白.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “恩, 这里的却是难点, 要知道, 不管是烤羊肉串, 还是烤鸡翅, 还是其他烧烤, 这些都是 ‘烤肉串者类’ 的行为, 也就是他的方法, 具体怎么做都是有方法内部来实现的, 我们不用去管它. 但是由于 ‘服务员’ 类来说, 他其实就是根据用户的需要, 发个命令, 说: ‘有人要是个羊肉串, 有人要两个鸡翅’, 这些都是命令….”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我明白了, 你的意思是, 把 ‘烤肉串者’ 类当中的方法, 分别写成多个命令类, 那么他们就可以被服务员类请求了?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 说的没错, 这些命令其实差不多都是同一个样式, 于是你就可以放画出一个抽象类, 让 ‘服务员’ 只管对抽象类的 ‘命令’ 发号施令就可以了. 具体是什么命令, 即是烤什么, 有客户来决定吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我大概明白了.”</p>
+<h3 id="23-4-松耦合的设计"><a href="#23-4-松耦合的设计" class="headerlink" title="23.4 松耦合的设计"></a>23.4 松耦合的设计</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 接着, 小菜经过思考, 把第二个版本的代码写了出来.<br>&nbsp;&nbsp;&nbsp;&nbsp; 代码结构图</p>
+<div align="center"><br><img src="/images/command-fresher/pic02.png" width="550" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 抽象命令类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//抽象命令</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Command</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> Barbecuer receiver;</div><div class="line"></div><div class="line">	<span class="comment">// 抽象命令类, 只需要确定 '烤肉串者' 是谁</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Command</span><span class="params">(Barbecuer receiver)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.receiver = receiver;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 执行命令</span></div><div class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">executeCommand</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 具体命令类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 烤羊肉命令</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BackMuttonCommand</span> <span class="keyword">extends</span> <span class="title">Command</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BackMuttonCommand</span><span class="params">(Barbecuer receiver)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(receiver);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 具体命令类, 执行命令时, 执行具体行为</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">executeCommand</span><span class="params">()</span> </span>&#123;</div><div class="line">        receiver.backMutton();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> getClass().getSimpleName();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 烤鸡翅命令</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BackChickenWingCommand</span> <span class="keyword">extends</span> <span class="title">Command</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BackChickenWingCommand</span><span class="params">(Barbecuer receiver)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(receiver);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">executeCommand</span><span class="params">()</span> </span>&#123;</div><div class="line">        receiver.backChickenWing();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> getClass().getSimpleName();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 服务员类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 服务员类</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Waiter</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Command command;</div><div class="line"></div><div class="line">    <span class="comment">// 设置订单</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOrder</span><span class="params">(Command command)</span> </span>&#123;</div><div class="line">        <span class="comment">// 不管用户想要什么烤肉, 反正都是 '命令'</span></div><div class="line">        <span class="comment">// 只管记录订单, 然后通知 '烤肉串者' 执行即可</span></div><div class="line">        <span class="keyword">this</span>.command = command;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 通知执行</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyOrder</span><span class="params">()</span> </span>&#123;</div><div class="line">        command.executeCommand();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 烤肉者类与之前相同, 略<br>&nbsp;&nbsp;&nbsp;&nbsp; 客户端实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="comment">// 开店前的准备</span></div><div class="line">    Barbecuer boy = <span class="keyword">new</span> Barbecuer();</div><div class="line">    Command backMuttonCommand1 = <span class="keyword">new</span> BackMuttonCommand(boy);</div><div class="line">    Command backMuttonCommand2 = <span class="keyword">new</span> BackMuttonCommand(boy);</div><div class="line">    Command backChickenWindCommand1 = <span class="keyword">new</span> BackChickenWingCommand(boy);</div><div class="line">    Waiter girl = <span class="keyword">new</span> Waiter();</div><div class="line"></div><div class="line">    <span class="comment">// 开门营业</span></div><div class="line">    girl.setOrder(backMuttonCommand1);</div><div class="line">    girl.notifyOrder();</div><div class="line">    girl.setOrder(backMuttonCommand2);</div><div class="line">    girl.notifyOrder();</div><div class="line">    girl.setOrder(backChickenWindCommand1);</div><div class="line">    girl.notifyOrder();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 我这样写如何?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “很好很好, 基本把代码都实现了. 但有几个问题, 第一, 真实的情况其实并不是用户点一个菜, 服务员就通知厨房去做一个, 那样不科学, 应该是点完烤肉后, 服务员依次通知制作; 第二, 如果此时鸡翅没了, 不应该是客户来判断是否还有, 客户哪知道有没有呀, 应该是服务员或烤肉串者来否决这个请求; 第三, 客户到地点了哪些烧烤或饮料, 这是需要记录日志的, 以备收费, 也包括后期的统计; 第四, 客户完全有可能因为点的肉串太多而烤炉取消一些还没有制作的肉串. 这些问题都需要解决.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你说的这些好像现在都不难办到了, 你看着…”</p>
+<h3 id="23-5-松耦合后"><a href="#23-5-松耦合后" class="headerlink" title="23.5 松耦合后"></a>23.5 松耦合后</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 小才开始了第三版的代码编写.<br>&nbsp;&nbsp;&nbsp;&nbsp; 服务员类.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 服务员类</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Waiter</span> </span>&#123;</div><div class="line">    <span class="comment">// 增加存放具体命令的容器</span></div><div class="line">    <span class="keyword">private</span> List&lt;Command&gt; orders = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="comment">// 设置订单</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOrder</span><span class="params">(Command command)</span> </span>&#123;</div><div class="line">        <span class="comment">// 在客户提出请求时, 对没货的烧烤进行拒绝</span></div><div class="line">        <span class="keyword">if</span> (Objects.equals(command.toString(), BackChickenWingCommand.class.getSimpleName())) &#123;</div><div class="line">            System.out.println(<span class="string">"服务员: 鸡翅没有了, 请点别的烧烤"</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            orders.add(command);</div><div class="line">            <span class="comment">// 记录客户所点的烧烤的日志,</span></div><div class="line">            <span class="comment">// 以备算账收钱</span></div><div class="line">            System.out.println(<span class="string">"增加订单: "</span> + command.toString() +</div><div class="line">            <span class="string">"时间: "</span> + <span class="keyword">new</span> Date().toString());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 取消订单</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelOrder</span><span class="params">(Command command)</span> </span>&#123;</div><div class="line">        orders.remove(command);</div><div class="line">        System.out.println(<span class="string">"取消订单: "</span> + command.toString() +</div><div class="line">        <span class="string">"时间: "</span> + <span class="keyword">new</span> Date().toString());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 通知全部执行</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyOrder</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Command order : orders) &#123;</div><div class="line">            order.executeCommand();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="comment">// 开店前的准备</span></div><div class="line">    Barbecuer boy = <span class="keyword">new</span> Barbecuer();</div><div class="line">    Command backMuttonCommand1 = <span class="keyword">new</span> BackMuttonCommand(boy);</div><div class="line">    Command backMuttonCommand2 = <span class="keyword">new</span> BackMuttonCommand(boy);</div><div class="line">    Command backChickenWindCommand1 = <span class="keyword">new</span> BackChickenWingCommand(boy);</div><div class="line">    Waiter girl = <span class="keyword">new</span> Waiter();</div><div class="line"></div><div class="line">    <span class="comment">// 开门营业</span></div><div class="line">    girl.setOrder(backMuttonCommand1);</div><div class="line">    girl.setOrder(backMuttonCommand2);</div><div class="line">    girl.setOrder(backChickenWindCommand1);</div><div class="line"></div><div class="line">    <span class="comment">// 点菜完毕, 一次通知厨房</span></div><div class="line">    girl.notifyOrder();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 执行结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">增加订单: BackMuttonCommand时间: Sun Feb <span class="number">12</span> <span class="number">15</span>:<span class="number">18</span>:<span class="number">37</span> CST <span class="number">2017</span></div><div class="line">增加订单: BackMuttonCommand时间: Sun Feb <span class="number">12</span> <span class="number">15</span>:<span class="number">18</span>:<span class="number">37</span> CST <span class="number">2017</span></div><div class="line">服务员: 鸡翅没有了, 请点别的烧烤</div><div class="line">烤羊肉串!</div><div class="line">烤羊肉串!</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 这就比较完整了.” 大鸟满意地点点头.<br>&nbsp;&nbsp;&nbsp;&nbsp; “你还没有说这是什么设计模式呢.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 你猜也应该猜得出, 你的那个抽象类叫什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “命令, 哦, 这就是大名鼎鼎的命令模式啊.”</p>
+<h3 id="23-6-命令模式"><a href="#23-6-命令模式" class="headerlink" title="23.6 命令模式"></a>23.6 命令模式</h3><blockquote>
+<p><strong>命令模式(Command)</strong>, 将一个请求封装成一个对象, 从而使你可用不同的请求对客户进行参数化; 对请求排队或记录请求日志, 以及支持可撤销操作.[DP]</p>
+</blockquote>
+<div align="center"><br><img src="/images/command-fresher/pic03.png" width="600" height="100" title="命令模式结构图"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Command 类, 用来声明执行操作的接口.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Command</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> Receiver receiver;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Command</span><span class="params">(Receiver receiver)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.receiver = receiver;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">executeCommand</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ConcreteCommand 类, 将一个接受者对象绑定于一个动作, 调用接受者的相应操作, 以实现 <code>execute()</code> .<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteCommand</span> <span class="keyword">extends</span> <span class="title">Command</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteCommand</span><span class="params">(Receiver receiver)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(receiver);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">executeCommand</span><span class="params">()</span> </span>&#123;</div><div class="line">        receiver.action();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Invoker 类, 要求该命令执行这个请求<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Invoker</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Command command;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCommand</span><span class="params">(Command command)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.command = command;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">executeCommand</span><span class="params">()</span> </span>&#123;</div><div class="line">        command.executeCommand();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Receiver 类, 知道如何实施与执行一个与请求相关的操作, 任何类都可能作为一个接受者<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Receiver</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">action</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"执行请求"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码, 创建一个具体命令对象并设定他的接受者.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Receiver r = <span class="keyword">new</span> Receiver();</div><div class="line">    Command c = <span class="keyword">new</span> ConcreteCommand(r);</div><div class="line">    Invoker i = <span class="keyword">new</span> Invoker();</div><div class="line">    i.setCommand(c);</div><div class="line">    i.executeCommand();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="23-7-命令模式的作用"><a href="#23-7-命令模式的作用" class="headerlink" title="23.7 命令模式的作用"></a>23.7 命令模式的作用</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “来来来, 小菜你来总结一下命令模式的优点.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我觉得<strong>第一, 他能较容易的设计一个命令队列; 第二, 在需要的情况下, 可以较容易地将命令计入日志; 第三, 允许接受请求的一方决定是否否决请求.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “还有就是<strong>第四, 可以容易的实现对请求的撤销和重做; 第五, 由于加进新的具体命令类不影响其他的类, 因此增加新的具体命令类很容易.</strong> 其实还有最关键的优点就是<strong>命令模式把请求一个操作的对象, 和知道怎么执行一个操作的对象分开.[DP]</strong> “ 大鸟接着总结说.<br>&nbsp;&nbsp;&nbsp;&nbsp; “但是是否碰到类似的情况就一定要使用命令模式呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这就不一定了, 比如命令模式支持撤销/回复操作功能, 但你还不清楚是否需要这个功能时, 你要不要实现命令模式?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “要, 万一以后需要就不好办了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “其实应该是不要实现. <strong>敏捷开发原则告诉我们, 不要为代码添加基于猜测, 实际不需要的功能. 如果不清楚一个系统是否需要命令模式, 一般就不要着急去实现它, 事实上, 在需要的时候通过重构实现这个模式并不困难, 只有在真正需要如撤销/恢复操作等功能时, 把原来的代码重构为命令模式才有意义.[R2P]</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “明白. 这一顿我请了.” 小菜很开心, 大叫了一声, “服务员, 埋单.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “先生, 你们一共吃了28元.” 服务员递过来一个收费单.<br>&nbsp;&nbsp;&nbsp;&nbsp; 小菜正准备付钱.<br>&nbsp;&nbsp;&nbsp;&nbsp; “慢!” 大鸟按住小菜的手, “不对呀, 我们没有吃10串羊肉串, 后来改成6串了. 应该是24元.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 服务员去查了查账本, 回来很抱歉地说, “真对不起, 我们算错了, 应该是24元.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “小菜, 你看到了吧, 如果不是服务员做了记录, 也就是日志, 单就烤肉串的人, 哪记得住烤了多少串, 后果就是大家都说不清楚了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “还是大鸟精明啊.”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/29/design_pattern_fresher/bridge-fresher/" rel="next" title="22.手机软件何时统一 - 桥接模式(Bridge Pattern)">
+                <i class="fa fa-chevron-left"></i> 22.手机软件何时统一 - 桥接模式(Bridge Pattern)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/14/work_log/work-log-2017-09/" rel="prev" title="工作日志(2017-9)">
+                工作日志(2017-9) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#23-1-吃烤羊肉串"><span class="nav-number">1.</span> <span class="nav-text">23.1 吃烤羊肉串!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-2-烧烤摊-vs-烤肉店"><span class="nav-number">2.</span> <span class="nav-text">23.2 烧烤摊 vs. 烤肉店</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-3-紧耦合设计"><span class="nav-number">3.</span> <span class="nav-text">23.3 紧耦合设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-4-松耦合的设计"><span class="nav-number">4.</span> <span class="nav-text">23.4 松耦合的设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-5-松耦合后"><span class="nav-number">5.</span> <span class="nav-text">23.5 松耦合后</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-6-命令模式"><span class="nav-number">6.</span> <span class="nav-text">23.6 命令模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-7-命令模式的作用"><span class="nav-number">7.</span> <span class="nav-text">23.7 命令模式的作用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

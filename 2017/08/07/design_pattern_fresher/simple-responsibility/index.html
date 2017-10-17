@@ -1,0 +1,897 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="3.1 新手机 时间: 2月28日18点 &amp;nbsp;  地点: 小菜大鸟居住的校区附近  &amp;nbsp;  人物: 小菜, 大鸟">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="03.拍摄 UFO - 单一职责原则(Single Responsibility Principle)">
+<meta property="og:url" content="http://yoursite.com/2017/08/07/design_pattern_fresher/simple-responsibility/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="3.1 新手机 时间: 2月28日18点 &amp;nbsp;  地点: 小菜大鸟居住的校区附近  &amp;nbsp;  人物: 小菜, 大鸟">
+<meta property="og:updated_time" content="2017-08-07T01:44:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="03.拍摄 UFO - 单一职责原则(Single Responsibility Principle)">
+<meta name="twitter:description" content="3.1 新手机 时间: 2月28日18点 &amp;nbsp;  地点: 小菜大鸟居住的校区附近  &amp;nbsp;  人物: 小菜, 大鸟">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/07/design_pattern_fresher/simple-responsibility/"/>
+
+
+
+
+
+  <title> 03.拍摄 UFO - 单一职责原则(Single Responsibility Principle) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/07/design_pattern_fresher/simple-responsibility/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                03.拍摄 UFO - 单一职责原则(Single Responsibility Principle)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-07T09:30:19+08:00">
+                2017-08-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/07/design_pattern_fresher/simple-responsibility/" class="leancloud_visitors" data-flag-title="03.拍摄 UFO - 单一职责原则(Single Responsibility Principle)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="3-1-新手机"><a href="#3-1-新手机" class="headerlink" title="3.1 新手机"></a>3.1 新手机</h3><ul>
+<li>时间: 2月28日18点 &nbsp;  地点: 小菜大鸟居住的校区附近  &nbsp;  人物: 小菜, 大鸟<a id="more"></a>
+&nbsp;&nbsp;&nbsp;&nbsp;  大鸟小菜晚上晚饭过后, 在外面散步.<br>&nbsp;&nbsp;&nbsp;&nbsp; 大鸟: “小菜, 刚换的手机感觉如何?”<br>&nbsp;&nbsp;&nbsp;&nbsp; 小菜: “哈, 当然是怎个爽字了得, 可以听音乐, 玩儿游戏, 拍照, 摄像, 功能全着呢!”<br>&nbsp;&nbsp;&nbsp;&nbsp; 大鸟: “你们这些小年轻, 只会赶时髦, 手机要那么多功能干嘛? 能打电话就可以了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 小菜: “这你就不懂了吧, 比如你出门旅游, 数码相机一定要的吧, 拍照时最起码的旅游需求; 有摄像机会更好, 动的影像不是更有保留价值吗; 一路上无聊的时候, 打打游戏总是需要的, 游戏机要准备; 坐在大巴士上, 看着窗外的美景, 听听音乐应该也属于正常需求吧, MP3一定要带着了; 有时获取还需要什么GPS 定位, 上网看看新闻, 发发邮件, 查查股票行情, 这些需求如何办,总不能带着笔记本电脑在路上跑吧. 这些东西且不说本身就很重, 很麻烦, 就说这些东西的充电器, 就是五花八门, 估计单就带着些东西, 你就得累个半死了. “<br>&nbsp;&nbsp;&nbsp;&nbsp;  大鸟: “说的没错, 现在电子产品能玩儿的东西太多了…..”<br>&nbsp;&nbsp;&nbsp;&nbsp;  小菜: “啊, 大鸟! 快看!”</li>
+</ul>
+<h3 id="3-2-拍摄"><a href="#3-2-拍摄" class="headerlink" title="3.2 拍摄"></a>3.2 拍摄</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 小菜惊呼, 左手拉住大鸟,  右手指向了天空.<br>&nbsp;&nbsp;&nbsp;&nbsp;  大鸟跟着抬头一看, “那应该是架飞机吧!”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “不可能,” 小菜坚决地说, “飞机哪有没翅膀的, 那个东西飞的很奇怪, 你看你看, 他停在空中, 普通飞机怎么会在空中停下来.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “是不太象飞机, 飞碟?!—傻菜, 快用你的手机录像呀!”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “是是是, 啊, 这手机怎么….等等,” 小菜手忙脚乱.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “看你慌得,” 大鸟说, “快些, 马上可能就没了.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “好了好了,” 小菜终于打开了手机的摄像功能, 对准了天空, “主要是对新功能不熟悉, 你看, 这家伙飞的多快.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “恩, 应该是飞碟, 不然不可能这种样子的, 以前也不是没听过这玩儿意儿,” 大鸟肯定到, “还好你这手机可以摄像—啊, 他飞跑了, 你拍下来没有?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好了, 我都拍下来了, 有点不太清楚, 回去放电脑上看看吧.” 小菜很开心, 他的新手机发挥大作用了, “头一次看到UFO, 就拍到了, 这些可是大新闻了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 我也投一次看到, 我们太幸运了.”</p>
+<h3 id="3-3-没用的东西"><a href="#3-3-没用的东西" class="headerlink" title="3.3 没用的东西"></a>3.3 没用的东西</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 回到家中. 小菜将手机文件传入电脑.<br>&nbsp;&nbsp;&nbsp;&nbsp; “这什么呀, 黑乎乎的, 什么也看不清.” 大鸟大为失望.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “那不是有一个小白点吗?” 小菜想极力申辩.<br>&nbsp;&nbsp;&nbsp;&nbsp; 那白点就和液晶显示器里的坏点一样, 这如何看得出来是 UFO 呢, 说给别人谁信呀.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “嗨! 是的.” 小菜也承认了这个事实, “这手机拍出来的东西没办法看呀, 根本算不上是UFO 的证据. “<br>&nbsp;&nbsp;&nbsp;&nbsp;  小菜拿起手机, 一脸苦相, 对着他说道: “狗屁, 要你这么多功能有鸟用, 关键时刻就掉链子, 我砸…..” 小菜举起手机欲往地上砸去.</p>
+<h3 id="3-4-单一职责原则"><a href="#3-4-单一职责原则" class="headerlink" title="3.4 单一职责原则"></a>3.4 单一职责原则</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “砸呀, 你砸呀!” 大鸟笑嘻嘻的看着小菜, “哼哼, 我就知道你舍不得, 不过你的手机的确是有点没用, 这么好的机遇, 都没有录成, 如果是摄像机, 效果一定不会差, 因为当时我们眼睛看的很清楚呀. 这下说给谁, 谁也不相信呀!大多时候, 一件产品简单一些, 职责单一些, 或许是更好的选择. 这就和设计模式中的一大原则 — 单一职责的道理是一样的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 听字面意思, 单一职责原则, 意思就是说, 功能要单一?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “哈, 可以简单的这么理解, 他的准确定义是, <strong>就一个类而言, 应该仅有一个引起他变化的原因[ASD]</strong>. 我们在做编程的时候, 很自然的就会给一个类加各种各样的功能, 比如我们写一个窗体应用程序, 一般都会生成一个 <code>Form1</code> 这样的类, 于是我们就把各种各样的代码, 像某种商业运算的算法啦, 项数据访问的 sql 语句什么的都写到这样的类当中, 这就意味着, 无论任何需求要来, 你都需要更改这个窗体类, 这其实是很糟糕的, 维护麻烦, 复用不可能, 也缺乏灵活性.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 我写代码一般刚开始就是把所有的方法直接写在窗体类的代码当中.”</p>
+<blockquote>
+<p><strong>单一职责原则(Simple Response Protocol. SRP)</strong>, 就一个类而言, 应该仅有一个引起他变化的原因.</p>
+</blockquote>
+<h3 id="3-5-方块游戏的设计"><a href="#3-5-方块游戏的设计" class="headerlink" title="3. 5 方块游戏的设计"></a>3. 5 方块游戏的设计</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “我们再来举些例子, 比如就拿手机里的俄罗斯方块游戏为例. 要是让你开发这个小游戏, 你如何考虑?” 大鸟问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “我想想, 首先方块下落动画的原理是画四个小方块, 擦掉, 然后再在下一行话四个方块. 不断的绘出和擦掉就形成了动画, 所以应该要有画和擦方块的代码. 然后左右键实现了左右移动, 下键实现加速, 上键实现旋转, 这其实都应该是函数, 当然左右移动需考虑碰撞的问题, 下一需要考虑堆积和消除的问题.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “OK, 你也说了不少了. 如果就用 WinForm 的范式开发, 你打算怎么开发呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那淡然是先建立一个窗体 From, 然后加一个用于游戏框的空间, 比如 Panel 或者是 PictureBox, 一个按钮 Button 来控制 ‘开始’, 最后再放一个 Timer 空间用于分时动画的编程. 写代码当然就是编写 Timer_Tick 时间来绘出和擦除方块, 并作出堆积和消除的判断. 在编写控件的键盘事件, 按了左箭头则左移, 右箭头则右移等等, 对了, 还需要用到GDI+ 技术的方法来画出方块和擦方块.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “你能不能就这些代码划分一下类呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “分类? 这里好像关键在于各种事件代码如何写吧, 这里有什么分类可言呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “看来你的面向过程开发已经根深蒂固了. 你把所有的代码都写在了 Form1.cs 这个类里面, 你觉得这个合理吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “可能不合理, 但是我实在没想出怎么分离他.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “打个比方, 如果现在要你写的是手机版的俄罗斯方块程序, 即 Pocket PC 或者是 Windows CE 上运行的程序, 他们可以安装 .NET 框架的精简版, 运行 C# 语言编写的应用程序, 但 PC 上的普通的 WinForm 界面的程序不能使用. 那你现在这个代码有什么可以复用的嘛?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你都已经说过了, 不能使用, 我当然就没法使用了. Copy 过去, 在针对代码做些改进吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “但这当中, 有些东西始终没变的.”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “你是说, 下落, 旋转, 碰撞判断, 移动, 堆积这些游戏逻辑吧?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “说的没错, 这些都是和游戏有关的逻辑, 和界面如何表示没有什么关系, 为什么要写在一个类里面呢? <strong>如果一个类承担的职责过多, 就等于把这些职责耦合在一起, 一个这则的变化可能会削弱或者抑制这个类完成其他这则的能力. 这种耦合会导致脆弱的设计, 当变化发生时, 设计会遭到意想不到的破坏[ASD]</strong>. 事实上, 你完全可以找出哪些是界面, 那些是游戏逻辑, 然后进行分离.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “但我还是不明白, 如何分离开.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你仔细想想看, 方块的可以动的游戏区域, 可以设计为一个二维整形数组用来表示坐标, 宽10, 高20, 比如 ‘int[,] arraySquare = new int[20, 20];’ 那么整个方块的移动其实就是数组的小编变化, 比如原方块在 arraySquare[3,5] 上, 则下一时变成 arraySquare[3, 6], 如果下移同时还按了左键, 则是 arraySquare[2,6]. 每个数组的值就是是否存在方块的标志, 存在为1, 不存在时缺省为0. 这下你该明白, 所谓的碰撞判断, 其实就是什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp;  “我知道了, 能否左移, 就是判断 arraySquare[x,y] 中的 x-1 是否小于0, 否则就碰撞了. 或者 arraySquare[x-1,y] 是否等于1, 否则就说明左侧有堆积的方块. 所谓堆积, 不过是判断 arraySquare[x, y+1] 是否等于 1 的过程, 如果是, 则将自己 arraySquare[x, y] 的值改为1. 那么消层, 其实就是arraySquare[x,y] 中循环x 由 0 到 9, 判断 arraySquare[x, y] 是否都等于1, 是则此行数据清零, 并将其上方的数组值遍历下移一位.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那你就应该明白了, 所谓游戏逻辑, 不过就是数组的每一项变化的问题, 下落, 旋转, 碰撞, 判断, 移动, 堆积, 这些都是在做数组具体项的值的变化. 而界面表示逻辑, 不过是根据数组的数据进行绘制和擦除, 或者根据键盘命令调用数组的相应的方法进行改变. 因此, 至少应该考虑将此程序分为两个类, 一个是游戏逻辑的类, 一个是 WinForm 窗体的类. 当有一天要改变界面, 或者换界面时, 不过是窗体类的变化, 和游戏逻辑无关, 以此达到复用的目的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这个听起来容易, 真正要做起来还是有难度的哦!”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当然, <strong>软件设计真正要做的许多内容, 就是发现职责并把那些职责相互分离[ASD].</strong> 其实要去判断是否应该分离出来, 也不难, 那就是<strong>如果你能够想到多余一个的动机去改变一个类, 那么这个类就具有多于一个的职责[ASD],</strong>也就是该考虑职责的分离.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “的确是这样, 界面的变化是和游戏本身没有关系的, 界面时容易变化的, 而游戏逻辑是不太容易变化的, 将他们分离开有利于界面的改动.”</p>
+<h3 id="3-6-手机的职责过多吗"><a href="#3-6-手机的职责过多吗" class="headerlink" title="3.6 手机的职责过多吗?"></a>3.6 手机的职责过多吗?</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;  “这回你知道你的手机为什么不能拍摄好 UFO 的原因了吧?” 大鸟笑道.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “如果手机只用来接听电话, DV 用来拍摄, 职责的分离是可以把事情做的更好. 不过这其实不是一回事哦, 现在的智能手机承担的职责多, 并不等于就不可以做好, 只不过现在的科技还不能让手机在摄像时超过 DV 而已.” 小菜分析说.<br>&nbsp;&nbsp;&nbsp;&nbsp;  “整合当然是一种很好的思想. 比如 Google 最初的理想就是将一切的需求都整合到一个文本框里提交, 用干净的页面来吸引用户, 导致互联网的一场变革. 但现在分类信息, 垂直搜索又开始流行, 这却是单一职责思想的体现. 现在智能手机整合了很多功能的原因是以因为 DV , DC , MP3 等产品的体积也太大了. 手机携带很方便, 所以才有了这样的过渡产品, 如果, 每一样数码产品都缩小100倍, 就像放在包里的一张卡片, 一支笔那么简单, 而功能和质量都不发生变化, 你还会觉得他们很麻烦吗?” 大鸟总结道, “总的来说, 手机的发展有它的特点, 而编程时, 我们确实要在类的职责分离上多思考, 做到单一职责, 这样你的代码才是真正的已维护, 易扩展, 衣复用, 灵活多样.”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/06/design_pattern_fresher/strategy-fresher/" rel="next" title="02. 商场促销 - 策略模式(Strategy Pattern)">
+                <i class="fa fa-chevron-left"></i> 02. 商场促销 - 策略模式(Strategy Pattern)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/07/design_pattern_fresher/open-close-principle/" rel="prev" title="考研求职两不误 - 开放封闭原则(Open Close Principle)">
+                考研求职两不误 - 开放封闭原则(Open Close Principle) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-新手机"><span class="nav-number">1.</span> <span class="nav-text">3.1 新手机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-拍摄"><span class="nav-number">2.</span> <span class="nav-text">3.2 拍摄</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-没用的东西"><span class="nav-number">3.</span> <span class="nav-text">3.3 没用的东西</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-单一职责原则"><span class="nav-number">4.</span> <span class="nav-text">3.4 单一职责原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-方块游戏的设计"><span class="nav-number">5.</span> <span class="nav-text">3. 5 方块游戏的设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-手机的职责过多吗"><span class="nav-number">6.</span> <span class="nav-text">3.6 手机的职责过多吗?</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

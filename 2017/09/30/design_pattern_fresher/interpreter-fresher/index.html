@@ -1,0 +1,930 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="27.1 其实你不懂老板的心 时间: 7月12日20点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 今天我们大老板找我谈话.” 小菜对大鸟说道.">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="27.其实你不懂老板的心 - 解释器模式(Interpreter)">
+<meta property="og:url" content="http://yoursite.com/2017/09/30/design_pattern_fresher/interpreter-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="27.1 其实你不懂老板的心 时间: 7月12日20点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 今天我们大老板找我谈话.” 小菜对大鸟说道.">
+<meta property="og:image" content="http://yoursite.com/images/interpreter-fresher/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/interpreter-fresher/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/interpreter-fresher/pic03.png">
+<meta property="og:updated_time" content="2017-09-30T06:56:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="27.其实你不懂老板的心 - 解释器模式(Interpreter)">
+<meta name="twitter:description" content="27.1 其实你不懂老板的心 时间: 7月12日20点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 今天我们大老板找我谈话.” 小菜对大鸟说道.">
+<meta name="twitter:image" content="http://yoursite.com/images/interpreter-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/30/design_pattern_fresher/interpreter-fresher/"/>
+
+
+
+
+
+  <title> 27.其实你不懂老板的心 - 解释器模式(Interpreter) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/30/design_pattern_fresher/interpreter-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                27.其实你不懂老板的心 - 解释器模式(Interpreter)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-30T14:37:58+08:00">
+                2017-09-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/09/30/design_pattern_fresher/interpreter-fresher/" class="leancloud_visitors" data-flag-title="27.其实你不懂老板的心 - 解释器模式(Interpreter)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="27-1-其实你不懂老板的心"><a href="#27-1-其实你不懂老板的心" class="headerlink" title="27.1 其实你不懂老板的心"></a>27.1 其实你不懂老板的心</h3><ul>
+<li>时间: 7月12日20点 &nbsp; 地点: 小菜大鸟住所的客厅 &nbsp; 人物: 大鸟, 小菜</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 今天我们大老板找我谈话.” 小菜对大鸟说道.</p>
+<a id="more"></a>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “…..”<br>&nbsp;&nbsp;&nbsp;&nbsp; “小子, 你真是块做编程的料, 什么问题都想靠编程解决呀? 这种东西要靠感悟的, 时间长了, 你就学会慢慢分析了.” 大鸟提醒道, “不过, 你说到了解释器, 我确实想跟你说解释器模式, 他其实就是用来翻译文法句子的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是吗, 说来听听.”</p>
+<h3 id="27-2-解释器模式"><a href="#27-2-解释器模式" class="headerlink" title="27.2 解释器模式"></a>27.2 解释器模式</h3><blockquote>
+<p><strong>解释其模式(interpreter)</strong>, 给定一个语言, 定义它的文法的一种表示, 并定义一个解释器, 这个解释器使用该表示来解释语言中的句子.[DP]</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “解释器模式需要解决的是, <strong>如果一种特定的问题发生的频率足够高, 那么可能就值得将该问题的各个实例表述为一个简单语言中的句子. 这样就可以构建一个解释器, 该解释器通过解释这些句子来解决问题.[DP]</strong> 比方说, 我们常常会在字符串中所搜一个匹配的字符, 或判断一个字符串是否符合我们规定的格式, 此时我们一般会用什么技术?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “正则表达式?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “对, 非常好, 因为这个匹配字符的需求在软件的很多地方都会用到, 而且行为之间非常类似, 过去的做法是针对特定的需求, 编写特定的函数, 比如判断 email, 匹配电话号码等等, 与其为每一个特定的需求都写一个算法函数, 不如使用一个通用的所搜算法来执行一个正则表达式, 该正则表达式定义了待匹配字符串的集合[DP]. 而所谓解释器模式, 正则表达式就是他的一种应用, 这其实为正则表达式提供了一种文法, 如何定义一个正则表达式, 以及如何解释这个正则表达式.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我的理解, 是不是像 IE, FireFox, 其实也是在解释 HTML 语法, 将下载到客户端的 HTML 标记文本转换成网页格式显示到用户?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 是可以这么说, 不过编写一个浏览器的程序, 当然要复杂得多.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “下面我们来看看解释器模式的基本结构和实现代码.”</p>
+<div align="center"><br><img src="/images/interpreter-fresher/pic01.png" width="700" height="100" title="解释器模式"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; AbstractExpression (抽象表达式), 声明一个抽象类解释操作, 这个接口为抽象语法树中所有类共享.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractExpression</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">interpret</span><span class="params">(Context context)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; TerminalExpression(终结符表达式), 实现与文法中终结符相关的解释操作. 实现抽象表达式中所要求的接口, 主要是一个<code>interpret()</code> 方法. 文法中每一个终结符都一个具体终结符表达式与之对应.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TerminalExpression</span> <span class="keyword">extends</span> <span class="title">AbstractExpression</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">interpret</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"终端解释器"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; NonterminalExpression(非终结符表达式), 为文法中非终结符实现解释操作. 对文法中每一条规则 R1, R2…Rn 都需要一个具体的非终结符表达式类. 通过实现抽象的表达式 <code>interpret()</code> 方法实现解释操作. 解释操作以递归的方式调用上面所代表的 R1, R2…Rn 中各个符号的实例变量.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NonterminalExpression</span> <span class="keyword">extends</span> <span class="title">AbstractExpression</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">interpret</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"非终端解释器"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Context, 包含解释器之外的一些全局信息.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Context</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String input;</div><div class="line">    <span class="keyword">private</span> String output;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getInput</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> input;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setInput</span><span class="params">(String input)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.input = input;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getOutput</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> output;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOutput</span><span class="params">(String output)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.output = output;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码, 构建表示该文法定义语言中的一个特定的句子的抽象语法树. 调用解释操作.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Context context = <span class="keyword">new</span> Context();</div><div class="line"></div><div class="line">    List&lt;AbstractExpression&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">    list.add(<span class="keyword">new</span> TerminalExpression());</div><div class="line">    list.add(<span class="keyword">new</span> NonterminalExpression());</div><div class="line">    list.add(<span class="keyword">new</span> TerminalExpression());</div><div class="line">    list.add(<span class="keyword">new</span> TerminalExpression());</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (AbstractExpression exp : list) &#123;</div><div class="line">        exp.interpret(context);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 结果显示<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">终端解释器</div><div class="line">非终端解释器</div><div class="line">终端解释器</div><div class="line">终端解释器</div></pre></td></tr></table></figure></p>
+<h3 id="27-3-解释器模式的好处"><a href="#27-3-解释器模式的好处" class="headerlink" title="27.3 解释器模式的好处."></a>27.3 解释器模式的好处.</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “看起来好像不难, 但其实真正做起来应该还是很难的吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 你想, 用解释器模式, 就相当于开发一个编程语言或脚本给别人用, 这当然是很难的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我的理解是, 解释器模式就是用 ‘迷你语言’ 来表现程序要解决的问题, 以 ‘迷你语言’ 写成 ‘迷你程序’ 来表现具体的问题.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “恩, 迷你这个词用的好, 就是这样的意思. 通常<strong>当有一个语言需要解释执行, 并且你可以将该语言中的句子表示成一个抽象语法树时, 可使用解释器模式.[DP]</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “解释器模式有什么好处呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “用了解释器模式, 就意味着可以很<strong>容易的改变和扩展文法, 因为该模式用类来表示文法规则, 你可以使用继承来改变和扩展该文法. 也比较容易实现文法, 因为定义抽象语法书中各个节点的类的实现大体类似, 这些类都易于直接编写.[DP]</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “除了向正则表达式, 浏览器等应用, 解释器模式还用在了什么地方?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “只要使用语言来描述的, 都可以应用呀. 比如只对机器人, 如果为了让她走段路还需要取电难面前调用前走, 左转, 右转的方法, 那也太傻了吧. 当然应该直接跟他说, ‘哥们儿, 向前走十步, 然后左转90度, 再向前走5步.’”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 机器人听得懂 ‘哥们儿’ 是什么意思吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “这就看你写的解释器够不够用了, 如果你增加了 ‘哥们儿’ 的文法, 他就听得懂. 说白了, 解释器就是将这样的一句话, 转换成可以执行的命令程序而已. 而不用解释器模式本来也可以分析, 但通过继承抽象表达式的方式, 由于依赖倒转原则, 使得对文法的扩展和维护都带来了方便.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 难道说, C#, Java 这些高级语言, 都是用解释器的方式开发的?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当然不是那么简单了, <strong>解释器模式也有不足之处, 解释器模式为文法中每一条规则至少定义了一个类, 因此包含许多规则的文法可能难以管理和维护. 建议当文法非常复杂时, 使用其他技术如语法分析程序或编译生成器来处理[DP].</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 原来还有语法分析器, 编译生成器这样的东东.”</p>
+<h3 id="27-4-音乐解释器"><a href="#27-4-音乐解释器" class="headerlink" title="27.4 音乐解释器"></a>27.4 音乐解释器</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “好了, 要真正掌握, 还需要练习, 我们来做一个小型的解释器程序.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好呀, 程序的需求是什么?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你以前有没有用过 QBASIC ?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “没有, 听说那是 VB 以前, DOS 状态下的编程语言.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 大鸟我以前整天用它来学习写程序, QBASIC 就是早期的 BASIC, 它当中提供了专门的演奏音乐的语句 PLAY, 不过由于那会多媒体并不像如今这般流行, 所以所谓的音乐也仅仅相当于手机中的单音铃声.” 大鸟说到.<br>&nbsp;&nbsp;&nbsp;&nbsp; “你一说这个我知道了, 我以前手机里就有编辑铃声的功能, 通过输入一些简单的字母数字, 就可以让手机发出音乐. 我还试着找了些歌谱编了几首流行歌进去呢.” 小菜接话道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 那就好, 你想呀, 那就是典型的解释器模式的应用, 你用 QB 或者手机中定义的规则去编写音乐程序, 不就是一段文法让 QB 或手机去翻译称具体的指令来执行吗!”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我明白了, 这就是解释器的应用呀.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “现在我定义一条规则, 和 QB 的有点类似, 但为了简单起见, 我做了改动, 你就按我定义的规则来编程. 我的规则是 O 表示音阶, ‘O1’表示低音阶, ‘O2’ 表示中音阶, ‘O3’ 表示高音阶; ‘P’ 表示休止符, ‘C D E F G A B’ 表示 ‘Do-Re-Mi-Fa-So-La-Ti’; 音符长度 1 表示一拍, 2表示二拍, 0.5 表示半拍, 0.25表示四分之一拍, 以此类推; 注意: 所有的字符和数字都要用半角空格分开. 例如上海滩第一句, ‘浪奔’, 可以写成 ‘O 2 E 0.5 G 0.5 A 3’ 表示中银开始, 演奏的是 mi so la.”</p>
+<div align="center"><br><img src="/images/interpreter-fresher/pic02.png" width="600" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “好的, 我试试编编看.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “为了只关注设计模式编程, 而不是具体播放实现, 你只需要用控制台根据实现编写的语句解释成简谱就成了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “OK!”</p>
+<h3 id="27-5-音乐解释器的实现"><a href="#27-5-音乐解释器的实现" class="headerlink" title="27.5 音乐解释器的实现"></a>27.5 音乐解释器的实现</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 一个小时候, 小菜通过几番改良, 给出了答案.<br>&nbsp;&nbsp;&nbsp;&nbsp; 代码结构图.</p>
+<div align="center"><br><img src="/images/interpreter-fresher/pic03.png" width="650" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 演奏内容类(PlayContext)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 演奏内容类</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PlayContext</span> </span>&#123;</div><div class="line">    <span class="comment">// 演奏文本</span></div><div class="line">    <span class="keyword">private</span> String text;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getText</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> text;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setText</span><span class="params">(String text)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.text = text;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 表达式类(Expression)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Expression</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">interpret</span><span class="params">(PlayContext context)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (context.getText().length() &lt;= <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// 当前演奏文本的第一条命令字母和参数值</span></div><div class="line">            <span class="comment">// 例如 O 3 G 0.5 A 0.5 E 3</span></div><div class="line">            <span class="comment">// 则 playKey 为 O, playValue 为 3</span></div><div class="line">            String playKey = context.getText().substring(<span class="number">0</span>, <span class="number">1</span>);</div><div class="line">            context.setText(context.getText().substring(<span class="number">2</span>));</div><div class="line">            <span class="keyword">double</span> playValue = Double.valueOf(context.getText().substring(<span class="number">0</span>, context.getText().indexOf(<span class="string">" "</span>)));</div><div class="line">            execute(playKey, playValue);</div><div class="line">            context.setText(context.getText().substring(context.getText().indexOf(<span class="string">" "</span>) + <span class="number">1</span>));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 执行</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(String key, <span class="keyword">double</span> value)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 音符类(Note)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Note</span> <span class="keyword">extends</span> <span class="title">Expression</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(String key, <span class="keyword">double</span> value)</span> </span>&#123;</div><div class="line">        String note = <span class="string">""</span>;</div><div class="line">        <span class="comment">// 如果是C 则演奏 1,</span></div><div class="line">        <span class="comment">// 如果是 D 则演奏 2, 一次类推...</span></div><div class="line">        <span class="keyword">switch</span> (key) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">"C"</span>:</div><div class="line">                note = <span class="string">"1"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"D"</span>:</div><div class="line">                note = <span class="string">"2"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"E"</span>:</div><div class="line">                note = <span class="string">"3"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"F"</span>:</div><div class="line">                note = <span class="string">"4"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"G"</span>:</div><div class="line">                note = <span class="string">"5"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"A"</span>:</div><div class="line">                note = <span class="string">"6"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"B"</span>:</div><div class="line">                note = <span class="string">"7"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        System.out.print(note + <span class="string">" "</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 音符类(TerminalExpression)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Scale</span> <span class="keyword">extends</span> <span class="title">Expression</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(String key, <span class="keyword">double</span> value)</span> </span>&#123;</div><div class="line">        <span class="comment">// 如果获得的 key 为O, value 为1 则演奏低音</span></div><div class="line">        String note = <span class="string">""</span>;</div><div class="line">        <span class="keyword">switch</span> ((<span class="keyword">int</span>)value) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">                note = <span class="string">"低音"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">                note = <span class="string">"中音"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">                note = <span class="string">"高音"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        System.out.print(note + <span class="string">" "</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    PlayContext playContext = <span class="keyword">new</span> PlayContext();</div><div class="line">    System.out.println(<span class="string">"上海滩"</span>);</div><div class="line">    playContext.setText(<span class="string">"O 2 E 0.5 G 0.5 A 3 E 0.5 G 0.5 D 3 E 0.5 G 0.5 A 0.5 O 3 C 1 O 2 A 0.5 G 1 C 0.5 E 0.5 D 3 "</span>);</div><div class="line">    Expression expression = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">while</span> (playContext.getText().length() &gt; <span class="number">0</span>) &#123;</div><div class="line">        String str = playContext.getText().substring(<span class="number">0</span>, <span class="number">1</span>);</div><div class="line">        <span class="keyword">switch</span> (str) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">"O"</span>:</div><div class="line">                expression = <span class="keyword">new</span> Scale();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"C"</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">"D"</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">"E"</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">"F"</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">"G"</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">"A"</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">"B"</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">"P"</span>:</div><div class="line">                expression = <span class="keyword">new</span> Note();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        expression.interpret(playContext);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 结果显示<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">上海滩</div><div class="line">中音 <span class="number">3</span> <span class="number">5</span> <span class="number">6</span> <span class="number">3</span> <span class="number">5</span> <span class="number">2</span> <span class="number">3</span> <span class="number">5</span> <span class="number">6</span> 高音 <span class="number">1</span> 中音 <span class="number">6</span> <span class="number">5</span>  <span class="number">3</span> <span class="number">2</span></div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “写的非常不错, 现在我需要增加一个文法, 就是演奏速度, 要求是 T 代表速度, 一毫秒为单位, ‘T 1000’ 表示每节拍一秒, ‘T500’ 表示每节拍半秒. 你如何做?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “学了设计模式这么久, 这点感觉难道还没有, 首先增加一个表达式的子类叫音速. 然后再在客户端的分支判断中增加一个 case 分支就可以了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 音速类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Speed</span> <span class="keyword">extends</span> <span class="title">Expression</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(String key, <span class="keyword">double</span> value)</span> </span>&#123;</div><div class="line">        String speed = <span class="string">""</span>;</div><div class="line">        <span class="keyword">switch</span> ((<span class="keyword">int</span>) value) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="number">1000</span>:</div><div class="line">                speed = <span class="string">"慢速"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">500</span>:</div><div class="line">                speed = <span class="string">"快速"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        System.out.print(speed + <span class="string">" "</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 客户端代码(部分)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">.......</div><div class="line"><span class="comment">// 增加 T 500</span></div><div class="line">    playContext.setText(<span class="string">"T 500 O 2 E 0.5 G 0.5 A 3 E 0.5 G 0.5 D 3 E 0.5 G 0.5 A 0.5 O 3 C 1 O 2 A 0.5 G 1 C 0.5 E 0.5 D 3 "</span>);</div><div class="line">    Expression expression = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">while</span> (playContext.getText().length() &gt; <span class="number">0</span>) &#123;</div><div class="line">        String str = playContext.getText().substring(<span class="number">0</span>, <span class="number">1</span>);</div><div class="line">        <span class="keyword">switch</span> (str) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">"O"</span>:</div><div class="line">                expression = <span class="keyword">new</span> Scale();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="comment">// 增加 speed 分类.</span></div><div class="line">            <span class="keyword">case</span> <span class="string">"T"</span>:</div><div class="line">                expression = <span class="keyword">new</span> Speed();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"C"</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">"D"</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">"E"</span>:</div><div class="line">........</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 结果显示<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">上海滩</div><div class="line">快速 中音 <span class="number">3</span> <span class="number">5</span> <span class="number">6</span> <span class="number">3</span> <span class="number">5</span> <span class="number">2</span> <span class="number">3</span> <span class="number">5</span> <span class="number">6</span> 高音 <span class="number">1</span> 中音 <span class="number">6</span> <span class="number">5</span> <span class="number">1</span> <span class="number">3</span> <span class="number">2</span></div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “但是小菜, 在增加一个文法时, 你除了扩展一个类外, 还是改动了客户端.” 大鸟质疑道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 这不就是实例化的问题吗, 只要在客户端的 switch 那里应用简单工厂加反射就可以做到不改动客户端了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “说的好, 看来你的确是学明白了, 在这里讲解解释器模式, 也就不那么追究了, 只要知道可以这样重构程序就行. 其实这个例子是不能代表解释器模式的全貌的, 因为它只有终结符表达式, 而没有非终结符表达式的子类, 如果想真正理解解释器模式, 还需要去研究其他例子. 另外这个是控制台程序, 如果我给你钢琴所有的按键声音的文件, MP3格式, 你可以利用 Media Player 控件, 写出真实的音乐语言解释器程序吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你的意思是说, 只要我按照简谱编好这样的语句, 就可以让电脑模拟刚请弹奏出来?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 可以吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “当然是可以, 连设计模式都学得会, 这点算什么.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “OK, 那我就等你哪天给我写出这样的钢琴模拟程序哦.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “没问题.”<br>&nbsp;&nbsp;&nbsp;&nbsp; (注: 由于钢琴模拟程序过于复杂, 书中篇幅有限, 代码不在书中显示, 但程序的功能有一定趣味性, 在随书提供的源代码中有参考代码, 有兴趣的读者可以下载研究.)</p>
+<h3 id="27-6-料事如神"><a href="#27-6-料事如神" class="headerlink" title="27.6 料事如神"></a>27.6 料事如神</h3><ul>
+<li>时间: 7月16日20点 &nbsp; 地点: 小菜大鸟住所的客厅 &nbsp; 人物: 小菜, 大鸟</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 小菜: “大鸟, 你真是料事如神啊, 尽管都不是什么好消息, 但两件事都让你猜对了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 那两件事?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “……”</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/30/design_pattern_fresher/fly-weight-fresher/" rel="next" title="26.项目多也别傻做 - 享元模式(Fly-Weight)">
+                <i class="fa fa-chevron-left"></i> 26.项目多也别傻做 - 享元模式(Fly-Weight)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/30/design_pattern_fresher/visitor-fresher/" rel="prev" title="28.男人和女人 - 访问者模式(visitor)">
+                28.男人和女人 - 访问者模式(visitor) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#27-1-其实你不懂老板的心"><span class="nav-number">1.</span> <span class="nav-text">27.1 其实你不懂老板的心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-2-解释器模式"><span class="nav-number">2.</span> <span class="nav-text">27.2 解释器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-3-解释器模式的好处"><span class="nav-number">3.</span> <span class="nav-text">27.3 解释器模式的好处.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-4-音乐解释器"><span class="nav-number">4.</span> <span class="nav-text">27.4 音乐解释器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-5-音乐解释器的实现"><span class="nav-number">5.</span> <span class="nav-text">27.5 音乐解释器的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-6-料事如神"><span class="nav-number">6.</span> <span class="nav-text">27.6 料事如神</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,978 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="6.1穿什么有这么重要? 时间: 3月16日20点 &amp;nbsp; 地点: 大鸟房间 &amp;nbsp; 人物: 小菜, 大鸟">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="06.穿什么有这么重要? - 装饰模式(Decorator)">
+<meta property="og:url" content="http://yoursite.com/2017/08/09/design_pattern_fresher/decorator/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="6.1穿什么有这么重要? 时间: 3月16日20点 &amp;nbsp; 地点: 大鸟房间 &amp;nbsp; 人物: 小菜, 大鸟">
+<meta property="og:image" content="http://yoursite.com/images/decorator/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/decorator/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/decorator/pic03.png">
+<meta property="og:image" content="http://yoursite.com/images/decorator/pic04.png">
+<meta property="og:updated_time" content="2017-08-09T03:08:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="06.穿什么有这么重要? - 装饰模式(Decorator)">
+<meta name="twitter:description" content="6.1穿什么有这么重要? 时间: 3月16日20点 &amp;nbsp; 地点: 大鸟房间 &amp;nbsp; 人物: 小菜, 大鸟">
+<meta name="twitter:image" content="http://yoursite.com/images/decorator/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/09/design_pattern_fresher/decorator/"/>
+
+
+
+
+
+  <title> 06.穿什么有这么重要? - 装饰模式(Decorator) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/09/design_pattern_fresher/decorator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                06.穿什么有这么重要? - 装饰模式(Decorator)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-09T09:40:28+08:00">
+                2017-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/09/design_pattern_fresher/decorator/" class="leancloud_visitors" data-flag-title="06.穿什么有这么重要? - 装饰模式(Decorator)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="6-1穿什么有这么重要"><a href="#6-1穿什么有这么重要" class="headerlink" title="6.1穿什么有这么重要?"></a>6.1穿什么有这么重要?</h2><ul>
+<li>时间: 3月16日20点 &nbsp; 地点: 大鸟房间 &nbsp; 人物: 小菜, 大鸟<a id="more"></a>
+&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 明天我要去见娇娇了, 你说我穿什么去比较好?” 小菜问答鸟道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “这个你也来问我, 干脆我代你去得了.” 大鸟笑道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “别开玩笑, 我是诚心问你的”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈哈, 小菜呀, 你别告诉我说大学四年你都没和女生约过会?”<br>&nbsp;&nbsp;&nbsp;&nbsp; ….此处省略500字….<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我想着约会的事, 把学习给忘了, 今天学什么模式?”</li>
+</ul>
+<h2 id="6-2-小菜扮靓第一版"><a href="#6-2-小菜扮靓第一版" class="headerlink" title="6.2 小菜扮靓第一版"></a>6.2 小菜扮靓第一版</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; “先不谈模式, 说说你刚才提到的穿衣服的问题. 我现在要求你写一个可以给人搭配不同服饰的系统, 比如类似 qq, 网络游戏, 或论坛都有的 avatar 系统. 你怎么开发”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你是说那种可以换各种各样的衣服裤子的个人形象的系统?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 现在你就简单点儿吧, 用控制台的程序, 写可以给人搭配嘻哈服或白领的代码.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我试试看吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 半小时后, 小菜的第一版代码出炉.</p>
+<p><div align="center"><br><img src="/images/decorator/pic01.png" width="200" height="100" title="第一版"><br></div></p>
+<ul>
+<li><p>Person类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">wearTShirts</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.print(<span class="string">"T恤 "</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">wearBigTrouser</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.print(<span class="string">"垮裤 "</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">wearSneakers</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.print(<span class="string">"破球鞋 "</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">wearSuit</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.print(<span class="string">"西装 "</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">wearTie</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.print(<span class="string">"领带 "</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">wearLeatherShoes</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.print(<span class="string">"皮鞋 "</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"装扮的 "</span> + name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">    Person xc = <span class="keyword">new</span> Person(<span class="string">"小菜"</span>);</div><div class="line"></div><div class="line">    System.out.println(<span class="string">"第一种装扮"</span>);</div><div class="line"></div><div class="line">    xc.wearTShirts();</div><div class="line">    xc.wearBigTrouser();</div><div class="line">    xc.wearSneakers();</div><div class="line">    xc.show();</div><div class="line"></div><div class="line">    System.out.println(<span class="string">"第二种装扮"</span>);</div><div class="line"></div><div class="line">    xc.wearSuit();</div><div class="line">    xc.wearTie();</div><div class="line">    xc.wearLeatherShoes();</div><div class="line"></div><div class="line">    xc.show();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>结果展示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">第一种装扮</div><div class="line">T恤 垮裤 破球鞋 装扮的 小菜</div><div class="line">第二种装扮</div><div class="line">西装 领带 皮鞋 装扮的 小菜</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 不错, 功能是实现了. 现在的问题就是如果我需要增加 ‘超人’ 的装扮, 你的如何做?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那就改改 ‘Person’ 类就行了,” 小蔡说完就反应过来, “哦, 不对, 这就违背了, 开放封闭原则了. 哈, 我知道了, 应该把这些服饰都写成子类就好了. 我去改.”<br>&nbsp;&nbsp;&nbsp;&nbsp; 大鸟抬起手指对小才点了点, “你呀, 刚学的这么重要的原则, 怎么还会忘?”</p>
+<p>##6.3 小菜扮靓第二版<br>&nbsp;&nbsp;&nbsp;&nbsp; 过了不到十分钟, 小菜的第二版代码出炉</p>
+<p><div align="center"><br><img src="/images/decorator/pic02.png" width="700" height="100" title="第一版"><br></div></p>
+<ul>
+<li><p>Person 类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"装扮的 "</span> + name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>抽象服饰类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Finery</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>各种服饰子类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TShirts</span> <span class="keyword">extends</span> <span class="title">Finery</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"T恤"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BigTrouser</span> <span class="keyword">extends</span> <span class="title">Finery</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"垮裤"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 以下类似, 省略....</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">   Person xc = <span class="keyword">new</span> Person(<span class="string">"小菜"</span>);</div><div class="line"></div><div class="line">   System.out.println(<span class="string">"第一种装扮"</span>);</div><div class="line">   Finery dtx = <span class="keyword">new</span> TShirts();</div><div class="line">   Finery kk = <span class="keyword">new</span> BigTrouser();</div><div class="line">   Finery pqx = <span class="keyword">new</span> Sneakers();</div><div class="line"></div><div class="line">   dtx.show();</div><div class="line">   kk.show();</div><div class="line">   pqx.show();</div><div class="line">   xc.show();</div><div class="line"></div><div class="line">   System.out.println(<span class="string">"第二种装扮"</span>);</div><div class="line">   Finery xz = <span class="keyword">new</span> Suit();</div><div class="line">   Finery ld = <span class="keyword">new</span> Tie();</div><div class="line">   Finery px = <span class="keyword">new</span> LeatherShoes();</div><div class="line"></div><div class="line">   xz.show();</div><div class="line">   ld.show();</div><div class="line">   px.show();</div><div class="line">   xc.show();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dtx.show();</div><div class="line">kk.show();</div><div class="line">pqx.show();</div><div class="line">xc.show();</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这样写意味着什么?” 大鸟问道.<br>&nbsp;&nbsp;&nbsp;&nbsp; “就是把 ‘大T恤’, ‘垮裤’, ‘破球鞋’, 和 ‘装扮的小菜’, 一个词一个词的显示出来呀.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “说得好, 我要的就是你这句话, 这样写就好比: 你光着身子, 当着大家的面, 先穿T恤, 在穿裤子, 在穿鞋, 仿佛在跳穿衣舞. 难道你穿衣服都是在众目睽睽下穿的吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你的意思是, 应该在内部组装完毕, 然后在显示出来? 这好像是建造者模式呀?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “不是的, 建造者模式要求建造的过程必须是稳定的, 而现在我们这个例子, 建造过程是不稳定的, 比如完全可以穿西装, 外套T恤, 再加披风, 打上领带, 皮鞋外在穿上破球鞋: 当然也完全可以只穿条裤衩就算完成. 换句话就是说, 通过服饰组合出一个有个性的人完全可以有无数种方案, 并非是固定的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 你说得对, 其实先后顺序也是有讲究的, 比如你说, 先穿内裤后传外裤, 这叫凡人, 内裤外穿, 这就是超人了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 很会举一反三嘛, 那你说该如何办呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我们需要<strong>把所需的功能按正确的顺序串联起来进行控制</strong>, 这好像很难办哦.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “不懂就学, 其实也没什么稀罕的, 这可以用一个非常有意思的设计模式来实现.”</p>
+<h2 id="6-4-装饰模式-Decorator"><a href="#6-4-装饰模式-Decorator" class="headerlink" title="6.4 装饰模式(Decorator)"></a>6.4 装饰模式(Decorator)</h2><blockquote>
+<p><strong>装饰模式(Decorator)</strong>, 动态的给一个对象添加一些额外的职责, 就增加功能来说, 装饰模式比生成子类更为灵活.  </p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 装饰这词真好, 无论衣服, 鞋子, 领带, 披风其实都可以理解为对人的装饰.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我们来看看它的结构.”</p>
+<p><div align="center"><br><img src="/images/decorator/pic03.png" width="600" height="100" title="第二版"><br></div><br>&nbsp;&nbsp;&nbsp;&nbsp; “<strong>Component 是定义一个对象接口, 可以给这些对象动态的添加职责. ConcreteComponent 是定义了一个具体的对象, 也可以给这个对象添加一些职责. Decorator, 装饰抽象类, 继承了 Component, 从外类来扩展 Component 类的功能, 但对于 Component 来说, 无需知道 Decorator 的存在的. 至于ConcreteDecorator 就是具体的装饰对象, 祈祷给 Component 添加职责的功能[DPE].</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “来看看基本的代码实现.”</p>
+<ul>
+<li><p>Component 类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>ConcreteComponent 类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"具体的对象操作"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>Decorator 类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">protected</span> Component component;</div><div class="line"></div><div class="line">    <span class="comment">// 设置  Component</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setComponent</span><span class="params">(Component component)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.component = component;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 重写 operation(), 实际执行的是</span></div><div class="line">    <span class="comment">// Component 的 operation() 方法</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != component) &#123;</div><div class="line">            component.operation();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>ConcreteDecoratorA 类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteDecoratorA</span> <span class="keyword">extends</span> <span class="title">Decorator</span> </span>&#123;</div><div class="line">    <span class="comment">// 本类独有的功能, 以区别于 ConcreteDecoratorB</span></div><div class="line">    <span class="keyword">private</span> String addedState;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 首先执行原来 Component 的 operation()</span></div><div class="line">        <span class="comment">// 在执行本类的功能, 如 addedState, 相当于</span></div><div class="line">        <span class="comment">// 对原 Component 进行了装饰</span></div><div class="line">        <span class="keyword">super</span>.operation();</div><div class="line">        addedState = <span class="string">"New State"</span>;</div><div class="line">        System.out.println(<span class="string">"具体装饰对象A的操作"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteDecoratorB</span> <span class="keyword">extends</span> <span class="title">Decorator</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 同理, 限制性原 Component 的 operation() 方法</span></div><div class="line">        <span class="comment">// 在执行本类的功能.</span></div><div class="line">        <span class="keyword">super</span>.operation();</div><div class="line">        AddedBehaviour();</div><div class="line">        System.out.println(<span class="string">"具体装饰对象B的操作"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AddedBehaviour</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 本类独有的方法, 以区别于 ConcreteDecoratorA</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    ConcreteComponent c = <span class="keyword">new</span> ConcreteComponent();</div><div class="line">    ConcreteDecoratorA d1 = <span class="keyword">new</span> ConcreteDecoratorA();</div><div class="line">    ConcreteDecoratorB d2 = <span class="keyword">new</span> ConcreteDecoratorB();</div><div class="line"></div><div class="line">    <span class="comment">// 装饰对象的方法是: 首先用 ConcreteComponent 实例化</span></div><div class="line">    <span class="comment">// 对象 c, 然后用 ConcreteDecoratorA 实例化的对象 d1</span></div><div class="line">    <span class="comment">// 来包装 c, 再用ConcreteDecoratorB 的对象 d2 包装 d1</span></div><div class="line">    <span class="comment">// 最终执行 d2 的 operation()</span></div><div class="line">    d1.setComponent(c);</div><div class="line">    d2.setComponent(d1);</div><div class="line">    d2.operation();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “我明白了, 原来<strong>装饰模式实例用 setComponent 来对对象进行包装</strong>的. <strong>这样每个装饰对象的实现就和如何使用这个对象分开了, 每个装饰对象只关心自己的功能, 不需要关心如何被添加到对象链当中[DPE].</strong> 用刚才的例子来说就是, 我们完全可以先穿外裤, 在穿内裤, 而不一定要先内后外.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “既然你明白了, 还不快些把刚才例子改成装饰模式吗? 大鸟提醒道.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我还有个问题, 刚才我写的那个例子中 ‘人’ 类士 Component 还是 ConcreteComponent 呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 学习模式要善于变通, <strong>如果只有一个 ConcreteComponent 类, 而没有抽象的 Component 类, 那么 Decorator 类, 可以使 ConcreteComponent 的一个子类. 同样道理, 如果只有一个 ConcreteDecorator 类, 那么就没有必要建立一个单独的 Decorator 类, 而可以吧 Decorator 和 ConcreteDecorator 的责任合并成一个类.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 原来如此啊. 在这里我们就没有必要 Component 类了, 直接让服饰 Decorator 继承人类 ConcreteComponent 即可”</p>
+<h2 id="6-5小菜扮靓第三版"><a href="#6-5小菜扮靓第三版" class="headerlink" title="6.5小菜扮靓第三版"></a>6.5小菜扮靓第三版</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; 二十分钟后, 小菜的第三版代码出炉.</p>
+<p><div align="center"><br><img src="/images/decorator/pic04.png" width="700" height="200" title="第三版"><br></div></p>
+<ul>
+<li><p>“Person” 类 (ConcreteComponent)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"装扮的 "</span> + name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>服饰类 (Decorator)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Finery</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">protected</span>  Person component;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">decorate</span><span class="params">(Person component)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.component = component;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != component) &#123;</div><div class="line">            component.show();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>服饰类 (Decorator)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Finery</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">protected</span>  Person component;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">decorate</span><span class="params">(Person component)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.component = component;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != component) &#123;</div><div class="line">            component.show();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>具体服饰类(ConcreteDecorator) </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TShirts</span> <span class="keyword">extends</span> <span class="title">Finery</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"T恤"</span>);</div><div class="line">        <span class="keyword">super</span>.show();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BigTrouser</span> <span class="keyword">extends</span> <span class="title">Finery</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"垮裤"</span>);</div><div class="line">        <span class="keyword">super</span>.show();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 其余的类似, 省略...</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Person xc = <span class="keyword">new</span> Person(<span class="string">"小菜"</span>);</div><div class="line"></div><div class="line">    System.out.println(<span class="string">"第一种装扮"</span>);</div><div class="line"></div><div class="line">    Sneakers pqx = <span class="keyword">new</span> Sneakers();</div><div class="line">    BigTrouser kk = <span class="keyword">new</span> BigTrouser();</div><div class="line">    TShirts dtx = <span class="keyword">new</span> TShirts();</div><div class="line"></div><div class="line">    pqx.decorate(xc);</div><div class="line">    kk.decorate(pqx);</div><div class="line">    dtx.decorate(kk);</div><div class="line">    dtx.show();</div><div class="line"></div><div class="line">    System.out.println(<span class="string">"第二种装扮"</span>);</div><div class="line"></div><div class="line">    LeatherShoes px = <span class="keyword">new</span> LeatherShoes();</div><div class="line">    Tie ld = <span class="keyword">new</span> Tie();</div><div class="line">    Suit xz = <span class="keyword">new</span> Suit();</div><div class="line"></div><div class="line">    px.decorate(xc);</div><div class="line">    ld.decorate(px);</div><div class="line">    xz.decorate(ld);</div><div class="line">    xz.show();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>结果显示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">第一种装扮</div><div class="line">T恤 垮裤 破球鞋 装扮的 小菜</div><div class="line">第二种装扮</div><div class="line">西装 领带 皮鞋 装扮的 小菜</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “如果我换一种装饰方式, 结果会怎么样呢?” 大鸟改动了小菜的代码.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">System.out.println(<span class="string">"第三种装扮"</span>);</div><div class="line"></div><div class="line">Sneakers pqx2 = <span class="keyword">new</span> Sneakers();</div><div class="line">LeatherShoes px2 = <span class="keyword">new</span> LeatherShoes();</div><div class="line">BigTrouser kk2 = <span class="keyword">new</span> BigTrouser();</div><div class="line">Tie ld2 = <span class="keyword">new</span> Tie();</div><div class="line"></div><div class="line">pqx2.decorate(xc);</div><div class="line">px2.decorate(pqx2);</div><div class="line">kk2.decorate(px2);</div><div class="line">ld2.decorate(kk2);</div><div class="line"></div><div class="line">ld2.show();</div></pre></td></tr></table></figure></p>
+<ul>
+<li>结果就会显示<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">第三种装扮</div><div class="line">领带 垮裤 皮鞋 破球鞋 装扮的 小菜</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 光着膀子, 打着领带, 下身垮裤, 左脚皮鞋, 右脚破球鞋的几句个性的小菜就展现在我们面前了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你这家伙, 又开始那我开涮. 我要这样子, 比拌超人还丢人.”</p>
+<h2 id="6-6-装饰模式总结"><a href="#6-6-装饰模式总结" class="headerlink" title="6.6 装饰模式总结"></a>6.6 装饰模式总结</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; “来来来, 总结一下, 你感觉装饰模式如何?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我觉得<strong>装饰模式是为已有的功能动态的添加更多功能的一种方式.</strong>但到底什么时候用它呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “答得很好, 问的问题更好. 你起初的设计中, <strong>当系统需要更新功能的时候, 是向旧的类中添加新的代码. 这些新加的代码通常装饰了原有类的核心职责的主要行为, </strong> 比如用西装或嘻哈服来装饰小菜, 但这种做法的问题在于, 它们<strong>在主类中加入了新的字段, 新的方法和新的逻辑, 从而增加了主类的复杂度</strong>, 就像你起初的那个 ‘人’ 类, <strong>而这些新加入的东西仅仅是为了满足一些在只在某种特定情况下才会执行的特殊行为的需要. 而装饰模式却提供了一个非常好的解决方案, 它把每个要装饰的功能放在单独的类中, 并让这个类包装他所要装饰的对象, 因此, 当需要执行的特殊行为时, 客户端代码就可以在运行时根据需要有选择的, 按顺序的使用装饰功能包装对象了[DP].</strong> 所以就出现了上面个那个例子的情况, 我可以通过装饰, 让你全服武装到牙齿, 也可以让你只挂到一丝内裤.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “那么装饰模式的优点我总结下来就是, <strong>把类中的装饰功能从类中搬移出去, 这样可以简化原有的类.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “是的, 这样做更大的好处就是<strong>有效的把类的核心职责和装饰功能区分开了. 而且可以去除相关类的重复的装饰逻辑.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “这个模式真心不错, 我以后要记着常使用他”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你可要当心哦, 装饰模式的装饰顺序很重要哦, 比如加密数据和过滤词汇都可以是数据持久化的装饰功能, 但若先加密了数据再用过滤功能就会出问题了, 最理想的情况, 是保证装饰类之间彼此独立, 这样他们就可以任意的顺序进行组合了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “是呀, 穿上西装再套上T恤实在不是设么好穿法.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “……..”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/08/design_pattern_fresher/dependency-inversion-principle/" rel="next" title="05.会修电脑不会修收音机 - 依赖倒转原则(Dependency inversion principle)">
+                <i class="fa fa-chevron-left"></i> 05.会修电脑不会修收音机 - 依赖倒转原则(Dependency inversion principle)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/10/design_pattern_fresher/proxy/" rel="prev" title="07.为别人做嫁衣 - 代理模式(Proxy)">
+                07.为别人做嫁衣 - 代理模式(Proxy) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1穿什么有这么重要"><span class="nav-number">1.</span> <span class="nav-text">6.1穿什么有这么重要?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-小菜扮靓第一版"><span class="nav-number">2.</span> <span class="nav-text">6.2 小菜扮靓第一版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-装饰模式-Decorator"><span class="nav-number">3.</span> <span class="nav-text">6.4 装饰模式(Decorator)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-5小菜扮靓第三版"><span class="nav-number">4.</span> <span class="nav-text">6.5小菜扮靓第三版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-6-装饰模式总结"><span class="nav-number">5.</span> <span class="nav-text">6.6 装饰模式总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

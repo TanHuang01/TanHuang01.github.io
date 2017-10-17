@@ -1,0 +1,909 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="21.1 类也需要计划生育 时间: 5月29日20点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 今天我在公司写一个 MDI 窗体程序, 当中有一个是 ‘工具箱’ 的窗体, 问题就是, 我希望工具箱要目不出现, 出现也只出现一个, 可实际上却是我每次点击菜单, 实例化 ‘工具箱’, 它就会出来一个, 这">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="21.有些类也需要计划生育 - 单例模式 (Singleton pattern)">
+<meta property="og:url" content="http://yoursite.com/2017/08/27/design_pattern_fresher/singleton-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="21.1 类也需要计划生育 时间: 5月29日20点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 今天我在公司写一个 MDI 窗体程序, 当中有一个是 ‘工具箱’ 的窗体, 问题就是, 我希望工具箱要目不出现, 出现也只出现一个, 可实际上却是我每次点击菜单, 实例化 ‘工具箱’, 它就会出来一个, 这">
+<meta property="og:image" content="http://yoursite.com/images/singleton-fresher/pic01.png">
+<meta property="og:updated_time" content="2017-08-27T01:31:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="21.有些类也需要计划生育 - 单例模式 (Singleton pattern)">
+<meta name="twitter:description" content="21.1 类也需要计划生育 时间: 5月29日20点 &amp;nbsp; 地点: 小菜大鸟住所的客厅 &amp;nbsp; 人物: 大鸟, 小菜  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “大鸟, 今天我在公司写一个 MDI 窗体程序, 当中有一个是 ‘工具箱’ 的窗体, 问题就是, 我希望工具箱要目不出现, 出现也只出现一个, 可实际上却是我每次点击菜单, 实例化 ‘工具箱’, 它就会出来一个, 这">
+<meta name="twitter:image" content="http://yoursite.com/images/singleton-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/27/design_pattern_fresher/singleton-fresher/"/>
+
+
+
+
+
+  <title> 21.有些类也需要计划生育 - 单例模式 (Singleton pattern) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/27/design_pattern_fresher/singleton-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                21.有些类也需要计划生育 - 单例模式 (Singleton pattern)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-27T09:04:55+08:00">
+                2017-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/27/design_pattern_fresher/singleton-fresher/" class="leancloud_visitors" data-flag-title="21.有些类也需要计划生育 - 单例模式 (Singleton pattern)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="21-1-类也需要计划生育"><a href="#21-1-类也需要计划生育" class="headerlink" title="21.1 类也需要计划生育"></a>21.1 类也需要计划生育</h3><ul>
+<li>时间: 5月29日20点 &nbsp; 地点: 小菜大鸟住所的客厅 &nbsp; 人物: 大鸟, 小菜</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 今天我在公司写一个 MDI 窗体程序, 当中有一个是 ‘工具箱’ 的窗体, 问题就是, 我希望工具箱要目不出现, 出现也只出现一个, 可实际上却是我每次点击菜单, 实例化 ‘工具箱’, 它就会出来一个, 这样点击多次就会出现多个 ‘工具箱’, 你说怎么办?”<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; “哈, 显然, 你这个 ‘工具箱’ 类需要计划生育啊, 你让他超生了, 当然是不好的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “大鸟, 你又在说笑了, 不过计划生育的说法也算是贴切吧, 现在我就是希望他要么不要有, 有就只能有一个, 如何办?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “其实这就是一个设计模式的应用,  你先说说你是怎么写的?”<br>&nbsp;&nbsp;&nbsp;&nbsp;   ….. 这个模式实在是太熟悉了, 实在是懒得写背景故事了…</p>
+<h3 id="21-4-单例模式"><a href="#21-4-单例模式" class="headerlink" title="21.4 单例模式"></a>21.4 单例模式</h3><blockquote>
+<p><strong>单例模式(Singleton Pattern)</strong>, 保证一个类仅有一个实例, 并提供一个访问他的全局访问点. [DP]</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; <strong>通常我们可以让一个全局变量的一个对象被访问, 但它不能防止你实例化多个对象. 一个最好的办法就是, 让类自身负责保存它的唯一实例. 这个类可以保证没有其它实例可以被创建, 并且他可以提供一个访问该实例的方法.[DP]</strong></p>
+<div align="center"><br><img src="/images/singleton-fresher/pic01.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Singleton 类, 定义一个 <code>getInstance()</code> 操作, 允许客户访问他的唯一实例. <code>getInstance()</code> 是一个静态方法, 主要负责创建自己的唯一实例.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 构造方法让其 private, 这就堵死了外界利用 new</span></div><div class="line">        <span class="comment">// 创建此类实例的可能</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 此方法是获得次实力类的唯一全局访问点</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 若实力类不存在, 则 new 一个新的实例</span></div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            instance = <span class="keyword">new</span> Singleton();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “单例模式除了可以保证唯一的实例外, 还有什么好处呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “好处还是有的呀, 比如<strong>单例模式因为 Singleton 类封装它唯一的实例, 这样他可以严格的控制客户怎样访问它. 简单说就是对唯一实例的受控访问.</strong>“<br>&nbsp;&nbsp;&nbsp;&nbsp; “我怎么感觉单例模式有点像一个实用类的静态方法, 比如 .Net 框架里的 Math 类, 有很多数据计算方法, 这两者有什么区别呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “你说的没错, 他们之间的确很类似, 实用类通常也会采用私有化的构造方法来避免其有实例. 但他们还是有很多的不同, 比如实例类不用保存状态, 仅提供一些静态方法或静态属性让你使用, 而单例类是有状态的. 实用类不能用于继承多态, 而单例虽然实例唯一, 确实可以有子类来继承. 实用类只不过是一些方法的属性集合, 而单例却是有着唯一的对象实例. 在运用中还要仔细分析再做决定用哪一种方式.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我明白了.”</p>
+<h3 id="21-5-多线程是的单例"><a href="#21-5-多线程是的单例" class="headerlink" title="21.5 多线程是的单例"></a>21.5 多线程是的单例</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “另外, 你还需要注意一些细节, 比如说, 多线程程序中, 多个线程同时, 注意是同时访问 Singleton类, 调用<code>getInstance()</code>方法, 会有可能造成创建多个实例的.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “啊, 是呀, 这应该怎么办呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “可以给进程加一把锁来处理. 这里需要解释一下 <code>synchronize</code> 的语句含义, <strong>synchronize 是确保当一个线程位于代码的临界区时, 令一个线程不进入临界区. 如果其他线程试图进入锁定的代码, 则他将一直等待(即被阻止), 直到该对象被释放.[Think in java]</strong>“</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123; &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 在同一时刻加了所的那部分程序,</span></div><div class="line">        <span class="comment">// 只有一个线程可以进入</span></div><div class="line">        <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">            <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">                instance = <span class="keyword">new</span> Singleton();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “这段代码是的对象实例有最先进入的那个线程创建, 以后的线程在进入时不会再去创建. 由于有了 synchronize, 就保证了多线程环境下的同时访问也不会造成多个实例的生成.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “为什么不直接 <code>synchronize(instance)</code>, 而是使用 Singleton.class 呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “小菜呀, 加锁时, instance 实例有没有被创建还都不知道, 怎么对它加锁呢?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我知道了, 原来是这样. 但是这就每次调用 <code>getInstance()</code> 方法是都需要 synchronize, 好像不太好吧.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “说得非常好, 的确是这样, 这种做法是会影响性能的, 所以对这个类还是要做改良.”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123; &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 先判断实例存不存在</span></div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">                    instance = <span class="keyword">new</span> Singleton();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “现在这样, 我们不用让线程每次都加锁, 而是在实例未被创建的时候在加锁处理. 同时也能保证多线程的安全. 这种做法被称为 Double-Check Locking (双重锁定).”<br>&nbsp;&nbsp;&nbsp;&nbsp; “我有问题, 我在外面已经判断了 instance 实例是否存在, 为什么在 synchronize 里还需要做一次 instance 实例是否存在的判断呢?”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">	...</div><div class="line">    <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;  <span class="comment">// 这个点</span></div><div class="line">        <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">            <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123; <span class="comment">// 这个点</span></div><div class="line">                instance = <span class="keyword">new</span> Singleton();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> instance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “那是因为你没有仔细分析. 对于instance 存在的情况, 就直接返回, 这没有问题. 当 instance 为 null, 并且同时有两个线程调用 <code>getInstance()</code> 方法是, 他们都可以通过第一重 <code>(instance == null)</code> 的判断. 然后又与 synchronize 机制, 这个两个线程只有一个进入, 另一个在外排队等候, 必须要其中一个进入并出来后, 另一个才能进入. 而此时如果没有了第二重的  <code>(instance == null)</code>判断, 则第一个线程创建了实例, 而第二个线程还是可以继续在创建新的实例, 这就没有达到单例的目的. 明白了吗?”<br>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 我明白了, 原来有这么麻烦呀.”</p>
+<h3 id="21-7-静态初始化"><a href="#21-7-静态初始化" class="headerlink" title="21.7 静态初始化"></a>21.7 静态初始化</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “其实在实际应用当中,双重锁定模式已经可以满足需求了,  但是在高并发环境下, 双重锁定模式也是可能出问题的(JDK1.5 以前), 更推荐一种静态初始化的方式. (也被称为 Initialization Demand Holder | IoDH).”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123; &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 让静态内部类来持有这个对象.</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">HolderClass</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> HolderClass.instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; “由于静态单例对象没有作为 Singleton 的成员变量直接实例化，因此类加载时不会实例化Singleton，第一次调用 <code>getInstance()</code> 时将加载内部类HolderClass，在该内部类中定义了一个static类型的变量instance，此时会首先初始化这个成员变量，由Java虚拟机来保证其线程安全性，确保该成员变量只能初始化一次。由于 <code>getInstance()</code> 方法没有任何线程锁定，因此其性能不会造成任何影响”<br>&nbsp;&nbsp;&nbsp;&nbsp; “通过使用IoDH，我们既可以实现延迟加载，又可以保证线程安全，不影响系统性能，不失为一种最好的Java语言单例模式实现方式, 只不过对于不同的平台会有限制, 在C# 就是另一种语法了.”<br>&nbsp;&nbsp;&nbsp;&nbsp; “没想到小小的单例模式也有这么多需要考虑的问题.” 小菜感慨道.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/23/design_pattern_fresher/iterator-fresher/" rel="next" title="20.想走?可以!先买票 - 迭代器模式(Iterator Pattern)">
+                <i class="fa fa-chevron-left"></i> 20.想走?可以!先买票 - 迭代器模式(Iterator Pattern)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/29/design_pattern_fresher/bridge-fresher/" rel="prev" title="22.手机软件何时统一 - 桥接模式(Bridge Pattern)">
+                22.手机软件何时统一 - 桥接模式(Bridge Pattern) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#21-1-类也需要计划生育"><span class="nav-number">1.</span> <span class="nav-text">21.1 类也需要计划生育</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-4-单例模式"><span class="nav-number">2.</span> <span class="nav-text">21.4 单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-5-多线程是的单例"><span class="nav-number">3.</span> <span class="nav-text">21.5 多线程是的单例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-7-静态初始化"><span class="nav-number">4.</span> <span class="nav-text">21.7 静态初始化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

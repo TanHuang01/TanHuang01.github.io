@@ -1,0 +1,937 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Pattern," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1.1 面试受挫&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 小菜今年计算机专业大四了, 学了不少软件开发方面的东西, 也学这边了些小程序, 踌躇满志, 一心要找一个好单位. 当投了无数份简历后, 终于收到了一个面试通知, 小菜欣喜若狂.">
+<meta name="keywords" content="Design Pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="01. 代码无错就是优? - 简单工厂模式(Simple Factory Pattern)">
+<meta property="og:url" content="http://yoursite.com/2017/08/04/design_pattern_fresher/simple-factory-fresher/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="1.1 面试受挫&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 小菜今年计算机专业大四了, 学了不少软件开发方面的东西, 也学这边了些小程序, 踌躇满志, 一心要找一个好单位. 当投了无数份简历后, 终于收到了一个面试通知, 小菜欣喜若狂.">
+<meta property="og:image" content="http://yoursite.com/images/simple-factory-fresher/pic01.png">
+<meta property="og:updated_time" content="2017-08-06T06:06:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="01. 代码无错就是优? - 简单工厂模式(Simple Factory Pattern)">
+<meta name="twitter:description" content="1.1 面试受挫&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 小菜今年计算机专业大四了, 学了不少软件开发方面的东西, 也学这边了些小程序, 踌躇满志, 一心要找一个好单位. 当投了无数份简历后, 终于收到了一个面试通知, 小菜欣喜若狂.">
+<meta name="twitter:image" content="http://yoursite.com/images/simple-factory-fresher/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/04/design_pattern_fresher/simple-factory-fresher/"/>
+
+
+
+
+
+  <title> 01. 代码无错就是优? - 简单工厂模式(Simple Factory Pattern) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/04/design_pattern_fresher/simple-factory-fresher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                01. 代码无错就是优? - 简单工厂模式(Simple Factory Pattern)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-04T16:09:19+08:00">
+                2017-08-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/fresher/" itemprop="url" rel="index">
+                    <span itemprop="name">fresher</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/04/design_pattern_fresher/simple-factory-fresher/" class="leancloud_visitors" data-flag-title="01. 代码无错就是优? - 简单工厂模式(Simple Factory Pattern)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-1-面试受挫"><a href="#1-1-面试受挫" class="headerlink" title="1.1 面试受挫"></a>1.1 面试受挫</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 小菜今年计算机专业大四了, 学了不少软件开发方面的东西, 也学这边了些小程序, 踌躇满志, 一心要找一个好单位. 当投了无数份简历后, 终于收到了一个面试通知, 小菜欣喜若狂.<br><a id="more"></a><br>&nbsp;&nbsp;&nbsp;&nbsp; 到了人家单位, 前台小额给他一份题目, 上面写着: “请用C++, Java , C#, VN.NET 任意一种面向对象语言实现一个计算器控制台程序, 要求输入两个数和运算符号, 得到结果.”<br>&nbsp;&nbsp;&nbsp;&nbsp;小菜一看, 这个还不简单, 三下五除二, 10分钟不到, 小菜写完了, 感觉也没错误. 交卷后, 单位说一周内等通知吧, 于是小菜只能耐心等待. 可是半个月过去了, 什么消息也没有, 小菜很是纳闷, 我的代码实现了呀, 为什么不给我机会呢. </p>
+<ul>
+<li><strong>时间</strong>: 2月26日20点 &nbsp;<strong>地点</strong>: 大鸟房间 &nbsp; <strong>人物</strong>: 小菜, 大鸟</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;小菜找到从事软件开发工作七年的表哥大鸟, 请教原因, 大鸟问了题目和了解了小菜代码的细节以后, 哈哈大笑, 说道: “小菜呀小菜, 你上当了, 人家单位出题的意思, 你完全都没明白, 当然不会再联系你了.”<br>&nbsp;&nbsp;&nbsp;&nbsp;小菜: “我的代码有错吗? 单位题目不就是要我实现一个计算器的代码吗, 我这样写有什么问题.”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Program</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Scanner s = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        System.out.println(<span class="string">"请输入数字A:"</span>);</div><div class="line">        String A = s.nextLine();</div><div class="line">        System.err.println(<span class="string">"请输输入运算符号(+,-,*,/):"</span>);</div><div class="line">        String B = s.nextLine();</div><div class="line">        System.out.println(<span class="string">"请输入数字B:"</span>);</div><div class="line">        String C = s.nextLine();</div><div class="line">        String D = <span class="string">""</span>;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (B == <span class="string">"+"</span>)</div><div class="line">            D = Double.toString(Double.valueOf(A) + Double.valueOf(B));</div><div class="line">        <span class="keyword">if</span> (B == <span class="string">"-"</span>)</div><div class="line">            D = Double.toString(Double.valueOf(A) - Double.valueOf(B));</div><div class="line">        <span class="keyword">if</span> (B == <span class="string">"*"</span>)</div><div class="line">            D = Double.toString(Double.valueOf(A) * Double.valueOf(B));</div><div class="line">        <span class="keyword">if</span> (B == <span class="string">"/"</span>)</div><div class="line">            D = Double.toString(Double.valueOf(A) / Double.valueOf(B));</div><div class="line">        </div><div class="line">        System.out.println(<span class="string">"结果是: "</span> + D);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="1-2-初学者代码的毛病"><a href="#1-2-初学者代码的毛病" class="headerlink" title="1.2 初学者代码的毛病"></a>1.2 初学者代码的毛病</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 大鸟说: “且先不说出题人的意思, 单就你现在的代码, 就有很多不足的地方需要改进.”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Program</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        </div><div class="line">        <span class="comment">// 像s,A,B,C,D 这个样子命名是非常不规范的</span></div><div class="line">        Scanner s = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        System.out.println(<span class="string">"请输入数字A:"</span>); </div><div class="line">        String A = s.nextLine();</div><div class="line">        System.err.println(<span class="string">"请输输入运算符号(+,-,*,/):"</span>);</div><div class="line">        String B = s.nextLine();</div><div class="line">        System.out.println(<span class="string">"请输入数字B:"</span>);</div><div class="line">        String C = s.nextLine();</div><div class="line">        String D = <span class="string">""</span>;</div><div class="line"></div><div class="line">        <span class="comment">// 判断分支, 你这样的写法, 意味着每条分支都要做判断</span></div><div class="line">        <span class="comment">// 等于计算机做了三次无用功</span></div><div class="line">        <span class="keyword">if</span> (B == <span class="string">"+"</span>)</div><div class="line">            D = Double.toString(Double.valueOf(A) + Double.valueOf(C));</div><div class="line">        <span class="keyword">if</span> (B == <span class="string">"-"</span>)</div><div class="line">            D = Double.toString(Double.valueOf(A) - Double.valueOf(C));</div><div class="line">        <span class="keyword">if</span> (B == <span class="string">"*"</span>)</div><div class="line">            D = Double.toString(Double.valueOf(A) * Double.valueOf(C));</div><div class="line">        <span class="keyword">if</span> (B == <span class="string">"/"</span>)</div><div class="line">            <span class="comment">// 如果除数, 客户输入了0怎么办</span></div><div class="line">            <span class="comment">// 如果用户输入的是字符符号, 而不是数字怎么办</span></div><div class="line">            D = Double.toString(Double.valueOf(A) / Double.valueOf(B));</div><div class="line">        </div><div class="line">        System.out.println(<span class="string">"结果是: "</span> + D);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="1-3-代码规范"><a href="#1-3-代码规范" class="headerlink" title="1.3 代码规范"></a>1.3 代码规范</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; “哦, 说的没错, 这个我一以前听老师说过, 可是从来没有在意过, 我马上改, 改完再给你看看.”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Program</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">            System.out.println(<span class="string">"请输入数字A:"</span>);</div><div class="line">            String strNumberA = scanner.nextLine();</div><div class="line">            System.err.println(<span class="string">"请输输入运算符号(+,-,*,/):"</span>);</div><div class="line">            String strOperate = scanner.nextLine();</div><div class="line">            System.out.println(<span class="string">"请输入数字B:"</span>);</div><div class="line">            String strNumberB = scanner.nextLine();</div><div class="line">            String strResult = <span class="string">""</span>;</div><div class="line"></div><div class="line">            <span class="keyword">switch</span> (strOperate) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">"+"</span>:</div><div class="line">                strResult = Double.toString(Double.valueOf(strNumberA) + Double.valueOf(strNumberB));</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"-"</span>:</div><div class="line">                strResult = Double.toString(Double.valueOf(strNumberA) - Double.valueOf(strNumberB));</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"*"</span>:</div><div class="line">                strResult = Double.toString(Double.valueOf(strNumberA) * Double.valueOf(strNumberB));</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"/"</span>:</div><div class="line">                <span class="keyword">if</span> (!strNumberB.equals(<span class="string">"0"</span>)) &#123;</div><div class="line">                    strResult = Double.toString(Double.valueOf(strNumberA) / Double.valueOf(strNumberB));</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    strResult = <span class="string">"除数不能为0"</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">            System.out.println(<span class="string">"结果是: "</span> + strResult);</div><div class="line">            scanner.close();</div><div class="line"></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            System.out.println(<span class="string">"您的输入有错: "</span> + e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp; &nbsp; 大鸟: “吼吼, 不错不错, 改的很快嘛? 至少就目前的代码来说, 实现计算其实没有问题了, 但这样写出的代码是否符合出题人的意思呢?”<br>&nbsp;&nbsp;&nbsp; &nbsp; 小菜: “你的意思是面小对象?”<br>&nbsp;&nbsp;&nbsp; &nbsp; 大鸟: “哈, 小菜非小菜也!”</p>
+<h3 id="1-4-面向对象的编程"><a href="#1-4-面向对象的编程" class="headerlink" title="1.4 面向对象的编程"></a>1.4 面向对象的编程</h3><p>&nbsp;&nbsp;&nbsp; &nbsp;  小菜: “ 我明白了, 他说用任意一种面向对象的语言实现, 那意思就是要用面向对象的变成方法去实现, 对吗? OK, 这个我学过, 只不过当时我没想到而已.”<br>&nbsp;&nbsp;&nbsp; &nbsp; 大鸟: “所有编程初学者都会有这样的问题, 就是碰到问题就只觉得用计算机能够理解的逻辑来描述和表达待解决的问题. 这其实使用计算机的方式去思考, 比如计算器这个程序, 现要求输入两个数和运算符号, 然后根据运算符号判断选择如何运算, 得到结果, 这本身没有错, 但这样的思维却使的我们的程序只为满足实现当前的需求, 程序不容易维护, 不容易扩展, 更不容易复用. 从而达不到高质量代码的要求.”<br>&nbsp;&nbsp;&nbsp; &nbsp;小菜: “鸟哥呀, 我有点糊涂了, 如何才能容易维护, 容易扩展, 又容易复用呢, 能不能具体点.”</p>
+<h3 id="1-5-活字印刷-面向对象"><a href="#1-5-活字印刷-面向对象" class="headerlink" title="1.5 活字印刷, 面向对象"></a>1.5 活字印刷, 面向对象</h3><p>&nbsp;&nbsp;&nbsp; &nbsp;大鸟: “这样吧, 我给你讲个故事. 你就明白了.”<br>&nbsp;&nbsp;&nbsp;  “话说三国时期, 曹操带领百万大军攻打东吴, 大军在长江赤壁驻扎, 军船连成一片, 眼看就要灭掉东吴, 统一天下, 曹操大悦, 于是大宴众文武, 在酒席间, 曹操诗兴大发, 不觉吟道, ‘喝酒唱歌, 人生真爽….’ .众文物其呼: ‘城乡好诗!’ 于是一臣子宿命印刷工匠刻板一刷, 以便流传天下.”<br>&nbsp;&nbsp;&nbsp;  “样张给出来给曹操一看, 曹操感觉不妥, 说道: ‘喝与唱, 此话过俗, 应该为 ‘对酒当歌’ 较好!’ ,于是此臣就命工匠重新来过. 工匠眼看连夜刻板之功, 彻底白费, 心中叫苦不迭. 只得照办.”<br>&nbsp;&nbsp;&nbsp; “样张再次出来请曹操过目, 曹操细细一品, 觉得还是不好, 说: ‘人生真爽太过直接, 应该为问语才够意境, 因此应该为 ‘对酒当歌, 人生几何?…..’ 当臣转告工匠之时, 工匠晕倒….!”<br>&nbsp;&nbsp;&nbsp; “小菜你说, 这里面的问题出在哪里?” 大鸟问道.<br>&nbsp; &nbsp; &nbsp;  小蔡说: “是不是因为三国时期呢活字印刷术还未发明, 所以要改字的时候, 就必须要整个刻板全部重新刻.”<br>&nbsp; &nbsp; &nbsp; 大鸟: “说得好! 如果是有了活字印刷, 则只需要更改四个字就可, 其余工作都没白做. 岂不妙哉.”<br>&nbsp;&nbsp;&nbsp;  “第一, 要改, 只需要该要改的字, 此为<strong>可维护</strong>; 第二, 这些字并非用完这次就无用, 完全可以在后来的印刷中重复使用, 此乃<strong>可复用</strong>; 第三, 此诗若要加字, 只需另刻字加入即可, 这是<strong>可扩展</strong>; 第四, 字的排列其实可能是竖排可能是横排, 此诗只需要移动就将活字可做到满足排列需求, 此是<strong>灵活性好</strong>.”<br> &nbsp;&nbsp;&nbsp; “而在活字印刷术出现之前, 上面的四种特性都无妨满足, 要修改, 必须重刻, 要加字, 必须重刻, 要重新排列, 必须重刻, 印完这本书后, 此版已无任何可再利用价值.”<br>  &nbsp;&nbsp;&nbsp; 小菜: “是的, 小时候, 我一直奇怪, 为何火药, 指南针, 造纸术都是从无到有, 从未知到发现的伟大发明, 而活字印刷术仅仅是从刻版印刷到活字印刷的一次技术上的进步, 为何不是评印刷术为四大发明之一呢? 原来活字印刷的成功是这个原因.”</p>
+<h3 id="1-6-面向对象的好处"><a href="#1-6-面向对象的好处" class="headerlink" title="1.6 面向对象的好处"></a>1.6 面向对象的好处</h3><p>&nbsp;&nbsp;&nbsp; 大鸟: “哈, 这下你明白了! 我以前也不懂 不过做了软件开发几年后, 经历了太多的类似曹操这样的客户要改变需求, 更改最初想法的时间, 才逐渐明白当中的道理. 其实客观的说, 客户的要求也并不过分, 不就是改几个字吗, 但面对应经完成的代码, 却是需要几乎重头来过的尴尬, 这实在是痛苦不堪. 说白了, 原因就是因为我们原先所写的程序, 不容易维护, 灵活性差, 不容易扩展, 更谈不上复用, 因此面对需求变化, 加班加点, 对程序动大手术的那种无奈也就成了非常正常的事了. 之后当我学习了面向对象的分析设计编程思想, 开始考虑<strong>通过封装, 继承, 多台把程序的耦合度降低</strong>, 传统的印刷术的问题就在于所有的字都可在统一版面上造成耦合度太高所致, 开始<strong>使用设计模式是的程序更加的灵活, 容易修改, 并且易于复用</strong>.<br>&nbsp;&nbsp;&nbsp; “是呀, 你说的没错, 中国的四大发明, 另三种应该都是科技的进步, 伟大的创造或发现. 唯有活字印刷, 实在是思想的成功, 面向对象的胜利.” 小菜兴奋起来: “你的意思是, 面试公司出的目的是要我写出容易维护, 容易扩展, 又容易复用的计算器程序? 那该如何做啊?” </p>
+<h3 id="1-7-复制-vs-复用"><a href="#1-7-复制-vs-复用" class="headerlink" title="1.7 复制 vs. 复用"></a>1.7 复制 vs. 复用</h3><p>&nbsp;&nbsp;&nbsp; 大鸟: “比如说, 我现在要求你在写一个 Windows 的计算器, 你现在的代码能不能复用呢?”<br> &nbsp;&nbsp;&nbsp; 小菜: “那还不简单, 把代码复制过去不就行了吗? 改动又不大, 不算麻烦.”<br> &nbsp;&nbsp;&nbsp; 大鸟: “ 小菜看来还是小菜啊, 初级程序员的工作就是 ctrl + c 和 ctrl + v, 这其实是非常不好的编码习惯, 因为当你的代码中重复的代码多到一定程度, 维护的时候, 可能就是一场灾难. 越大的系统, 这种方式带来的问题越严重, 编程有一原则, 就是用尽可能的办法去避免重复. 想想看, 你写的这段代码, 有哪些是和控制台无关的, 而只是和计算器有关的?”<br>&nbsp;&nbsp;&nbsp; 小菜:  “你的意思是分一个类出来? 哦, 对的, 让计算和显示分开.”</p>
+<h3 id="1-8-业务的封装"><a href="#1-8-业务的封装" class="headerlink" title="1.8 业务的封装"></a>1.8 业务的封装</h3><p>&nbsp;&nbsp;&nbsp; 大鸟: “准确的说, 就是让业务逻辑与界面逻辑分开, 让他们之间的耦合度下降. 只有分离开, 才可以达到容易维护或扩展.”<br>&nbsp;&nbsp;&nbsp; 小菜: “Let me try.”</p>
+<ul>
+<li>Operation 运算类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Operation</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">GetResult</span><span class="params">(<span class="keyword">double</span> numberA, <span class="keyword">double</span> numberB, String operate)</span></span>&#123;</div><div class="line">        <span class="keyword">double</span> result = <span class="number">0</span>d;</div><div class="line">        <span class="keyword">switch</span> (operate) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">"+"</span>:</div><div class="line">            result = numberA + numberB;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="string">"-"</span>:</div><div class="line">            result = numberA - numberB;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="string">"*"</span>:</div><div class="line">            result = numberA * numberB;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="string">"/"</span>:</div><div class="line">            result = numberA / numberB;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>客户端代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">            System.out.println(<span class="string">"请输入数字A:"</span>);</div><div class="line">            String strNumberA = scanner.nextLine();</div><div class="line">            System.err.println(<span class="string">"请输输入运算符号(+,-,*,/):"</span>);</div><div class="line">            String strOperate = scanner.nextLine();</div><div class="line">            System.out.println(<span class="string">"请输入数字B:"</span>);</div><div class="line">            String strNumberB = scanner.nextLine();</div><div class="line">            </div><div class="line">            <span class="keyword">double</span> strResult = Operation.GetResult(Double.valueOf(strNumberA), </div><div class="line">                    Double.valueOf(strNumberB), strOperate);</div><div class="line">            System.out.println(<span class="string">"结果是: "</span> + strResult);</div><div class="line">            scanner.close();</div><div class="line"></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            System.out.println(<span class="string">"您的输入有错: "</span> + e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp; 小菜: “鸟哥, 我写好了, 你看看!”<br>&nbsp;&nbsp;&nbsp; 大鸟: “如鸟可教也, 写的不错, 这样就完全吧业务和界面分离了.”<br>&nbsp;&nbsp;&nbsp; 小菜: “ 如果现在要我写一个 windows 应用程序的计算器, 我就可以复用这个运算类 (Operation) 了.”<br>&nbsp;&nbsp;&nbsp; 大鸟: “不但是 windows 程序 , Web 版的程序需要运算可以用它, PDA, 手机等需要移动系统的软件需要运算也可以用它呀.”<br>&nbsp;&nbsp;&nbsp; 小菜: “哈, 面向对象不过如此. 下诙谐类似的代码不怕了.”<br>&nbsp;&nbsp;&nbsp; 大鸟: “别介, 仅此而已, 是在谈不上完全面向对象, 你只用了面向对象三大特性中的一个, 还有两个没用呢?”<br>&nbsp;&nbsp;&nbsp; 小菜: “面向对象的三大特性不就是封装, 继承和多态吗, 这里我用到时应该是封装. 这还不够吗?我实在看不出, 这么小的程序如何用到继承. 至于多态, 其实我一直被不太了解他到底有什么好处, 如何使用它.”<br>&nbsp;&nbsp;&nbsp; 大鸟 :”慢慢来, 要学的东西多着呢, 你好好想想该如何应用面向对象的继承和多态.”</p>
+<h3 id="1-9-紧耦合-vs-松耦合"><a href="#1-9-紧耦合-vs-松耦合" class="headerlink" title="1.9 紧耦合 vs. 松耦合"></a>1.9 紧耦合 vs. 松耦合</h3><p>&nbsp;&nbsp;&nbsp; 第二天.<br>&nbsp;&nbsp;&nbsp; 小菜问道: “你说计算器这样的小程序还可以用到面向对象的三大特性? 继承和多态怎么可能用得上, 我实在是不理解.”<br>&nbsp;&nbsp;&nbsp; 大鸟:  “小菜很有钻研精神嘛, 好, 今天我让你功力加深一级. 你先考虑一下, 你昨天写的这个代码, 能否做到很灵活的修改和扩展呢?”<br>&nbsp;&nbsp;&nbsp; 小菜: “我已经把业务和界面分离了啊, 很灵活了吧.”<br>&nbsp;&nbsp;&nbsp; 大鸟: 那我问你, 现在如果我希望增加一个开根(sqrt) 运算, 你如何改?”<br>&nbsp;&nbsp;&nbsp; 小菜: “那只需要该Operation 类就行了, 在 switch 中加一个分支就行了.”<br>&nbsp;&nbsp;&nbsp; 大鸟: “问题是你要加一个平方根运算, 却需要让加减乘除运算都得来参与编译, 如果你不小心, 把加法运算改成了减法, 这岂不是很糟糕. 打个比方, 如果公司要求你为公司的薪资管理系统做维护, 原来只有技术人员(月薪), 事成销售人员(底薪+提成), 经理(年薪+股份)三种运算算法, 现在要增加兼职工作人员(时薪)算法, 但按照你昨天程序的写法, 公司就必须要把包含元三种算法的运算类给你, 让你改, 如果心中小算盘一打, ‘TMD, 公司给我的工资这么低, 我真的是郁闷, 这下有机会了’ ,于是你除了增加了价值算法意外, 自技术人员(月薪)算法中写了一句 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(员工是小菜)&#123;</div><div class="line">    salary = salary * <span class="number">1.1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp; 那就意味着, 你的月薪每月都会增加 10%(小心被抓去坐牢), 本来是让你加一个功能, 却使得原来运行良好的功能代码产生了变化, 这个风险太大, 你明白了吗?”<br>&nbsp;&nbsp;&nbsp; 小菜: “哦, 你的意思是, 我应该吧加减乘除等运算分离, 修改其中一个不影响另外几个, 增加运算算法与不影响其他代码, 是这样吗?”<br>&nbsp;&nbsp;&nbsp; 大鸟: “自己想去吧, 如何用继承和多态, 你应该有感觉了.”<br>&nbsp;&nbsp;&nbsp; 小菜: “OK”</p>
+<ul>
+<li>Operation  运算类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Operation</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">double</span> numberA = <span class="number">0</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">double</span> numberB = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getNumberA</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> numberA;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNumberA</span><span class="params">(<span class="keyword">double</span> numberA)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.numberA = numberA;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getNumberB</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> numberB;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNumberB</span><span class="params">(<span class="keyword">double</span> numberB)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.numberB = numberB;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">getResult</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>加减乘除类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OperationAdd</span> <span class="keyword">extends</span> <span class="title">Operation</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getResult</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">double</span> result = <span class="number">0</span>;</div><div class="line">        result = getNumberA() + getNumberB();</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OperationSub</span> <span class="keyword">extends</span> <span class="title">Operation</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getResult</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">double</span> result = <span class="number">0</span>;</div><div class="line">        result = getNumberA() - getNumberB();</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OperationMulti</span> <span class="keyword">extends</span> <span class="title">Operation</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getResult</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">double</span> result = <span class="number">0</span>;</div><div class="line">        result = getNumberA() * getNumberB();</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OperationDiv</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getResult</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">double</span> result = <span class="number">0</span>;</div><div class="line">        <span class="keyword">if</span> (<span class="number">0</span> == getNumberB()) &#123;</div><div class="line">            System.out.println(<span class="string">"出书不能为0."</span>);</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">        result = getNumberA() / getNumberB();</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp; 小菜: “鸟哥, 我按照你说的方法写出来了一部分, 首先是一个运算类, 他有两个 Number 属性, 主要用于计算器的前后数, 然后又一个抽象方法 <code>getResult()</code>, 用于得到结果, 然后我把加减乘除都写成了运算类的子类, 继承他后, 重写<code>getResult()</code> 方法, 这样如果妖修噶任何一个算法, 就不需要提供其他算法的代码了. 但是问题来了, 我如何让计算器知道我是希望用哪一个算法呢?”</p>
+<h3 id="1-10-简单工厂模式-Simple-Factory-Pattern"><a href="#1-10-简单工厂模式-Simple-Factory-Pattern" class="headerlink" title="1.10 简单工厂模式(Simple Factory Pattern)"></a>1.10 简单工厂模式(Simple Factory Pattern)</h3><p>&nbsp;&nbsp;&nbsp; 大鸟: “写得很不错嘛, 大大超出我的想象了, 你现在的问题其实就是如何去实例化对象的问题, 哈, 今天心情不错, 再教你一招 ‘简单工厂模式’ 也就是说, 到底要实力化谁, 将来会不会增加实例化的对象, 比如增加开更运算, 这是很容易变化的地方, 应该考虑用一个单独的类来做这个创造实例的过程, 这就是工厂.”</p>
+<ul>
+<li>简单运算工厂类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OperationFactory</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Operation <span class="title">createOperation</span><span class="params">(String operate)</span></span>&#123;</div><div class="line">        Operation oper = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">switch</span> (operate) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">"+"</span>:</div><div class="line">            oper = <span class="keyword">new</span> OperationAdd();</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="string">"-"</span>:</div><div class="line">            oper = <span class="keyword">new</span> OperationSub();</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="string">"*"</span>:</div><div class="line">            oper = <span class="keyword">new</span> OperationMulti();</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="string">"/"</span>:</div><div class="line">            oper = <span class="keyword">new</span> OperationDiv();</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> oper;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp; 大鸟: “哈, 看到了吧, 这样子, 你只需要输入运算符号, 工厂就实例化出合适的对象, 通过多态, 返回父类的方式实现了计算器的结果.”</p>
+<ul>
+<li>客户端代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Operation oper;</div><div class="line">        oper = OperationFactory.createOperation(<span class="string">"+"</span>);</div><div class="line">        oper.setNumberA(<span class="number">1</span>);</div><div class="line">        oper.setNumberB(<span class="number">2</span>);</div><div class="line">        <span class="keyword">double</span> result = oper.getResult();</div><div class="line">        System.out.println(result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;  大鸟: “哈, 界面的实现就是这样的代码, 不挂你是控制台程序, windows 程序, web 程序, pda 程序或手机程序, 都可以用这段代码来实现计算器的功能, 如果有一天我们需要更改加法运算, 我们只需要改<code>OperationAdd</code> 就可以了. 如果我们需要增加各种复杂运算, 比如平方根, 立方根, 自然对数, 正余弦等, 如何做?”<br>&nbsp;&nbsp;&nbsp; 小菜: “只要增加相应的运算子类就可以了.”<br>&nbsp;&nbsp;&nbsp; 大鸟: “嗯? 够了吗?”<br>&nbsp;&nbsp;&nbsp; 小菜: “对了, 还需要去修改运算类工厂, 在 switch 中增加分支. “<br>&nbsp;&nbsp;&nbsp; 大鸟: “哈, 那才对, 那如果要修改界面呢?”<br>&nbsp;&nbsp;&nbsp; 小菜: “那就去该界面, 不管运算的事.”<br>&nbsp;&nbsp;&nbsp; 大鸟: “最后, 我们来看看这几个类的结构图.”</p>
+<img src="/images/simple-factory-fresher/pic01.png" width="600" height="600">
+<h3 id="1-11-UML-类图"><a href="#1-11-UML-类图" class="headerlink" title="1.11 UML 类图"></a>1.11 UML 类图</h3><p><a href="https://tanhuang01.github.io/2017/08/05/UML/" target="_blank" rel="external">UML类图讲解_入门</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Pattern/" rel="tag"># Design Pattern</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/04/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/05/design_pattern_fresher/UML/" rel="prev" title="00.1 番外篇1 - UML 类图">
+                00.1 番外篇1 - UML 类图 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-面试受挫"><span class="nav-number">1.</span> <span class="nav-text">1.1 面试受挫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-初学者代码的毛病"><span class="nav-number">2.</span> <span class="nav-text">1.2 初学者代码的毛病</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-代码规范"><span class="nav-number">3.</span> <span class="nav-text">1.3 代码规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-面向对象的编程"><span class="nav-number">4.</span> <span class="nav-text">1.4 面向对象的编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-活字印刷-面向对象"><span class="nav-number">5.</span> <span class="nav-text">1.5 活字印刷, 面向对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-面向对象的好处"><span class="nav-number">6.</span> <span class="nav-text">1.6 面向对象的好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-复制-vs-复用"><span class="nav-number">7.</span> <span class="nav-text">1.7 复制 vs. 复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8-业务的封装"><span class="nav-number">8.</span> <span class="nav-text">1.8 业务的封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-9-紧耦合-vs-松耦合"><span class="nav-number">9.</span> <span class="nav-text">1.9 紧耦合 vs. 松耦合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-10-简单工厂模式-Simple-Factory-Pattern"><span class="nav-number">10.</span> <span class="nav-text">1.10 简单工厂模式(Simple Factory Pattern)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-11-UML-类图"><span class="nav-number">11.</span> <span class="nav-text">1.11 UML 类图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
