@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="Congspark">
 <meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 加把劲儿, 希望今年的双十一是最后一个节日.">
 <meta property="og:image" content="http://yoursite.com/images/hello-world/test.png">
-<meta property="og:updated_time" content="2017-11-24T01:52:37.000Z">
+<meta property="og:updated_time" content="2017-11-29T07:18:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="工作日志(2017-11)">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 加把劲儿, 希望今年的双十一是最后一个节日.">
@@ -408,10 +408,9 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 就可以显示空格了, 可以用于文字之前. 需要 make project 一下, 不然可能会显示错误. 其实这里的 &#xe650; 没有什么特殊的意义, 仅仅是用来占位的一个字符, 并没有什么特殊意义.</p>
 <h4 id="Thursday-16th"><a href="#Thursday-16th" class="headerlink" title="Thursday 16th"></a>Thursday 16th</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 3. Android 的字体可以使用 xml 的方式来定义了, 在最大的程度上解耦, 整体替换字体也是非常的方便的.<br>&nbsp;&nbsp;&nbsp;&nbsp; 具体参考 <a href="https://developer.android.com/preview/features/fonts-in-xml.html" target="_blank" rel="external">Font in XML</a> Android 官方文档, 解释的非常的详细的说.</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 4. 输入用户名密码.<br>&nbsp;&nbsp;&nbsp;&nbsp; 我们的项目中肯定会遇到很多输入用户名密码的时候, 虽然可以使用 <code>input text</code> 和 <code>input keyevent</code> 指令, 但是调试的次数一多, 还是非常的麻烦.<br>&nbsp;&nbsp;&nbsp;&nbsp; 提供一个作弊的连接, 可以免去敲键盘的尴尬. 因为 Android 设备也基于 linux 系统. <a href="http://www.jianshu.com/p/dd93cc9b0e06" target="_blank" rel="external">Android自定义Shell完成文本输入</a></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp; 5. RecyclerView 的分页加载.<br>&nbsp;&nbsp;&nbsp;&nbsp; 实话实话, 因为项目中很少会做 RecyclerView 这一部分的东西, 所以对这部分的知识还是比较生疏的, 每次用到 RecyclerView 总会心里犯嘀咕, 所以开始做了一个 master_recycler 的小项目, 目标是熟练使用 RecyclerView 的各种使用, 掌握这个黑科技.<br>&nbsp;&nbsp;&nbsp;&nbsp; 第一个小项目是分页加载, 原理是对 RecyclerView 的滑动事件做监听, 当显示到最后一个时, 去加载更多数据.  需要对 adapter 和 ScrollListener 做处理. scrollListener 设置监听, 在 adapter 中处理更多数据的加载.<br>&nbsp;&nbsp;&nbsp;&nbsp; 但是个人感觉做的比较烂, 因为对这个的封装不好需要调用者了解两个接口的是用. 需要好好想想怎么去优化这部分内容.<br>&nbsp;&nbsp;&nbsp;&nbsp; 对了, 项目已经出上传到了 github, 虽然写的烂, 但是我脸皮厚啊. <a href="https://github.com/tanhuang01/master_recycler" target="_blank" rel="external">master_recycler</a></p>
+<h4 id="Friday-24th"><a href="#Friday-24th" class="headerlink" title="Friday 24th"></a>Friday 24th</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 5. RecyclerView 的分页加载.<br>&nbsp;&nbsp;&nbsp;&nbsp; 实话实话, 因为项目中很少会做 RecyclerView 这一部分的东西, 所以对这部分的知识还是比较生疏的, 每次用到 RecyclerView 总会心里犯嘀咕, 所以开始做了一个 master_recycler 的小项目, 目标是熟练使用 RecyclerView 的各种使用, 掌握这个黑科技.<br>&nbsp;&nbsp;&nbsp;&nbsp; 第一个小项目是分页加载, 原理是对 RecyclerView 的滑动事件做监听, 当显示到最后一个时, 去加载更多数据.  需要对 adapter 和 ScrollListener 做处理. scrollListener 设置监听, 在 adapter 中处理更多数据的加载.<br>&nbsp;&nbsp;&nbsp;&nbsp; 但是个人感觉做的比较烂, 因为对这个的封装不好需要调用者了解两个接口的是用. 需要好好想想怎么去优化这部分内容.<br>&nbsp;&nbsp;&nbsp;&nbsp; 对了, 项目已经出上传到了 github, 虽然写的烂, 但是我脸皮厚啊. <a href="https://github.com/tanhuang01/master_recycler" target="_blank" rel="external">master_recycler</a></p>
+<h4 id="Wednesday-29th"><a href="#Wednesday-29th" class="headerlink" title="Wednesday 29th"></a>Wednesday 29th</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 6.项目组的大神分享了一下 adb 脚本的高级操作, 可以自动输入文本, 自动换行之类的黑科技.<br>&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.jianshu.com/p/dd93cc9b0e06" target="_blank" rel="external">跳转链接: Android自定义Shell完成文本输入</a><br>&nbsp;&nbsp;&nbsp;&nbsp; 注意 <code>adb remount</code> 指令以及 <code>chmod 2777 filename</code> 指令.</p>
 <div align="center"><br><img src="/images/hello-world/test.png" width="100" height="100" title="test png pic"><br></div>
-
-<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
       
     </div>
@@ -612,7 +611,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Wednesday-8th"><span class="nav-number">1.</span> <span class="nav-text">Wednesday 8th</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Thursday-16th"><span class="nav-number">2.</span> <span class="nav-text">Thursday 16th</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Wednesday-8th"><span class="nav-number">1.</span> <span class="nav-text">Wednesday 8th</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Thursday-16th"><span class="nav-number">2.</span> <span class="nav-text">Thursday 16th</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Friday-24th"><span class="nav-number">3.</span> <span class="nav-text">Friday 24th</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wednesday-29th"><span class="nav-number">4.</span> <span class="nav-text">Wednesday 29th</span></a></li></ol></div>
             
 
           </div>
