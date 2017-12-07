@@ -102,16 +102,17 @@
 <meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2017 的最后一个月, 再加把劲.">
 <meta name="keywords" content="Work Log">
 <meta property="og:type" content="article">
-<meta property="og:title" content="工作日志(2017-11)">
+<meta property="og:title" content="工作日志(2017-12)">
 <meta property="og:url" content="http://yoursite.com/2017/12/04/work_log/work-log-2017-12/index.html">
 <meta property="og:site_name" content="Congspark">
 <meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2017 的最后一个月, 再加把劲.">
-<meta property="og:image" content="http://yoursite.com/images/hello-world/test.png">
-<meta property="og:updated_time" content="2017-12-04T02:27:18.000Z">
+<meta property="og:image" content="http://yoursite.com/images/work-log-2017-12/error-pic.gif">
+<meta property="og:image" content="http://yoursite.com/images/work-log-2017-12/correct-pic.gif">
+<meta property="og:updated_time" content="2017-12-07T09:57:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="工作日志(2017-11)">
+<meta name="twitter:title" content="工作日志(2017-12)">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2017 的最后一个月, 再加把劲.">
-<meta name="twitter:image" content="http://yoursite.com/images/hello-world/test.png">
+<meta name="twitter:image" content="http://yoursite.com/images/work-log-2017-12/error-pic.gif">
 
 
 
@@ -145,7 +146,7 @@
 
 
 
-  <title> 工作日志(2017-11) | Congspark </title>
+  <title> 工作日志(2017-12) | Congspark </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -305,7 +306,7 @@
             
             
               
-                工作日志(2017-11)
+                工作日志(2017-12)
               
             
           </h1>
@@ -371,7 +372,7 @@
 
           
           
-             <span id="/2017/12/04/work_log/work-log-2017-12/" class="leancloud_visitors" data-flag-title="工作日志(2017-11)">
+             <span id="/2017/12/04/work_log/work-log-2017-12/" class="leancloud_visitors" data-flag-title="工作日志(2017-12)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -402,9 +403,15 @@
       
         <p>&nbsp;&nbsp;&nbsp;&nbsp; 2017 的最后一个月, 再加把劲.<br><a id="more"></a></p>
 <h4 id="Monday-4th"><a href="#Monday-4th" class="headerlink" title="Monday 4th"></a>Monday 4th</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 1. 我去, 这个坑爹的 <code>DialogFragment</code> 居然会弹出两次.<br>&nbsp;&nbsp;&nbsp;&nbsp; 项目中经常会有这种需求, 点击删除按钮, 弹出一个对话框, (这里对话框的实现 google 官方推荐使用 <code>DialogFragment</code>), 然后点击确定按钮, 删除.<br>&nbsp;&nbsp;&nbsp;&nbsp; 通常是没有什么问题, 但是如果是 <code>RecyclerView</code> 中的一项, 可能就会出问题了. 连续点击按钮, 弹出多个对话框. 然后对话框都点击删除按钮, 会出现异常; 而且如果是列表的最后一项, 那么直接 crash. 抛出一个 IndexOutOfBoundException.<br>&nbsp;&nbsp;&nbsp;&nbsp; 目前的解决办法是通过处理按钮的点击事件, 以及列表集合的判断来处理这个问题.</p>
-<div align="center"><br><img src="/images/hello-world/test.png" width="100" height="100" title="test png pic"><br></div>
+<h4 id="Tuesday-7th"><a href="#Tuesday-7th" class="headerlink" title="Tuesday 7th"></a>Tuesday 7th</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 2. ConstraintLayout 布局使用的大坑.<br>&nbsp;&nbsp;&nbsp;&nbsp; 使用 <code>ConstraintLayout</code> 时, 子 <code>View</code> 一定要使用约束. 比如说, 如果是宽度充满整个屏幕, 那么使用如下宽度指定为 0dp, 配合约束使用, 可以正确显示, 否则现实的时候就很可能出现意想不到的问题.<br>&nbsp;&nbsp;&nbsp;&nbsp; 举个例子, 我们要做一个 <code>RecyclerView</code> 的分页加载功能. 我们先这样指定布局文件, 添加一个背景, 便于观察.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">// 布局文件.</div><div class="line">&lt;android.support.constraint.ConstraintLayout</div><div class="line">    ..</div><div class="line"></div><div class="line">    &lt;android.support.v7.widget.RecyclerView</div><div class="line">        android:id="@+id/recycler"</div><div class="line">        android:layout_width="match_parent"</div><div class="line">        android:layout_height="match_parent" /&gt;</div><div class="line"></div><div class="line">&lt;/android.support.constraint.ConstraintLayout&gt;</div><div class="line"></div><div class="line">// RecyclerView 每一个 item 的布局文件</div><div class="line">// 省略无关代码.</div><div class="line">&lt;android.support.constraint.ConstraintLayout</div><div class="line">    ..</div><div class="line"></div><div class="line">    &lt;android.support.v7.widget.AppCompatTextView</div><div class="line">        android:id="@+id/item_title"</div><div class="line">        android:layout_width="match_parent"</div><div class="line">        android:layout_height="wrap_content"  ../&gt;</div><div class="line"></div><div class="line">    &lt;android.support.v7.widget.AppCompatTextView</div><div class="line">        android:id="@+id/item_detail"</div><div class="line">        android:layout_width="match_parent"</div><div class="line">        android:layout_height="wrap_content" ... /&gt;</div><div class="line"></div><div class="line">&lt;/android.support.constraint.ConstraintLayout&gt;</div></pre></td></tr></table></figure></p>
+<div align="center"><br><img src="/images/work-log-2017-12/error-pic.gif" width="200" height="500"><br></div>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 很明显得看到了问题所在了吧, 现在我们添加约束.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;android.support.constraint.ConstraintLayout ..&gt;</div><div class="line"></div><div class="line">    &lt;android.support.v7.widget.RecyclerView</div><div class="line">        android:id="@+id/recycler"</div><div class="line">        android:layout_width="0dp"</div><div class="line">        android:layout_height="0dp"</div><div class="line">        app:layout_constraintBottom_toBottomOf="parent"</div><div class="line">        app:layout_constraintLeft_toLeftOf="parent"</div><div class="line">        app:layout_constraintRight_toRightOf="parent"</div><div class="line">        app:layout_constraintTop_toTopOf="parent" /&gt;</div><div class="line"></div><div class="line">&lt;/android.support.constraint.ConstraintLayout&gt;</div><div class="line"></div><div class="line">// 相应的 item 布局也做修改.</div><div class="line">// 重复就不贴出来了.</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后再看一下效果.</p>
+<div align="center"><br><img src="/images/work-log-2017-12/correct-pic.gif" width="200" height="500"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这个样子显示就完全正确了. 很不好意思的说, 被这个东西卡了将近一天的时间, 元气大伤.</p>
 
       
     </div>
@@ -605,7 +612,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Monday-4th"><span class="nav-number">1.</span> <span class="nav-text">Monday 4th</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Monday-4th"><span class="nav-number">1.</span> <span class="nav-text">Monday 4th</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tuesday-7th"><span class="nav-number">2.</span> <span class="nav-text">Tuesday 7th</span></a></li></ol></div>
             
 
           </div>
