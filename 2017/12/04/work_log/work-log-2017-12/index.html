@@ -108,7 +108,8 @@
 <meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2017 的最后一个月, 再加把劲.">
 <meta property="og:image" content="http://yoursite.com/images/work-log-2017-12/error-pic.gif">
 <meta property="og:image" content="http://yoursite.com/images/work-log-2017-12/correct-pic.gif">
-<meta property="og:updated_time" content="2017-12-18T06:17:03.000Z">
+<meta property="og:image" content="http://yoursite.com/images/work-log-2017-12/pic01.gif">
+<meta property="og:updated_time" content="2017-12-19T10:48:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="工作日志(2017-12)">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2017 的最后一个月, 再加把劲.">
@@ -418,6 +419,12 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 4. 注意一下 <code>RecyclerView</code> 中 <code>onBindViewHolder(RecyclerView.ViewHolder holder, int position)</code> 和 <code>onBindViewHolder(RecyclerView.ViewHolder holder, int position, List&lt;Object&gt; payLoads)</code> 的区别.<br>&nbsp;&nbsp;&nbsp;&nbsp; 一不小心看错了就坑爹了, 细节性的问题, 千万注意, 如果说不知道这两个方法的区别, 谷歌或者度娘吧.</p>
 <h4 id="Friday-15th-金曜日"><a href="#Friday-15th-金曜日" class="headerlink" title="Friday 15th 金曜日"></a>Friday 15th 金曜日</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 5. 实在是忍不住吐槽一下 ,为什么我遇到的都是些奇葩需求. 昨天是 Android 的电子秤, 今天是打印机. 我只想静静地当一个程序员, 怎么就那么难呢..<br>&nbsp;&nbsp;&nbsp;&nbsp; 好吧, 我也是服气了, 同一个串口, 同一时间只能是一个进程读取数据, 如果多个线程同时读取数据, 那么就会出现数据错误的情况…</p>
 <h4 id="Monday-18th-月曜日"><a href="#Monday-18th-月曜日" class="headerlink" title="Monday 18th 月曜日　"></a>Monday 18th 月曜日　</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 6. 真的是让硬件交互给坑死了, 条码打印机和票据打印机区别是很大的, 这个坑害得老子踩了两天.</p>
+<h4 id="Tuesday-19th-火曜日"><a href="#Tuesday-19th-火曜日" class="headerlink" title="Tuesday 19th 火曜日"></a>Tuesday 19th 火曜日</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 7. 绘制一个类似于这个样子的布局, 你会怎么选择呢? 三个按钮, 动态的切换左侧的 <code>Fragment</code> 布局.</p>
+<div align="center"><br><img src="/images/work-log-2017-12/pic01.gif" width="400" height="500"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 之前选择的是 <code>RecyclerView</code> 的方式实现, 现在就换一下, 反正就是三个按钮, 以后也不会再多了, 索性直接用 <code>TextView</code> + <code>ConstraintLayout</code> 拼接完成.<br>&nbsp;&nbsp;&nbsp;&nbsp; 第一个坑, 看到上面有一条白线了么? 并不是刻意而为之, 二是我也不知道怎么回事儿, 还是求高手解答.<br>&nbsp;&nbsp;&nbsp;&nbsp; 第二个坑, 看到那条虚线了么? 如果是用 <code>RecyclerView</code> 的话, 直接实现 <code>DivideItemDecoration</code> 就可以了. 现在用一个 <code>shape.xml</code> 来实现就可以了, .xml 可能看起来像是这个样子.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line">&lt;shape xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    android:shape="line"&gt;</div><div class="line">    &lt;stroke</div><div class="line">        android:width="1dp"</div><div class="line">        android:color="@color/gray_a3adbd"</div><div class="line">        android:dashGap="3dp"</div><div class="line">        android:dashWidth="10dp" /&gt;</div><div class="line">&lt;/shape&gt;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 但是, 显示不出来, 为什么呢? 因为你在 <code>View</code> 中引用时, <code>View</code> 的高度需要大于线的高度, 也就是 <code>View</code> 的 <code>height</code> 需要大于 <code>shape</code> 的 <code>width</code>; 好吧, 我们把 <code>View</code> 的高度设置为 1.5dp.<br>&nbsp;&nbsp;&nbsp;&nbsp; 但但是, 显示出来一条实线. why? 因为这个在硬件加速的环境下不好使, 关掉. 给 <code>View</code> 增加属性 <code>android:layerType=&quot;software&quot;</code>. 然后显示正常.<br>&nbsp;&nbsp;&nbsp;&nbsp; 但但但是, 以后如果是三个选项及其以上的选项, 一定要使用 <code>RecyclerView</code> 可以节省很多时间.</p>
 
       
     </div>
@@ -618,7 +625,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Monday-4th"><span class="nav-number">1.</span> <span class="nav-text">Monday 4th</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tuesday-7th"><span class="nav-number">2.</span> <span class="nav-text">Tuesday 7th</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monday-11th-月曜日"><span class="nav-number">3.</span> <span class="nav-text">Monday 11th 月曜日</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Friday-15th-金曜日"><span class="nav-number">4.</span> <span class="nav-text">Friday 15th 金曜日</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monday-18th-月曜日"><span class="nav-number">5.</span> <span class="nav-text">Monday 18th 月曜日　</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Monday-4th"><span class="nav-number">1.</span> <span class="nav-text">Monday 4th</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tuesday-7th"><span class="nav-number">2.</span> <span class="nav-text">Tuesday 7th</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monday-11th-月曜日"><span class="nav-number">3.</span> <span class="nav-text">Monday 11th 月曜日</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Friday-15th-金曜日"><span class="nav-number">4.</span> <span class="nav-text">Friday 15th 金曜日</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monday-18th-月曜日"><span class="nav-number">5.</span> <span class="nav-text">Monday 18th 月曜日　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tuesday-19th-火曜日"><span class="nav-number">6.</span> <span class="nav-text">Tuesday 19th 火曜日</span></a></li></ol></div>
             
 
           </div>
