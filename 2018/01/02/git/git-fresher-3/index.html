@@ -1,0 +1,961 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这一个章节是有关冲突的处理, 当然最基本的冲突处理. 工作中, 推荐使用 GUI 去处理冲突, 例如: Android Studio.">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 入门 - 上手篇(2)">
+<meta property="og:url" content="http://yoursite.com/2018/01/02/git/git-fresher-3/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这一个章节是有关冲突的处理, 当然最基本的冲突处理. 工作中, 推荐使用 GUI 去处理冲突, 例如: Android Studio.">
+<meta property="og:image" content="http://yoursite.com/images/git-fresher-3/git-fre-01.png">
+<meta property="og:image" content="http://yoursite.com/images/git-fresher-3/git-fre-02.png">
+<meta property="og:image" content="http://yoursite.com/images/git-fresher-3/git-fre-03.png">
+<meta property="og:image" content="http://yoursite.com/images/git-fresher-3/git-fre-04.png">
+<meta property="og:image" content="http://yoursite.com/images/git-fresher-3/git-fre-05.png">
+<meta property="og:image" content="http://yoursite.com/images/git-fresher-3/git-fre-06.png">
+<meta property="og:image" content="http://yoursite.com/images/git-fresher-3/git-fre-07.png">
+<meta property="og:image" content="http://yoursite.com/images/git-fresher-3/git-fre-08.png">
+<meta property="og:image" content="http://yoursite.com/images/git-fresher-3/git-fre-09.png">
+<meta property="og:updated_time" content="2018-01-04T08:34:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git 入门 - 上手篇(2)">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这一个章节是有关冲突的处理, 当然最基本的冲突处理. 工作中, 推荐使用 GUI 去处理冲突, 例如: Android Studio.">
+<meta name="twitter:image" content="http://yoursite.com/images/git-fresher-3/git-fre-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/02/git/git-fresher-3/"/>
+
+
+
+
+
+  <title> Git 入门 - 上手篇(2) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/git/git-fresher-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Git 入门 - 上手篇(2)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T12:55:55+08:00">
+                2018-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/02/git/git-fresher-3/" class="leancloud_visitors" data-flag-title="Git 入门 - 上手篇(2)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; 这一个章节是有关冲突的处理, 当然最基本的冲突处理. 工作中, 推荐使用 GUI 去处理冲突, 例如: Android Studio.</p>
+<a id="more"></a>
+<blockquote>
+<p><font color="red"><strong>NOTE</strong></font> : 同样的, 还是已经有 git 经验的可以跳过这一篇.</p>
+</blockquote>
+<h2 id="上手-2：团队工作的基本工作模型"><a href="#上手-2：团队工作的基本工作模型" class="headerlink" title="上手 2：团队工作的基本工作模型"></a>上手 2：团队工作的基本工作模型</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;  对于 Git 来说，团队合作和个人独立工作最大的不同在于，你会提交代码，别人也会提交；你会 push，别人也会 push，因此除了把代码上传，每个人还需要把别人最新的代码下载到自己的电脑。而且，这些工作都是并行进行的。<br>&nbsp;&nbsp;&nbsp;&nbsp; 这就很复杂了！<br>&nbsp;&nbsp;&nbsp;&nbsp; 这节的内容，就是简单阐述一下团队合作中 Git 的基本工作模型。</p>
+<h3 id="把别人新的提交拿到本地"><a href="#把别人新的提交拿到本地" class="headerlink" title="把别人新的提交拿到本地"></a>把别人新的提交拿到本地</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 先说一种简单的情况：你的同事刚把他写的几个提交 push 到了中央仓库，你怎么把它们取下来。</p>
+<h4 id="假装同事"><a href="#假装同事" class="headerlink" title="假装同事"></a>假装同事</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 除非你能要求同事陪你练习 Git，否则，你只能一人分饰两角：时不时地模拟一下同事的操作，来达到独自一人做多人项目练习的效果。而为了模拟同事的操作，你需要在你的 <code>/git-practice</code> 目录旁再 clone 一次中央仓库到本地，来当做你的模拟同事的本地仓库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/rengwuxian/git-practice.git git-practice-another</div></pre></td></tr></table></figure>
+<blockquote>
+<p><font color="red"><strong>NOTE</strong></font> : 注意！执行这条之前别忘了先 <code>cd ..</code> 切换到父目录，不然你会把新的本地仓库创建在原先的本地仓库的工作目录内。</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 为了目录名称不冲突，这次的 <code>clone</code> 需要加一个额外参数（上面那行代码最后的 <code>git-practice-another</code>）来手动指定本地仓库的根目录名称。在这条指令执行完成后，你就有了两个内容相同的本地仓库：</p>
+<div align="center"><br><img src="/images/git-fresher-3/git-fre-01.png" width="300" height="100" title="你的 git-practice 和「同事」的 git-practice-another"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 现在，你就可以假装 <code>/git-practice</code> 这个目录是你的电脑上的工作目录，而那个新建的 <code>/git-practice-another</code> 是你同事的电脑上的工作目录。</p>
+<div align="center"><br><img src="/images/git-fresher-3/git-fre-02.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 如果你对这样的操作有担心，大可不必，这种操作不会有任何问题。因为 Git 的管理是目录级别，而不是设备级别的。也就是说，<code>/git-practice</code> 目录内的 <code>.git</code> 只管理 <code>/git-practice</code> 里的内容，<code>/git-practice-another</code> 目录内的 <code>.git</code> 也只管理 <code>/git-practice-another</code> 里的内容，它们之间互不知晓，也互不影响。</p>
+<h3 id="帮同事提交代码并-push-到中央仓库"><a href="#帮同事提交代码并-push-到中央仓库" class="headerlink" title="帮同事提交代码并 push 到中央仓库"></a>帮同事提交代码并 push 到中央仓库</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 要在你的电脑上把同事的代码取下来，首先 GitHub 上要有你同事的新代码，也就是说，你首先要把同事的代码 push 到中央仓库去。所以第一步，切换到同事的目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> git-practice-another</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 现在，到了同事的工作目录，你的身份就是你的同事了。帮他写点代码吧！嗯……写点什么好呢？</p>
+<div align="center"><br><img src="/images/git-fresher-3/git-fre-03.png" width="500" height="100"><br></div>
+
+<div align="center"><br><img src="/images/git-fresher-3/git-fre-04.png" width="550" height="100" title="嗯，「女装」"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 嗯, 看起来不错, 把他提交吧:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git add shopping list-colleague.txt</div><div class="line">git commit</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-fresher-3/git-fre-05.png" width="600" height="100" title="记得填写提交信息"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 注: 这里可以直接使用 <code>git commit -m 此次提交的信息</code> 来完成本次提交, 避免了使用 vim 的尴尬.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 提交完成后, <code>push</code> 到 github:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-fresher-3/git-fre-06.png" width="700" height="100" title="GitHub 上已经能看到刚更新的文件"><br></div>
+
+
+<h3 id="把同事-push-的新代码取下来"><a href="#把同事-push-的新代码取下来" class="headerlink" title="把同事 push 的新代码取下来."></a>把同事 push 的新代码取下来.</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; GitHub 上有了同事的新代码以后，你就可以变回自己，把「他」刚 push 上去的代码取到你的仓库了。首先，切回 <code>/git-practice</code> 目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ../git-practice</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后，把同事的代码取下来吧！从远程仓库更新内容，用的是一个新的指令：pull。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git pull</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-fresher-3/git-fre-07.png" width="550" height="100" title="用 git pull 把代码从远程仓库取下来"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这时候再看看你的本地目录，可以看到，同事提交的 <code>shopping list-colleagure.txt</code> 已经同步到本地了。也就是说，现在你的本地仓库和同事的又一致了。</p>
+<h3 id="多人合作的基本工作模型"><a href="#多人合作的基本工作模型" class="headerlink" title="多人合作的基本工作模型"></a>多人合作的基本工作模型</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;  这就完成了一次简单的合作流程：</p>
+<ol>
+<li>同事 <code>commit</code> 代码到他的本地，并 <code>push</code> 到 GitHub 中央仓库</li>
+<li>你把 GitHub 的新提交通过 <code>pull</code> 指令来取到你的本地</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 通过这个流程，你和同事就可以简单地合作了：你写了代码，<code>commit</code>，<code>push</code> 到 GitHub，然后他 <code>pull</code> 到他的本地；他再写代码，<code>commit</code>, <code>push</code> 到 GitHub，然后你再 <code>pull</code> 到你的本地。你来我往，配合得不亦乐乎。<br>&nbsp;&nbsp;&nbsp;&nbsp; 但是，这种合作有一个严重的问题：同一时间内，只能有一个人在工作。你和同事其中一个人写代码的时候，另一个人不能做事，必须等着他把工作做完，代码 <code>push</code> 到 GitHub 以后，自己才能把 <code>push</code> 上去的代码 <code>pull</code> 到自己的本地。而如果同时做事，就会发生冲突：当一个人先于另一个人 <code>push</code> 代码（这种情况必然会发生），那么后 <code>push</code> 的这个人就会由于中央仓库上含有本地没有的提交而导致 <code>push</code> 失败。</p>
+<blockquote>
+<p>为什么会失败？<br>  因为 Git 的 <code>push</code> 其实是用本地仓库的 <code>commits</code> 记录去覆盖远端仓库的 <code>commits</code> 记录（注：这是简化概念后的说法，<code>push</code> 的实质和这个说法略有不同），而如果在远端仓库含有本地没有的 <code>commits</code> 的时候，<code>push</code> （如果成功）将会导致远端的 <code>commits</code> 被擦掉。这种结果当然是不可行的，因此 Git 会在 <code>push</code> 的时候进行检查，如果出现这样的情况，<code>push</code> 就会失败。</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 怎么办？下面就说。</p>
+<h3 id="push-发生冲突"><a href="#push-发生冲突" class="headerlink" title="push 发生冲突"></a>push 发生冲突</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 在现实的团队开发中，全队是同时并行开发的，所以必然会出现当一人 <code>push</code> 代码时，中央仓库已经被其他同事先一步 <code>push</code> 了的情况。为了不让文段显得太过混乱，这里我就不带着你一步步模拟这个过程了。如果你希望模拟的话，这里是步骤：</p>
+<ol>
+<li>切到 git-practice-another 去，假扮成你的同事做一个 commit，然后 push 到 GitHub</li>
+<li>切回 git-practice 变回你自己，做一个不一样的 commit。</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这个时候，远端中央仓库已经有了别人 push 的 commit，现在你如果 push 的话：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-fresher-3/git-fre-08.png" width="650" height="100" title="push 被拒绝"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 从上图中的提示语可以看出来（好吧这么长的提示语有人表示不想看），由于 GitHub 的远端仓库上含有本地仓库没有的内容，所以这次 <code>push</code> 被拒绝了。这种冲突的解决方式其实很简单：<strong>先用 <code>pull</code> 把远端仓库上的新内容取回到本地和本地合并，然后再把合并后的本地仓库向远端仓库推送。</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git pull</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-fresher-3/git-fre-09.png" width="650" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 在上面的文段里，我已经举过一次 <code>git pull</code> 的例子，但这次的 <code>git pull</code> 操作并没有像之前的那样直接结束，而是进入了上图这样的一个输入提交信息的界面。这是因为当 <code>pull</code> 操作发现不仅远端仓库包含本地没有的 <code>commit</code>s，而且本地仓库也包含远端没有的 <code>commit</code>s 时，它就会把远端和本地的独有 <code>commit</code>s 进行合并，自动生成一个新的 <code>commit</code> ，而上图的这个界面，就是这个自动生成的 <code>commit</code> 的提交信息界面。另外，和手动的 <code>commit</code> 不同，这种 <code>commit</code> 会自动填入一个默认的提交信息，简单说明了这条 <code>commit</code> 的来由。你可以直接退出界面来使用这个自动填写的提交信息，也可以修改它来填入自己提交信息。</p>
+<blockquote>
+<p>这种「把不同的内容进行合并，生成新的提交」的操作，叫做合并（呵呵呵哈哈），它所对应的 Git 指令是 <code>merge</code>。事实上，<code>git pull</code> 这个指令的内部实现就是把远程仓库使用 <code>git fetch</code> 取下来以后再进行 <code>merge</code> 操作的。关于更多 <code>merge</code> 的介绍，我会在后面说，这节先不讲了。</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 在退出提交信息的界面后，这次 <code>pull</code> 就完成了：远端仓库被取到了本地，并和本地仓库进行了合并。在这个时候，就可以再 <code>push</code> 一次了。由于现在本地仓库已经包含了所有远端仓库的 <code>commit</code>s，所以这次 <code>push</code> 不会再失败：</p>
+<h3 id="小结：多人合作的基本工作模型-2-0"><a href="#小结：多人合作的基本工作模型-2-0" class="headerlink" title="小结：多人合作的基本工作模型 2.0"></a>小结：多人合作的基本工作模型 2.0</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 这样，就把刚才的那个「多人合作的基本工作模型」进行了改良：</p>
+<ol>
+<li>写完所有的 commit 后，不用考虑中央仓库是否有新的提交，直接 push 就好</li>
+<li>如果 push 失败，就用 pull 把本地仓库的提交和中央仓库的提交进行合并，然后再 push 一次</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 到此为止，这个工作模型已经是一个最简单的可用的工作模型了。一个小团队如果对版本管理没有什么要求的话，这个工作模型已经可以让团队用来合作开发了。 (其实这个就是我们团队的工作模型.)<br>&nbsp;&nbsp;&nbsp;&nbsp; 但是，这种模型由于过于简单，所以只能适用于对代码管理没太大需求的开发团队。接下来，我将介绍一种基于 branch 的工作模型，很多中小型团队的代码开发都是采用的这种工作模型。不过……需要花 4 节的时间，因为它涉及到了 Git 的一些核心理论，一些许多 Git 老手都没有真正掌握的理论。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/02/git/git-fresher-2/" rel="next" title="Git 入门 - 上手篇(1)">
+                <i class="fa fa-chevron-left"></i> Git 入门 - 上手篇(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/03/work_log/work-log-2018-01/" rel="prev" title="工作日志(2018-01)">
+                工作日志(2018-01) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#上手-2：团队工作的基本工作模型"><span class="nav-number">1.</span> <span class="nav-text">上手 2：团队工作的基本工作模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#把别人新的提交拿到本地"><span class="nav-number">1.1.</span> <span class="nav-text">把别人新的提交拿到本地</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#假装同事"><span class="nav-number">1.1.1.</span> <span class="nav-text">假装同事</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#帮同事提交代码并-push-到中央仓库"><span class="nav-number">1.2.</span> <span class="nav-text">帮同事提交代码并 push 到中央仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把同事-push-的新代码取下来"><span class="nav-number">1.3.</span> <span class="nav-text">把同事 push 的新代码取下来.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多人合作的基本工作模型"><span class="nav-number">1.4.</span> <span class="nav-text">多人合作的基本工作模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#push-发生冲突"><span class="nav-number">1.5.</span> <span class="nav-text">push 发生冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结：多人合作的基本工作模型-2-0"><span class="nav-number">1.6.</span> <span class="nav-text">小结：多人合作的基本工作模型 2.0</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
