@@ -120,8 +120,8 @@
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-12.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-13.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-14.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-14.png">
-<meta property="og:updated_time" content="2018-01-04T11:26:46.000Z">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-15.png">
+<meta property="og:updated_time" content="2018-01-04T11:35:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 入门 - 进阶篇(3)">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 前面说到，pull 的内部操作其实是把远程仓库取到本地后（使用的是 fetch），再用一次 merge 来把远端仓库的新 commits 合并到本地。这一节就说一下，merge 到底是什么。">
@@ -478,7 +478,7 @@
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 那么这时如果在本地执行一次 <code>pull</code> 操作，就会由于 <code>HEAD</code> 落后于目标 <code>commit</code> （也就是远端的 master）而造成 “fast-forward”：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git pull</div></pre></td></tr></table></figure>
-<div align="center"><br><img src="/images/git-advance-03/git-advance-14.png" width="600" height="100"><br></div>
+<div align="center"><br><img src="/images/git-advance-03/git-advance-15.png" width="600" height="100"><br></div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 简单解释一下上图中的 <code>origin/master</code> 和 <code>origin/HEAD</code> 是什么鬼：它们是对远端仓库的 <code>master</code> 和 <code>HEAD</code> 的本地镜像，在 <code>git pull</code> 的「两步走」中的第一步——<code>git fetch</code> 下载远端仓库内容时，这两个镜像引用得到了更新，也就是上面这个动图中的第一步：<code>origin/master</code> 和 <code>origin/HEAD</code> 移动到了最新的 <code>commit</code>。</p>
 <blockquote>
