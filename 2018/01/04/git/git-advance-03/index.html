@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-02.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-03.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-04.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-05.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-05.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-06.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-07.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-08.png">
@@ -121,7 +121,7 @@
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-13.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-14.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-15.png">
-<meta property="og:updated_time" content="2018-01-04T11:35:26.000Z">
+<meta property="og:updated_time" content="2018-01-05T06:08:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 入门 - 进阶篇(3)">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 前面说到，pull 的内部操作其实是把远程仓库取到本地后（使用的是 fetch），再用一次 merge 来把远端仓库的新 commits 合并到本地。这一节就说一下，merge 到底是什么。">
@@ -432,7 +432,8 @@
 <h3 id="特殊情况-1：冲突"><a href="#特殊情况-1：冲突" class="headerlink" title="特殊情况 1：冲突"></a>特殊情况 1：冲突</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; <code>merge</code> 在做合并的时候，是有一定的自动合并能力的：如果一个分支改了 A 文件，另一个分支改了 B 文件，那么合并后就是既改 A 也改 B，这个动作会自动完成；如果两个分支都改了同一个文件，但一个改的是第 1 行，另一个改的是第 2 行，那么合并后就是第 1 行和第 2 行都改，也是自动完成。</p>
 <div align="center"><br><img src="/images/git-advance-03/git-advance-04.png" width="650" height="100"><br></div>
 
-<div align="center"><br><img src="/images/git-advance-03/git-advance-05.png" width="650" height="100"><br></div>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<div align="center"><br><img src="/images/git-advance-03/git-advance-05.gif" width="650" height="100"><br></div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 但，如果两个分支修改了同一部分内容，<code>merge</code> 的自动算法就搞不定了。这种情况 Git 称之为：冲突（Conflict）。</p>
 <div align="center"><br><img src="/images/git-advance-03/git-advance-06.png" width="650" height="100"><br></div>
