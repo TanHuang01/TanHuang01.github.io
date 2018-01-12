@@ -99,13 +99,13 @@
 
 
 
-<meta name="description" content="Feature Branching：最流行的工作流&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 master 上，写完了的 commit 可以通过 push 来发送到中央仓库，并且可以使用 pull 来获取到别人的最新 commits。">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 master 上，写完了的 commit 可以通过 push 来发送到中央仓库，并且可以使用 pull 来获取到别人的最新 commits。">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git 入门 - 进阶篇(4)">
 <meta property="og:url" content="http://yoursite.com/2018/01/12/git/git-advance-04/index.html">
 <meta property="og:site_name" content="Congspark">
-<meta property="og:description" content="Feature Branching：最流行的工作流&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 master 上，写完了的 commit 可以通过 push 来发送到中央仓库，并且可以使用 pull 来获取到别人的最新 commits。">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 master 上，写完了的 commit 可以通过 push 来发送到中央仓库，并且可以使用 pull 来获取到别人的最新 commits。">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-01.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-02.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-03.gif">
@@ -119,10 +119,10 @@
 <meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-11.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-12.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-13.png">
-<meta property="og:updated_time" content="2018-01-12T04:00:26.000Z">
+<meta property="og:updated_time" content="2018-01-12T04:01:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 入门 - 进阶篇(4)">
-<meta name="twitter:description" content="Feature Branching：最流行的工作流&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 master 上，写完了的 commit 可以通过 push 来发送到中央仓库，并且可以使用 pull 来获取到别人的最新 commits。">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 master 上，写完了的 commit 可以通过 push 来发送到中央仓库，并且可以使用 pull 来获取到别人的最新 commits。">
 <meta name="twitter:image" content="http://yoursite.com/images/git-advance-04/git-advance-01.gif">
 
 
@@ -401,9 +401,8 @@
       
 
       
-        <h2 id="Feature-Branching：最流行的工作流"><a href="#Feature-Branching：最流行的工作流" class="headerlink" title="Feature Branching：最流行的工作流"></a>Feature Branching：最流行的工作流</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 <code>master</code> 上，写完了的 <code>commit</code> 可以通过 <code>push</code> 来发送到中央仓库，并且可以使用 <code>pull</code> 来获取到别人的最新 <code>commit</code>s。</p>
-<a id="more"></a>
-<p>&nbsp;&nbsp;&nbsp;&nbsp; 这种工作模型解决了团队合作最基本的问题：多人并行开发和版本管理。事实上，这也是早期的 VCS——中央式 VCS 的工作模型。</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 <code>master</code> 上，写完了的 <code>commit</code> 可以通过 <code>push</code> 来发送到中央仓库，并且可以使用 <code>pull</code> 来获取到别人的最新 <code>commit</code>s。<br><a id="more"></a></p>
+<h2 id="Feature-Branching：最流行的工作流"><a href="#Feature-Branching：最流行的工作流" class="headerlink" title="Feature Branching：最流行的工作流"></a>Feature Branching：最流行的工作流</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; 这种工作模型解决了团队合作最基本的问题：多人并行开发和版本管理。事实上，这也是早期的 VCS——中央式 VCS 的工作模型。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 但这种工作模型也有它的限制：使用这种工作模型时，每个人的代码在被大家看到的时候，就是它进入正式的生产库的时候。所有人的工作都会被直接 <code>push</code> 到 <code>master</code>，这导致每个人的代码在正式启用前无法被别人看到（严格来讲是有办法的，别人可以直接从你的电脑上 <code>pull</code> ，Git 的「分布式」不是说说的。但——这种做法超级不方便），这样就让代码在正式启用前的讨论和 review（审阅）非常不方便。现在的商业团队，开发项目多是采用「边开发边发布、边开发边更新、边开发边修复」的持续开发策略，所以代码分享的不便会极大地影响团队的开发效率。<br>&nbsp;&nbsp;&nbsp;&nbsp; 这一节，我将介绍的是目前最流行（不论是中国还是世界）的团队开发的工作流：Feature Branching。</p>
 <div align="center"><br><img src="/images/git-advance-04/git-advance-01.gif" width="500" height="100" title="Feature Branching"><br></div>
 
@@ -556,6 +555,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/01/12/git/git-advance-05/" rel="prev" title="Git 入门 - 进阶篇(5)">
+                Git 入门 - 进阶篇(5) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -626,7 +629,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

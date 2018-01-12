@@ -1,0 +1,954 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 仍然是写的不好修改的问题.">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git - 高级篇 (2)">
+<meta property="og:url" content="http://yoursite.com/2018/01/12/git/git-master-02/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 仍然是写的不好修改的问题.">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-01.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-02.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-03.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-04.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-05.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-06.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-07.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-08.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-09.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-10.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-02/git-master-11.gif">
+<meta property="og:updated_time" content="2018-01-12T07:59:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git - 高级篇 (2)">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 仍然是写的不好修改的问题.">
+<meta name="twitter:image" content="http://yoursite.com/images/git-master-02/git-master-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/12/git/git-master-02/"/>
+
+
+
+
+
+  <title> Git - 高级篇 (2) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/git/git-master-02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Git - 高级篇 (2)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T15:29:18+08:00">
+                2018-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/12/git/git-master-02/" class="leancloud_visitors" data-flag-title="Git - 高级篇 (2)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; 仍然是写的不好修改的问题.</p>
+<a id="more"></a>
+<h2 id="写错的不是最新的提交，而是倒数第二个？"><a href="#写错的不是最新的提交，而是倒数第二个？" class="headerlink" title="写错的不是最新的提交，而是倒数第二个？"></a>写错的不是最新的提交，而是倒数第二个？</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; <code>commit --amend</code> 可以修复最新 <code>commit</code> 的错误，但如果是倒数第二个 <code>commit</code> 写错了，怎么办？</p>
+<h3 id="rebase-i：交互式-rebase"><a href="#rebase-i：交互式-rebase" class="headerlink" title="rebase -i：交互式 rebase"></a>rebase -i：交互式 rebase</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 如果不是最新的 <code>commit</code> 写错，就不能用 <code>commit --amend</code> 来修复了，而是要用 <code>rebase</code>。不过需要给 <code>rebase</code> 也加一个参数：<code>-i</code>。<br>&nbsp;&nbsp;&nbsp;&nbsp; <code>rebase -i</code> 是 <code>rebase --interactive</code> 的缩写形式，意为「交互式 rebase」。<br>&nbsp;&nbsp;&nbsp;&nbsp; 所谓「交互式 rebase」，就是在 <code>rebase</code> 的操作执行之前，你可以指定要 <code>rebase</code> 的 <code>commit</code> 链中的每一个 <code>commit</code> 是否需要进一步修改。<br>&nbsp;&nbsp;&nbsp;&nbsp; 那么你就可以利用这个特点，进行一次「原地 rebase」。<br>&nbsp;&nbsp;&nbsp;&nbsp; 例如你是在写错了 <code>commit</code> 之后，又提交了一次才发现之前写错了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">log</span></div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-master-02/git-master-01.png" width="550" height="100"><br></div>
+
+<h3 id="开启交互式-rebase-过程"><a href="#开启交互式-rebase-过程" class="headerlink" title="开启交互式 rebase 过程"></a>开启交互式 rebase 过程</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 现在再用 <code>commit --amend</code> 已经晚了，但可以用 <code>rebase -i</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase -i HEAD^^</div></pre></td></tr></table></figure>
+<blockquote>
+<p>说明：在 Git 中，有两个「偏移符号」： <code>^</code> 和 <code>~</code>。<br>  <code>^</code> 的用法：在 <code>commit</code> 的后面加一个或多个 <code>^</code> 号，可以把 <code>commit</code> 往回偏移，偏移的数量是 <code>^</code> 的数量。例如：<code>master^</code> 表示 <code>master</code> 指向的 <code>commit</code> 之前的那个 <code>commit</code>； <code>HEAD^^</code> 表示 <code>HEAD</code> 所指向的 <code>commit</code> 往前数两个 <code>commit</code>。<br>  <code>~</code> 的用法：在 <code>commit</code> 的后面加上 <code>~</code> 号和一个数，可以把 <code>commit</code> 往回偏移，偏移的数量是 <code>~</code> 号后面的数。例如：<code>HEAD~5</code> 表示 <code>HEAD</code> 指向的 <code>commit</code> 往前数<code>5</code> 个 <code>commit</code>。</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 上面这行代码表示，把当前 <code>commit</code> （ <code>HEAD</code> 所指向的 <code>commit</code>） <code>rebase</code> 到 <code>HEAD</code> 之前 <code>2</code> 个的 <code>commit</code> 上：</p>
+<div align="center"><br><img src="/images/git-master-02/git-master-02.gif" width="600" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 如果没有 <code>-i</code> 参数的话，这种「原地 rebase」相当于空操作，会直接结束。而在加了 <code>-i</code> 后，就会跳到一个新的界面：</p>
+<div align="center"><br><img src="/images/git-master-02/git-master-03.png" width="600" height="100"><br></div>
+
+
+<h3 id="编辑界面：选择-commit-和对应的操作"><a href="#编辑界面：选择-commit-和对应的操作" class="headerlink" title="编辑界面：选择 commit 和对应的操作"></a>编辑界面：选择 commit 和对应的操作</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 这个编辑界面的最顶部，列出了将要「被 rebase」的所有 <code>commit</code>s，也就是倒数第二个 <code>commit</code> 「增加常见笑声集合」和最新的 <code>commit</code>「增加常见哭声集合」。需要注意，这个排列是正序的，旧的 <code>commit</code> 会排在上面，新的排在下面。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这两行指示了两个信息：</p>
+<ol>
+<li>需要处理哪些 commits；</li>
+<li>怎么处理它们。</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 你需要修改这两行的内容来指定你需要的操作。每个 <code>commit</code> 默认的操作都是 <code>pick</code> （从图中也可以看出），表示「直接应用这个 commit」。所以如果你现在直接退出编辑界面，那么结果仍然是空操作。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 但你的目标是修改倒数第二个 <code>commit</code>，也就是上面的那个「增加常见笑声集合」，所以你需要把它的操作指令从 <code>pick</code> 改成 <code>edit</code> 。 <code>edit</code> 的意思是「应用这个 <code>commit</code>，然后停下来等待继续修正」。其他的操作指令，在这个界面里都已经列举了出来（下面的 “Commands…” 部分文字），你可以自己研究一下。</p>
+<div align="center"><br><img src="/images/git-master-02/git-master-04.png" width="600" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 把 <code>pick</code> 修改成 <code>edit</code> 后，就可以退出编辑界面了：</p>
+<div align="center"><br><img src="/images/git-master-02/git-master-05.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 上图的提示信息说明，<code>rebase</code> 过程已经停在了第二个 <code>commit</code> 的位置，那么现在你就可以去修改你想修改的内容了。</p>
+<h3 id="修改写错的-commit"><a href="#修改写错的-commit" class="headerlink" title="修改写错的 commit"></a>修改写错的 commit</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 修改完成之后，和上节里的方法一样，用 <code>commit --amend</code> 来把修正应用到当前最新的 <code>commit</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git add 笑声</div><div class="line">git commit --amend</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-master-02/git-master-06.png" width="400" height="100"><br></div>
+
+<h3 id="继续-rebase-过程"><a href="#继续-rebase-过程" class="headerlink" title="继续 rebase 过程"></a>继续 rebase 过程</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 在修复完成之后，就可以用 <code>rebase --continue</code> 来继续 <code>rebase</code> 过程，把后面的 <code>commit</code> 直接应用上去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase --<span class="built_in">continue</span></div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-master-02/git-master-07.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后，这次交互式 <code>rebase</code> 的过程就完美结束了，你的那个倒数第二个写错的 <code>commit</code> 就也被修正了：</p>
+<div align="center"><br><img src="/images/git-master-02/git-master-08.gif" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 实质上，交互式 <code>rebase</code> 并不是必须应用在「原地 <code>rebase</code>」上来修改写错的 <code>commit</code> ，这只不过是它最常见的用法。你同样也可以把它用在分叉的 <code>commit</code> 上，不过这个你就可以自己去研究一下了。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 这节介绍了交互式 <code>rebase</code>，它可以在 <code>rebase</code> 开始之前指定一些额外操作。交互式 <code>rebase</code> 最常用的场景是修改写错的 <code>commit</code>，但也可以用作其他用途。它的大致用法：</p>
+<ol>
+<li>使用方式是 <code>git rebase -i</code> 目标 <code>commit</code>；</li>
+<li>在编辑界面中指定需要操作的 <code>commits</code> 以及操作类型；</li>
+<li>操作完成之后用 <code>git rebase --continue</code> 来继续 <code>rebase</code> 过程。</li>
+</ol>
+<h2 id="比错还错，想直接丢弃刚写的提交？"><a href="#比错还错，想直接丢弃刚写的提交？" class="headerlink" title="比错还错，想直接丢弃刚写的提交？"></a>比错还错，想直接丢弃刚写的提交？</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; 有的时候，刚写完的 <code>commit</code> 写得实在太烂，连自己的都看不下去，与其修改它还不如丢掉重写。这种情况，就可以用 <code>reset</code> 来丢弃最新的提交。</p>
+<h3 id="reset-–hard-丢弃最新的提交"><a href="#reset-–hard-丢弃最新的提交" class="headerlink" title="reset –hard 丢弃最新的提交"></a>reset –hard 丢弃最新的提交</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 比如你刚写了一个 <code>commit</code>：</p>
+<div align="center"><br><img src="/images/git-master-02/git-master-09.gif" width="500" height="100"><br></div>
+
+<div align="center"><br><img src="/images/git-master-02/git-master-10.png" width="600" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 写完回头看了看，你觉得「不行这得重新写」。那么你可以用 <code>reset --hard</code> 来撤销这条 <code>commit</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard HEAD^</div></pre></td></tr></table></figure>
+<blockquote>
+<p>HEAD 表示 HEAD^ 往回数一个位置的 commit ，上节刚说过，记得吧？嗯, 应该不会忘得这么快</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; <code>HEAD^</code> 表示你要恢复到哪个 <code>commit</code>。因为你要撤销最新的一个 <code>commit</code>，所以你需要恢复到它的父 <code>commit</code> ，也就是 <code>HEAD^</code>。那么在这行之后，你的最新一条就被撤销了：</p>
+<div align="center"><br><img src="/images/git-master-02/git-master-11.gif" width="600" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 不过，就像图上显示的，你被撤销的那条提交并没有消失，只是你不再用到它了。如果你在撤销它之前记下了它的 <code>SHA-1</code> 码，那么你还可以通过 <code>SHA-1</code> 来找到他它。</p>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 这一节的内容是撤销最新的提交，方式是通过 <code>reset --hard</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard 目标commit</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/12/git/git-master-01/" rel="next" title="Git - 高级篇 (1)">
+                <i class="fa fa-chevron-left"></i> Git - 高级篇 (1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/12/git/git-master-03/" rel="prev" title="Git - 高级篇 (3)">
+                Git - 高级篇 (3) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写错的不是最新的提交，而是倒数第二个？"><span class="nav-number">1.</span> <span class="nav-text">写错的不是最新的提交，而是倒数第二个？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rebase-i：交互式-rebase"><span class="nav-number">1.1.</span> <span class="nav-text">rebase -i：交互式 rebase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启交互式-rebase-过程"><span class="nav-number">1.2.</span> <span class="nav-text">开启交互式 rebase 过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑界面：选择-commit-和对应的操作"><span class="nav-number">1.3.</span> <span class="nav-text">编辑界面：选择 commit 和对应的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改写错的-commit"><span class="nav-number">1.4.</span> <span class="nav-text">修改写错的 commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继续-rebase-过程"><span class="nav-number">1.5.</span> <span class="nav-text">继续 rebase 过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">1.6.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比错还错，想直接丢弃刚写的提交？"><span class="nav-number">2.</span> <span class="nav-text">比错还错，想直接丢弃刚写的提交？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-–hard-丢弃最新的提交"><span class="nav-number">2.1.</span> <span class="nav-text">reset –hard 丢弃最新的提交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-1"><span class="nav-number">2.2.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
