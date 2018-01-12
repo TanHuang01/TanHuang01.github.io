@@ -108,23 +108,23 @@
 <meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  这一节主要是几个概念的解释：HEAD、master 以及 Git 中非常重要的一个概念： branch。">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-01.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-02.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-03.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-03.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-04.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-05.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-06.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-06.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-07.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-08.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-09.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-10.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-09.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-10.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-11.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-12.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-13.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-14.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-15.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-16.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-14.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-15.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-16.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-17.png">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-01/git-advance-18.png">
-<meta property="og:updated_time" content="2018-01-04T09:54:18.000Z">
+<meta property="og:updated_time" content="2018-01-12T03:03:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 入门 - 进阶篇(1)">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  这一节主要是几个概念的解释：HEAD、master 以及 Git 中非常重要的一个概念： branch。">
@@ -419,7 +419,7 @@
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 如果我在这时创建一个 <code>commit</code>，那么 <code>HEAD</code> 会带着 <code>master</code> 一起移动到最新的 <code>commit</code>：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit</div></pre></td></tr></table></figure>
-<div align="center"><br><img src="/images/git-advance-01/git-advance-03.png" width="600" height="100"><br></div>
+<div align="center"><br><img src="/images/git-advance-01/git-advance-03.gif" width="600" height="100"><br></div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 通过查看 <code>log</code>，可以对这个逻辑进行验证：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">log</span></div></pre></td></tr></table></figure>
@@ -435,7 +435,7 @@
 
 <ol>
 <li><p>当有人使用 <code>git clone</code> 时，除了从远程仓库把 <code>.git</code> 这个仓库目录下载到工作目录中，还会 <code>checkout</code> （签出） <code>master</code>（<code>checkout</code> 的意思就是把某个 <code>commit</code> 作为当前 <code>commit</code>，把 <code>HEAD</code> 移动过去，并把工作目录的文件内容替换成这个 <code>commit</code> 所对应的内容）。</p>
-<div align="center"><br><img src="/images/git-advance-01/git-advance-06.png" width="700" height="100"><br></div>
+<div align="center"><br><img src="/images/git-advance-01/git-advance-06.gif" width="700" height="100"><br></div>
 
 </li>
 </ol>
@@ -451,13 +451,13 @@
 <div align="center"><br> <img src="/images/git-advance-01/git-advance-08.png" width="550" height="100"><br> </div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 例如上面这张图，<code>branch1</code> 是 <code>1</code> <code>2</code> <code>5</code> <code>6</code> 的串，而不要理解为 <code>2</code> <code>5</code> <code>6</code> 或者 5 6 。其实，起点在哪里并不是最重要的，重要的是你要知道，所有 <code>branch</code> 之间是平等的，<code>master</code> 除了上面我说的那几点之外，并不比其他 <code>branch</code> 高级。这个认知的理解对于 <code>branch</code> 的正确使用非常重要。<br>&nbsp;&nbsp;&nbsp;&nbsp; 换个角度来说，上面这张图我可以用别的画法来表达，它们的意思是一样的：</p>
-<div align="center"><br> <img src="/images/git-advance-01/git-advance-09.png" width="600" height="100"><br> </div>
+<div align="center"><br> <img src="/images/git-advance-01/git-advance-09.gif" width="600" height="100"><br> </div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 通过这张动图应该能够对「平等」这个概念更好地理解了吧？</p>
 <ol>
 <li><code>branch</code> 包含了从初始 <code>commit</code> 到它的所有路径，而不是一条路径。并且，这些路径之间也是彼此平等的。</li>
 </ol>
-<div align="center"><br> <img src="/images/git-advance-01/git-advance-10.png" width="650" height="100"><br> </div>
+<div align="center"><br> <img src="/images/git-advance-01/git-advance-10.gif" width="650" height="100"><br> </div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 像上图这样，<code>master</code> 在合并了 <code>branch1</code> 之后，从初始 <code>commit</code> 到 <code>master</code> 有了两条路径。这时，<code>master</code> 的串就包含了 <code>1</code> <code>2</code> <code>3</code> <code>4</code> <code>7</code> 和 <code>1</code> <code>2</code> <code>5</code> <code>6</code> <code>7</code> 这两条路径。而且，这两条路径是平等的，<code>1</code> <code>2</code> <code>3</code> <code>4</code> <code>7</code> 这条路径并不会因为它是「原生路径」而拥有任何的特别之处。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 如果你喜欢用「树枝」的概念来理解 Git 的 <code>branch</code>，一定要注意上面说的这两点，否则在今后使用 <code>branch</code> 的时候就可能与出现理解偏差或者使用方式不当的问题。事实上我本人并不喜欢用这种方式来理解 <code>branch</code>，因为觉得它有点舍近求远的味道：我为了「直观」地思考，给它了一个形象的比喻，但由于它的本质含义其实更加简单，导致我的这种比喻反而增加了思考它时的复杂度，未免有点画蛇添足。不过这是我自己的感受，怎么理解 <code>branch</code> 是个个人偏好的问题，这两种理解方式你选一个喜欢的就好。</p>
@@ -479,16 +479,16 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b feature1</div></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 在切换到新的 <code>branch</code> 后，再次 <code>commit</code> 时 <code>HEAD</code> 就会带着新的 <code>branch</code> 移动了：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"> git commit</div></pre></td></tr></table></figure>
-<div align="center"><br> <img src="/images/git-advance-01/git-advance-14.png" width="600" height="100"><br> </div>
+<div align="center"><br> <img src="/images/git-advance-01/git-advance-14.gif" width="600" height="100"><br> </div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 而这个时候，如果你再切换到 <code>master</code> 去 <code>commit</code>，就会真正地出现分叉了：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">...</div><div class="line">git commit</div></pre></td></tr></table></figure>
-<div align="center"><br> <img src="/images/git-advance-01/git-advance-15.png" width="600" height="100"><br> </div>
+<div align="center"><br> <img src="/images/git-advance-01/git-advance-15.gif" width="600" height="100"><br> </div>
 
 
 <h4 id="删除-branch"><a href="#删除-branch" class="headerlink" title="删除 branch"></a>删除 branch</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 删除 <code>branch</code> 的方法非常简单：<code>git branch -d</code> 名称。例如要删除 <code>feature1</code> 这个 <code>branch</code>：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch -d feature1</div></pre></td></tr></table></figure>
-<div align="center"><br> <img src="/images/git-advance-01/git-advance-16.png" width="550" height="100"><br> </div>
+<div align="center"><br> <img src="/images/git-advance-01/git-advance-16.gif" width="550" height="100"><br> </div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 需要说明的有两点:</p>
 <ol>
@@ -657,7 +657,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

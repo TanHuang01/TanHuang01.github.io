@@ -1,0 +1,966 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Feature Branching：最流行的工作流&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 master 上，写完了的 commit 可以通过 push 来发送到中央仓库，并且可以使用 pull 来获取到别人的最新 commits。">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 入门 - 进阶篇(4)">
+<meta property="og:url" content="http://yoursite.com/2018/01/12/git/git-advance-04/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="Feature Branching：最流行的工作流&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 master 上，写完了的 commit 可以通过 push 来发送到中央仓库，并且可以使用 pull 来获取到别人的最新 commits。">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-01.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-02.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-03.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-04.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-05.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-06.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-07.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-08.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-09.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-10.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-11.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-12.png">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-04/git-advance-13.png">
+<meta property="og:updated_time" content="2018-01-12T04:00:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git 入门 - 进阶篇(4)">
+<meta name="twitter:description" content="Feature Branching：最流行的工作流&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 master 上，写完了的 commit 可以通过 push 来发送到中央仓库，并且可以使用 pull 来获取到别人的最新 commits。">
+<meta name="twitter:image" content="http://yoursite.com/images/git-advance-04/git-advance-01.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/12/git/git-advance-04/"/>
+
+
+
+
+
+  <title> Git 入门 - 进阶篇(4) | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/git/git-advance-04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Git 入门 - 进阶篇(4)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T11:26:00+08:00">
+                2018-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/12/git/git-advance-04/" class="leancloud_visitors" data-flag-title="Git 入门 - 进阶篇(4)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Feature-Branching：最流行的工作流"><a href="#Feature-Branching：最流行的工作流" class="headerlink" title="Feature Branching：最流行的工作流"></a>Feature Branching：最流行的工作流</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; 上一节中，我介绍了一种最基本的团队工作模型。在这种模型里，所有人都工作在 <code>master</code> 上，写完了的 <code>commit</code> 可以通过 <code>push</code> 来发送到中央仓库，并且可以使用 <code>pull</code> 来获取到别人的最新 <code>commit</code>s。</p>
+<a id="more"></a>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这种工作模型解决了团队合作最基本的问题：多人并行开发和版本管理。事实上，这也是早期的 VCS——中央式 VCS 的工作模型。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 但这种工作模型也有它的限制：使用这种工作模型时，每个人的代码在被大家看到的时候，就是它进入正式的生产库的时候。所有人的工作都会被直接 <code>push</code> 到 <code>master</code>，这导致每个人的代码在正式启用前无法被别人看到（严格来讲是有办法的，别人可以直接从你的电脑上 <code>pull</code> ，Git 的「分布式」不是说说的。但——这种做法超级不方便），这样就让代码在正式启用前的讨论和 review（审阅）非常不方便。现在的商业团队，开发项目多是采用「边开发边发布、边开发边更新、边开发边修复」的持续开发策略，所以代码分享的不便会极大地影响团队的开发效率。<br>&nbsp;&nbsp;&nbsp;&nbsp; 这一节，我将介绍的是目前最流行（不论是中国还是世界）的团队开发的工作流：Feature Branching。</p>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-01.gif" width="500" height="100" title="Feature Branching"><br></div>
+
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 这种工作流的核心内容可以总结为两点：</p>
+<ol>
+<li>任何新的功能（<code>feature</code>）或 <code>bug</code> 修复全都新建一个 <code>branch</code> 来写；</li>
+<li><code>branch</code> 写完后，合并到 <code>master</code>，然后删掉这个 <code>branch</code>。</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这就是这种工作流最基本的模型。<br>&nbsp;&nbsp;&nbsp;&nbsp; 从上面的动图来看，这种工作流似乎没什么特别之处。但实质上，Feature Branching 这种工作流，为团队开发时两个关键的问题——代码分享和一人多任务——提供了解决方案。</p>
+<h3 id="1-代码分享"><a href="#1-代码分享" class="headerlink" title="1. 代码分享"></a>1. 代码分享</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 假设你在一个叫做「掘金」的团队工作，现在你要开发一个叫做「掘金小册」的功能（呵呵），于是你创建了一个新的 <code>branch</code> 叫做 <code>books</code>，然后开始在 <code>books</code> 上进行开发工作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b books</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 在十几个 <code>commit</code>s 过后，「掘金小册」的基本功能开发完毕，你就把代码 <code>push</code> 到中央仓库（例如 GitHub）去，然后告诉同事：「嘿，小册的基本功能写完了，分支名是 <code>books</code>，谁有空的话帮我 review 一下吧。」</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push origin books</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-02.gif" width="500" height="100" title="把 books push 到中央仓库"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后你的同事明明正好有空，他就从中央仓库拉下来了你的代码开始读：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 明明的电脑：</span></div><div class="line">git pull</div><div class="line">git chekcout books</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 读完以后，明明对你说说，嗯我看完了，我觉得不错，可以合并到 <code>master</code>！<br>&nbsp;&nbsp;&nbsp;&nbsp; 于是你就把 <code>books</code> 合并到了 <code>master</code> 上去：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git pull <span class="comment"># merge 之前 pull 一下，让 master 更新到和远程仓库同步</span></div><div class="line">git merge books</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-03.gif" width="500" height="100" title="把 books 合并到 master"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 紧接着，你把合并后的结果 <code>push</code> 到了中央仓库，并删掉了 <code>books</code> 这个 <code>branch</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git push</div><div class="line">git branch -d books</div><div class="line">git push origin -d books <span class="comment"># 用 -d 参数把远程仓库的 branch 也删了</span></div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-04.gif" width="500" height="100" title="把 master push 上去，并删除本地和远程的 books"><br></div>
+
+
+<h3 id="如果同事有意见"><a href="#如果同事有意见" class="headerlink" title="如果同事有意见"></a>如果同事有意见</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 上面讲的是明明对你的代码没有意见，而假如他在你的代码里看到了问题，例如他跑来对你说：「嘿，你的代码缩进为什么用的是 TAB？快改成空格，不然砍死你哦。」<br>&nbsp;&nbsp;&nbsp;&nbsp; 这时，你就可以把你的缩进改成空格，然后做一个新的提交，再 <code>push</code> 上去，然后通知他：「我改完啦！」<br>&nbsp;&nbsp;&nbsp;&nbsp; 明明 pull 下来你的新提交看了看：「嗯，这下可以合并了。」<br>&nbsp;&nbsp;&nbsp;&nbsp; 于是你依照上面的那一套操作，把代码合并进 <code>master</code>，并 <code>push</code> 了上去，然后删掉了 <code>books</code>。<br>&nbsp;&nbsp;&nbsp;&nbsp; 瞧，代码在同事竖大拇指之前都不会正式发布到 <code>master</code>，挺方便的吧？</p>
+<h3 id="Pull-Request"><a href="#Pull-Request" class="headerlink" title="Pull Request"></a>Pull Request</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 事实上，上面讲的这个流程，还可以利用 Pull Request 来进一步简化。<br>&nbsp;&nbsp;&nbsp;&nbsp; Pull Request 并不是 Git 的内容，而是一些 Git 仓库服务提供方（例如 GitHub）所提供的一种便捷功能，它可以让团队的成员方便地讨论一个 <code>branch</code> ，并在讨论结束后一键合并这个 <code>branch</code> 到 <code>master</code>。<br>&nbsp;&nbsp;&nbsp;&nbsp; 同样是把写好的 <code>branch</code> 给同事看，使用 Pull Request 的话你可以这样做：</p>
+<ol>
+<li>把 <code>branch push</code> 到中央仓库；</li>
+<li>在中央仓库处创建一个 Pull Request。以 GitHub 为例：</li>
+</ol>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-05.png" width="650" height="100"><br></div>
+
+<div align="center"><br><img src="/images/git-advance-04/git-advance-06.png" width="650" height="100"><br></div>
+
+<div align="center"><br><img src="/images/git-advance-04/git-advance-07.png" width="650" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后你的同事就可以在 GitHub 上看到你创建的 Pull Request 了。他们可以在 GitHub 的这个页面查看你的 <code>commit</code>s，也可以给你评论表示赞同或提意见，你接下来也可以根据他们的意见把新的 <code>commit</code>s <code>push</code> 上来，这也页面会随着你新的 <code>push</code> 而展示出最新的 <code>commit</code>s。<br>&nbsp;&nbsp;&nbsp;&nbsp; 在讨论结束以后，你们一致认为这个 <code>branch</code> 可以合并了，你只需要点一下页面中那个绿色的 “Merge pull request” 按钮，GitHub 就会自动地在中央仓库帮你把 <code>branch</code> 合并到 <code>master</code> 了：</p>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-08.gif" width="550" height="100" title="Merge pull request 按钮自动在中央仓库 merge"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后你只要在本地 <code>pull</code> 一下，把最新的内容拉到你的电脑上，这件事情就算完成了。<br>&nbsp;&nbsp;&nbsp;&nbsp; 另外，GitHub 还设计了一个贴心的 “Delete branch” 按钮，方便你在合并之后一键删除 <code>branch</code>。</p>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-09.png" width="700" height="100"><br></div>
+
+
+<h3 id="2-一人多任务"><a href="#2-一人多任务" class="headerlink" title="2.一人多任务"></a>2.一人多任务</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 除了代码分享的便捷，基于 Feature Branch 的工作流对于一人多任务的工作需求也提供了很好的支持。<br>&nbsp;&nbsp;&nbsp;&nbsp; 安安心心做事不被打扰，做完一件再做下一件自然是很美好的事，但现实往往不能这样。对于程序员来说，一种很常见的情况是，你正在认真写着代码，忽然同事过来跟你说：「内个……你这个功能先放一放吧，我们最新讨论出要做另一个更重要的功能，你来做一下吧。」</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 其实，虽然这种情况确实有点烦，但如果你是在独立的 <code>branch</code> 上做事，切换任务是很简单的。你只要稍微把目前未提交的代码简单收尾一下，然后做一个带有「未完成」标记的提交（例如，在提交信息里标上「TODO」），然后回到 <code>master</code> 去创建一个新的 <code>branch</code> 就好了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git checkout -b new_feature</div></pre></td></tr></table></figure>
+<blockquote>
+<p>额, 这个仅仅是一个大体的思路, 我们可以有很多种方式来处理这个问题, 比如 <code>stash</code> 等.</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 如果有一天需要回来继续做这个 <code>branch</code>，你只要用 <code>checkout</code> 切回来，就可以继续了。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 这一节介绍了 Feature Branching 这种工作流。它的概念很简单：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 每个新功能都新建一个 <code>branch</code> 来写；</p>
+<ol>
+<li>写完以后，把代码分享给同事看；写的过程中，也可以分享给同事讨论。另外，借助 GitHub 等服务提供方的 Pull Request 功能，可以让代码分享变得更加方便；</li>
+<li>分支确定可以合并后，把分支合并到 <code>master</code> ，并删除分支。</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这种工作流由于功能强大，而且概念和使用方式都很简单，所以很受欢迎。再加上 GitHub 等平台提供了 Pull Request 的支持，目前这种工作流是商业项目开发中最为流行的工作流。</p>
+<h2 id="关于-add"><a href="#关于-add" class="headerlink" title="关于 add"></a>关于 add</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; 前面说过了可以通过 add 来把改动的内容放进暂存区。这一节关于 add 再多说两点。都是基础的东西，但对新学 Git 的人可能有些用处。</p>
+<h3 id="1-add-后面加个点-“-”：全部暂存"><a href="#1-add-后面加个点-“-”：全部暂存" class="headerlink" title="1. add 后面加个点 “.”：全部暂存"></a>1. add 后面加个点 “.”：全部暂存</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; <code>add</code> 指令除了 <code>git add</code> 文件名 这种用法外，还可以使用 <code>add</code> . 来直接把工作目录下的所有改动全部放进暂存区：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git status</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-10.png" width="600" height="100"><br></div>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git status</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-11.png" width="400" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这个用法没什么特别的好处，但就一个字：方便（咦？）。你在用的时候会更加深刻地体会到。</p>
+<h3 id="2-add-添加的是文件改动，而不是文件名"><a href="#2-add-添加的是文件改动，而不是文件名" class="headerlink" title="2. add 添加的是文件改动，而不是文件名"></a>2. add 添加的是文件改动，而不是文件名</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 假如你修改了文件 a.txt，然后把它 add 进了暂存区：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git add a.txt</div><div class="line">git status</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-12.png" width="400" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后你又往 <code>a.txt</code> 里写了几行东西。这时候你再 <code>status</code> 一下的话：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git status</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-advance-04/git-advance-13.png" width="600" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 你会发现你的 <code>a.txt</code> 既在 “Changes to be commited” 的暂存区，又在 “Changes not staged for commit”。不用觉得奇怪，这是因为通过 <code>add</code> 添加进暂存区的不是文件名，而是具体的文件改动内容。你在 <code>add</code> 时的改动都被添加进了暂存区，但在 <code>add</code> 之后的新改动并不会自动被添加进暂存区。在这时如果你提交：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 那么你那些新的改动是不会被提交的。<br>&nbsp;&nbsp;&nbsp;&nbsp; 这种逻辑也许会让新学 Git 的人有点困惑和感到麻烦，但当你使用 Git 一段时间后，你会发现这种设计很巧妙，而且不但不麻烦，还很方便。具体的原因我就不长篇大论地说了，你以后慢慢体会吧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/04/git/git-advance-03/" rel="next" title="Git 入门 - 进阶篇(3)">
+                <i class="fa fa-chevron-left"></i> Git 入门 - 进阶篇(3)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Feature-Branching：最流行的工作流"><span class="nav-number">1.</span> <span class="nav-text">Feature Branching：最流行的工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-代码分享"><span class="nav-number">1.2.</span> <span class="nav-text">1. 代码分享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果同事有意见"><span class="nav-number">1.3.</span> <span class="nav-text">如果同事有意见</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pull-Request"><span class="nav-number">1.4.</span> <span class="nav-text">Pull Request</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-一人多任务"><span class="nav-number">1.5.</span> <span class="nav-text">2.一人多任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">1.6.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-add"><span class="nav-number">2.</span> <span class="nav-text">关于 add</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-add-后面加个点-“-”：全部暂存"><span class="nav-number">2.1.</span> <span class="nav-text">1. add 后面加个点 “.”：全部暂存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-add-添加的是文件改动，而不是文件名"><span class="nav-number">2.2.</span> <span class="nav-text">2. add 添加的是文件改动，而不是文件名</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

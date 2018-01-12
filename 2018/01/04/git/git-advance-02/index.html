@@ -107,9 +107,9 @@
 <meta property="og:site_name" content="Congspark">
 <meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这一章节我们来聊一聊 push 指令的相关内容.">
 <meta property="og:image" content="http://yoursite.com/images/git-advance-02/git-advance-01.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-02.png">
-<meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-02.png">
-<meta property="og:updated_time" content="2018-01-04T10:23:14.000Z">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-02.gif">
+<meta property="og:image" content="http://yoursite.com/images/git-advance-03/git-advance-02.gif">
+<meta property="og:updated_time" content="2018-01-12T03:08:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 入门 - 进阶篇(2)">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这一章节我们来聊一聊 push 指令的相关内容.">
@@ -399,14 +399,14 @@
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 这时我执行 <code>git push</code>，就会把 <code>master</code> 的最新位置更新到远端，并且把它的路径上的 <code>5</code> <code>6</code> 两个 <code>commit</code>s 上传：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push</div></pre></td></tr></table></figure>
-<div align="center"><br><img src="/images/git-advance-03/git-advance-02.png" width="650" height="100"><br></div>
+<div align="center"><br><img src="/images/git-advance-03/git-advance-02.gif" width="650" height="100"><br></div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 而如果这时候我再切到 <code>feature1</code> 去后再执行一次 <code>push</code>，就会把 <code>feature1</code> 以及它的 <code>commit</code> <code>4</code> 上传到远程仓库：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout feature1</div><div class="line">git push origin feature1</div></pre></td></tr></table></figure>
 <blockquote>
 <p>这里的 <code>git push</code> 和之前有点不同：多了 <code>origin feature1</code> 这两个参数。其中 <code>origin</code> 是远程仓库的别名，是你在 <code>git clone</code> 的时候 Git 自动帮你起的；<code>feature1</code> 是远程仓库中目标 <code>branch</code> 的名字。这两个参数合起来指定了你要 <code>push</code> 到的目标仓库和目标分支，意思是「我要 <code>push</code> 到 <code>origin</code> 这个仓库的 <code>feature1</code> 分支」。<br>  在 Git 中（2.0 及它之后的版本），默认情况下，你用不加参数的 <code>git push</code> 只能上传那些之前从远端 <code>clone</code> 下来或者 <code>pull</code> 下来的分支，而如果需要 <code>push</code> 你本地的自己创建的分支，则需要手动指定目标仓库和目标分支（并且目标分支的名称必须和本地分支完全相同），就像上面这样。<br>  你可以通过 <code>git config</code> 指令来设置 <code>push.default</code> 的值来改变 <code>push</code> 的行为逻辑，例如可以设置为「所有分支都可以用 <code>git push</code> 来直接 <code>push</code>，目标自动指向 <code>origin</code> 仓库的同名分支」（对应的 <code>push.default</code> 值：<code>current</code>），或者别的什么行为逻辑，你甚至可以设置为每次执行 git push 时就自动把所有本地分支全部同步到远程仓库（虽然这可能有点耗时和危险）。如果希望详细了解，你可以到<a href="https://link.juejin.im/?target=https%3A%2F%2Fgit-scm.com%2Fdocs%2Fgit-config%23git-config-pushdefault" target="_blank" rel="external">这里</a>看看。 (我强烈的强烈的不建议你这么做, 特别是对 git 玩儿的不是很溜的时候.)</p>
 </blockquote>
-<div align="center"><br><img src="/images/git-advance-03/git-advance-02.png" width="650" height="100"><br></div>
+<div align="center"><br><img src="/images/git-advance-03/git-advance-02.gif" width="650" height="100"><br></div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 细心的人可能会发现，在 <code>feature1</code> 被 <code>push</code> 时，远程仓库的 <code>HEAD</code> 并没有和本地仓库的 <code>HEAD</code> 一样指向 <code>feature1</code>。这是因为，<code>push</code> 的时候只会上传当前的 <code>branch</code> 的指向，并不会把本地的 <code>HEAD</code> 的指向也一起上传到远程仓库。事实上，远程仓库的 <code>HEAD</code> 是永远指向它的默认分支（即 <code>master</code>，如果不修改它的名称的话），并会随着默认分支的移动而移动的。</p>
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>这一节介绍了 <code>push</code> 这个指令的本质。总结一下关键点：</p>
@@ -562,7 +562,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
