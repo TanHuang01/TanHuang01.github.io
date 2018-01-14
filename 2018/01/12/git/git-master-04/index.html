@@ -99,13 +99,13 @@
 
 
 
-<meta name="description" content="reset 的本质——不止可以撤销提交&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 前面讲到，在最新的 commit 写错时，可以用 reset --hard 来把 commit 撤销. 1git reset --hard HEAD^  没错, 用这行代码可以撤销掉当前 commit  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 在这节里，就对 reset 多说点，说说它的本质，说说它">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 不知道碰到过没有提交有错误的情况.">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git - 高级篇 (4)">
 <meta property="og:url" content="http://yoursite.com/2018/01/12/git/git-master-04/index.html">
 <meta property="og:site_name" content="Congspark">
-<meta property="og:description" content="reset 的本质——不止可以撤销提交&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 前面讲到，在最新的 commit 写错时，可以用 reset --hard 来把 commit 撤销. 1git reset --hard HEAD^  没错, 用这行代码可以撤销掉当前 commit  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 在这节里，就对 reset 多说点，说说它的本质，说说它">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 不知道碰到过没有提交有错误的情况.">
 <meta property="og:image" content="http://yoursite.com/images/git-master-04/git-master-01.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-master-04/git-master-02.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-master-04/git-master-03.png">
@@ -114,10 +114,13 @@
 <meta property="og:image" content="http://yoursite.com/images/git-master-04/git-master-06.png">
 <meta property="og:image" content="http://yoursite.com/images/git-master-04/git-master-07.png">
 <meta property="og:image" content="http://yoursite.com/images/git-master-04/git-master-08.png">
-<meta property="og:updated_time" content="2018-01-12T09:06:30.000Z">
+<meta property="og:image" content="http://yoursite.com/images/git-master-04/git-master-09.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-04/git-master-10.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-04/git-master-11.png">
+<meta property="og:updated_time" content="2018-01-14T02:19:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git - 高级篇 (4)">
-<meta name="twitter:description" content="reset 的本质——不止可以撤销提交&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 前面讲到，在最新的 commit 写错时，可以用 reset --hard 来把 commit 撤销. 1git reset --hard HEAD^  没错, 用这行代码可以撤销掉当前 commit  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 在这节里，就对 reset 多说点，说说它的本质，说说它">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 不知道碰到过没有提交有错误的情况.">
 <meta name="twitter:image" content="http://yoursite.com/images/git-master-04/git-master-01.gif">
 
 
@@ -396,7 +399,8 @@
       
 
       
-        <a id="more"></a>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; 不知道碰到过没有提交有错误的情况.</p>
+<a id="more"></a>
 <h2 id="reset-的本质——不止可以撤销提交"><a href="#reset-的本质——不止可以撤销提交" class="headerlink" title="reset 的本质——不止可以撤销提交"></a>reset 的本质——不止可以撤销提交</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; 前面讲到，在最新的 <code>commit</code> 写错时，可以用 <code>reset --hard</code> 来把 <code>commit</code> 撤销.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard HEAD^</div></pre></td></tr></table></figure>
 <blockquote>
@@ -444,6 +448,35 @@
 <div align="center"><br><img src="/images/git-master-04/git-master-08.png" width="600" height="100"><br></div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 这就是 <code>--soft</code> 和 <code>--hard</code> 的区别：<code>--hard</code> 会清空工作目录的改动，而 <code>--soft</code> 则会保留工作目录的内容，并把因为保留工作目录内容所带来的新的文件差异放进暂存区。</p>
+<h3 id="reset-不加参数：保留工作目录，并清空暂存区"><a href="#reset-不加参数：保留工作目录，并清空暂存区" class="headerlink" title="reset 不加参数：保留工作目录，并清空暂存区"></a>reset 不加参数：保留工作目录，并清空暂存区</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; <code>reset</code> 如果不加参数，那么默认使用 <code>--mixed</code> 参数。它的行为是：保留工作目录，并且清空暂存区。也就是说，工作目录的修改、暂存区的内容以及由 <code>reset</code> 所导致的新的文件差异，都会被放进工作目录。简而言之，就是「把所有差异都混合（mixed）放在工作目录中」。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 还是以同样的情况为例.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git status</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-master-04/git-master-09.png" width="600" height="100"><br></div>
+
+
+<blockquote>
+<p>这里修改了 <code>games.txt</code> 和 <code>shopping list.txt</code>，并把 <code>games.txt</code> 放进了暂存区。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git show --<span class="built_in">stat</span></div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-master-04/git-master-10.png" width="500" height="100"><br></div>
+
+<blockquote>
+<p>最新的 commit 中新增了 laughters.txt 文件。</p>
+</blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这时如果你执行无参数的 <code>reset</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset HEAD^</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 工作目录的内容和 <code>--soft</code> 一样会被保留，但和 <code>--soft</code> 的区别在于，它会把暂存区清空：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git status</div></pre></td></tr></table></figure>
+<div align="center"><br><img src="/images/git-master-04/git-master-11.png" width="500" height="100"><br></div>
+
+
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 本节内容讲了 <code>reset</code> 指令的本质：重置 <code>HEAD</code> 以及它所指向的 <code>branch</code> 的位置。同时，介绍了 <code>reset</code> 的三种参数：</p>
+<ol>
+<li><code>--hard</code>：重置位置的同时，清空工作目录的所有改动；</li>
+<li><code>--soft</code>：重置位置的同时，保留工作目录和暂存区的内容，并把重置 <code>HEAD</code> 的位置所导致的新的文件差异放进暂存区。</li>
+<li><code>--mixed</code>（默认）：重置位置的同时，保留工作目录的内容，并清空暂存区。</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;  除了上面这三种参数，还有一些没有列出的较为不常用的参数；另外除了我讲的功能外，<code>reset</code> 其实也还有一些别的功能和用法。不过 <code>reset</code> 最关键的功能、用法和本质原理就是上面这些了，想了解更多的话，可以去官网了解一下。</p>
 
       
     </div>
@@ -517,6 +550,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/01/14/git/git-master-05/" rel="prev" title="Git - 高级篇 (5)">
+                Git - 高级篇 (5) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -587,7 +624,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -644,7 +681,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#reset-的本质——不止可以撤销提交"><span class="nav-number">1.</span> <span class="nav-text">reset 的本质——不止可以撤销提交</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-的本质：移动-HEAD-以及它所指向的-branch"><span class="nav-number">1.1.</span> <span class="nav-text">reset 的本质：移动 HEAD 以及它所指向的 branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-–hard：重置工作目录"><span class="nav-number">1.2.</span> <span class="nav-text">reset –hard：重置工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-–soft：保留工作目录"><span class="nav-number">1.3.</span> <span class="nav-text">reset –soft：保留工作目录</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#reset-的本质——不止可以撤销提交"><span class="nav-number">1.</span> <span class="nav-text">reset 的本质——不止可以撤销提交</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-的本质：移动-HEAD-以及它所指向的-branch"><span class="nav-number">1.1.</span> <span class="nav-text">reset 的本质：移动 HEAD 以及它所指向的 branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-–hard：重置工作目录"><span class="nav-number">1.2.</span> <span class="nav-text">reset –hard：重置工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-–soft：保留工作目录"><span class="nav-number">1.3.</span> <span class="nav-text">reset –soft：保留工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-不加参数：保留工作目录，并清空暂存区"><span class="nav-number">1.4.</span> <span class="nav-text">reset 不加参数：保留工作目录，并清空暂存区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">1.5.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
             
 
           </div>
