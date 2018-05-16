@@ -99,18 +99,18 @@
 
 
 
-<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 5月, 初夏, 虽然不想继续码砖, 但是却不知该何去何从.">
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 5月, 初夏, 继续码砖, 何去何从, 恐不久已.">
 <meta name="keywords" content="Work Log">
 <meta property="og:type" content="article">
 <meta property="og:title" content="工作日志(2018-05)">
 <meta property="og:url" content="http://yoursite.com/2018/05/07/work_log/work-log-2018-05/index.html">
 <meta property="og:site_name" content="Congspark">
-<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 5月, 初夏, 虽然不想继续码砖, 但是却不知该何去何从.">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 5月, 初夏, 继续码砖, 何去何从, 恐不久已.">
 <meta property="og:image" content="http://yoursite.com/images/work-log-2018-05/pic01.png">
-<meta property="og:updated_time" content="2018-05-07T08:54:44.000Z">
+<meta property="og:updated_time" content="2018-05-16T06:03:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="工作日志(2018-05)">
-<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 5月, 初夏, 虽然不想继续码砖, 但是却不知该何去何从.">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 5月, 初夏, 继续码砖, 何去何从, 恐不久已.">
 <meta name="twitter:image" content="http://yoursite.com/images/work-log-2018-05/pic01.png">
 
 
@@ -400,7 +400,7 @@
       
 
       
-        <p>&nbsp;&nbsp;&nbsp;&nbsp; 5月, 初夏, 虽然不想继续码砖, 但是却不知该何去何从.</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; 5月, 初夏, 继续码砖, 何去何从, 恐不久已.</p>
 <a id="more"></a>
 <h3 id="Monday-7th"><a href="#Monday-7th" class="headerlink" title="Monday 7th"></a>Monday 7th</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 有一个是关于 <code>DialogFragment</code> 的使用案例. <code>DialogFragment</code> 是安卓官方推荐的对话框控件. 用于处理各种对话框操作.<br>&nbsp;&nbsp;&nbsp;&nbsp; 如果是一个制定大小的对话框. 在 <code>DialogFragment</code> 对应的 .xml 文件的根布局控件中, 添加:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">android:minHeight=<span class="string">"300dp"</span></div><div class="line">android:minWidth=<span class="string">"600dp"</span></div></pre></td></tr></table></figure>
@@ -416,6 +416,13 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 然后在 <code>DialogFragment</code> 的 <code>onCreate()</code> 方法中添加使用主题的方法:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setStyle(DialogFragment.STYLE_NO_TITLE, R.style.no_net_dialog_style);</div></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 运行, 调试, 完美解决.<br>&nbsp;&nbsp;&nbsp;&nbsp; PASS: <code>style(int, int)</code> 方法的第一个参数, <code>DialogFragment.STYLE_NO_TITLE</code> 表示的不使用系统当前主题的 title; 至于 <code>DialogFragment.STYLE_NO_FRAME</code>, 如果添加了这个属性, 那么 <code>DialogFragment</code> 仅仅是一个图层展示, 下面的 <code>Activity</code> (假设是从一个 <code>Activity</code> 启动的) 依旧会响应事件.</p>
+<h3 id="Wednesday-16th"><a href="#Wednesday-16th" class="headerlink" title="Wednesday   16th"></a>Wednesday   16th</h3><p>&nbsp;&nbsp;&nbsp;&nbsp; 方才有修改的本地缓存的相关模块, 然而有把缓存的相关路径搞错了.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">getCacheDir() - 用于获取 data/data/com.appliationname/cache/ 目录</div><div class="line">getFilesDir() - 用于获取 data/data/com.appliationname/files/ 目录.</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 而对应的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">getExternalCacheDir - 用于获取 SDCard/Android/data/com.applicationname/cache/ 目录</div><div class="line">getExternalFilesDir() - 用于获取 SDCard/Android/data/com.applicationname/files/ 目录</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Android 系统的菜单中: 设置 -&gt; 应用 -&gt; 应用详情里面的 “清除数据” 选项, 会清除 <code>getFilesDir()</code> 和 <code>getExternalFilesDir()</code> 目录下的文件; “清除缓存” 则会清除 <code>getCacheDir()</code> 和 <code>getExternalCacheDir()</code> 目录下的数据.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 下面是一些其他的的系统路径.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Environment.getDataDirectory() = /data</div><div class="line">Environment.getDownloadCacheDirectory() = /cache</div><div class="line">Environment.getExternalStorageDirectory() = /mnt/sdcard</div><div class="line">Environment.getExternalStoragePublicDirectory(“test”) = /mnt/sdcard/test</div><div class="line">Environment.getRootDirectory() = /<span class="function">system</span></div><div class="line"></div><div class="line"><span class="title">getPackageCodePath</span><span class="params">()</span> = /data/app/com.my.app-<span class="number">1</span>.<span class="function">apk</span></div><div class="line"><span class="title">getPackageResourcePath</span><span class="params">()</span> = /data/app/com.my.app-<span class="number">1</span>.<span class="function">apk</span></div><div class="line"><span class="title">getDatabasePath</span><span class="params">(“test”)</span> = /data/data/com.my.app/databases/<span class="function">test</span></div><div class="line"><span class="title">getDir</span><span class="params">(“test”, Context.MODE_PRIVATE)</span> = /data/data/com.app.name/<span class="function">app_test</span></div><div class="line"><span class="title">getExternalFilesDir</span><span class="params">(“test”)</span> = /mnt/sdcard/Android/data/com.app.name/files/test</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -616,7 +623,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Monday-7th"><span class="nav-number">1.</span> <span class="nav-text">Monday 7th</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Monday-7th"><span class="nav-number">1.</span> <span class="nav-text">Monday 7th</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wednesday-16th"><span class="nav-number">2.</span> <span class="nav-text">Wednesday   16th</span></a></li></ol></div>
             
 
           </div>
