@@ -1,0 +1,948 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 最近在看 &amp;#60;&amp;#60;Think in Java &amp;#62;&amp;#62; 已经进展到注解一张, 其中讲解到了 APT(Annotation Process Tool) 的使用. 因为当时是基于 JDK1.5 的, 基于 com.sun.mirror.* 包下的相关类, 而这些类在 JDK1.8 的时候就已经完全废弃掉了, 替换成 javax.">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apt 基础使用指南">
+<meta property="og:url" content="http://yoursite.com/2018/07/11/android/apt-fundamental-detail/index.html">
+<meta property="og:site_name" content="Congspark">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 最近在看 &amp;#60;&amp;#60;Think in Java &amp;#62;&amp;#62; 已经进展到注解一张, 其中讲解到了 APT(Annotation Process Tool) 的使用. 因为当时是基于 JDK1.5 的, 基于 com.sun.mirror.* 包下的相关类, 而这些类在 JDK1.8 的时候就已经完全废弃掉了, 替换成 javax.">
+<meta property="og:image" content="http://yoursite.com/images/apt-fundamental-detail/pic01.png">
+<meta property="og:image" content="http://yoursite.com/images/apt-fundamental-detail/pic02.png">
+<meta property="og:image" content="http://yoursite.com/images/apt-fundamental-detail/pic03.png">
+<meta property="og:image" content="http://yoursite.com/images/apt-fundamental-detail/pic04.png">
+<meta property="og:image" content="http://yoursite.com/images/apt-fundamental-detail/pic05.png">
+<meta property="og:image" content="http://yoursite.com/images/apt-fundamental-detail/pic06.png">
+<meta property="og:updated_time" content="2018-07-12T09:34:48.913Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="apt 基础使用指南">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 最近在看 &amp;#60;&amp;#60;Think in Java &amp;#62;&amp;#62; 已经进展到注解一张, 其中讲解到了 APT(Annotation Process Tool) 的使用. 因为当时是基于 JDK1.5 的, 基于 com.sun.mirror.* 包下的相关类, 而这些类在 JDK1.8 的时候就已经完全废弃掉了, 替换成 javax.">
+<meta name="twitter:image" content="http://yoursite.com/images/apt-fundamental-detail/pic01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/11/android/apt-fundamental-detail/"/>
+
+
+
+
+
+  <title> apt 基础使用指南 | Congspark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bce8cb320afbfc1f884cd356da4e3a62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Congspark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">from journeyman to master</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/11/android/apt-fundamental-detail/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shao Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Congspark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                apt 基础使用指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-11T17:35:30+08:00">
+                2018-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/11/android/apt-fundamental-detail/" class="leancloud_visitors" data-flag-title="apt 基础使用指南">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; 最近在看 &#60;&#60;Think in Java &#62;&#62; 已经进展到注解一张, 其中讲解到了 APT(Annotation Process Tool) 的使用. 因为当时是基于 JDK1.5 的, 基于 <code>com.sun.mirror.*</code> 包下的相关类, 而这些类在 JDK1.8 的时候就已经完全废弃掉了, 替换成 <code>javax.annotation.processing</code> 和 <code>javax.land.model</code>, 而且调试环境可以直接用 Android Studio. 所以, 就研究了下如使用新的 APT 工具.</p>
+<a id="more"></a>
+<h4 id="知识准备"><a href="#知识准备" class="headerlink" title="知识准备"></a>知识准备</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 这个不是指导手册, 而是总结性的文章, 一些比较常用的操作和知识点就不展开. 愉快的阅读这篇博客之前, 可能需要了解:</p>
+<ul>
+<li>注解的基本使用</li>
+<li>Android Studio 的常用操作</li>
+<li>gradle 的基本使用</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 不过我觉得对于一个合格的 Android 开发者, 这些应该没有问题吧. 还有, 小生的开发环境是 AS3.0, 在之前的版本会有些不同. 如果小伙伴们还是用的老版本的开发工具, 是时候升级了.</p>
+<h4 id="编码-amp-问题-amp-操作"><a href="#编码-amp-问题-amp-操作" class="headerlink" title="编码 &amp; 问题 &amp; 操作."></a>编码 &amp; 问题 &amp; 操作.</h4><ul>
+<li>新建一个 Android Studio 工程.</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 介个 so easy 吧…</p>
+<ul>
+<li>在项目中新建一个 Model, 暂且命名为 <code>annotation</code>, 并且让我们的 app Model 去依赖这个库.</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 注意, 这个必须是一个 java library 而不能是 Android library, 如果是一个 Android library, 那么 <code>javax.*</code> 包中的一些东西就不能使用了.</p>
+<ul>
+<li>在 java library 中创建一个注解类.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> com.congguangzi.annotation;</div><div class="line"></div><div class="line"><span class="comment">// import is left out</span></div><div class="line"></div><div class="line"><span class="meta">@Target</span>(ElementType.METHOD)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.CLASS) <span class="comment">// 编译时的注解</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MyAnnotation &#123;</div><div class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>用该注解去修饰 <code>MainActivity</code> 中的方法.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// package and import are left out</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@MyAnnotation</span>(<span class="string">"onCreate"</span>)</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// some other code</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>在 java model 中创建一个类, 名字随意, 姑且命名为 <code>MyProcessor</code>, 继承自 <code>AbstractProcessor</code>.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  package and import are left out</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyProcessor</span> <span class="keyword">extends</span> <span class="title">AbstractProcessor</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnv)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">// some other code</span></div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>在 java Model 的 src/main 目录下创建 <code>resources</code> 包.</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 直接创建就可以, 不需要通过 Android Studio 的 Wizard.</p>
+<ul>
+<li><p>在 <code>resources</code> 包中创建 <code>META-INFO</code> 包, 接着在 <code>META-INFO</code> 包中创建 <code>services</code> 包.</p>
+</li>
+<li><p>在 <code>services</code> 包中创建 <code>javax.annotation.processing.Processor</code> 文件.</p>
+</li>
+<li><p>在 <code>javax.annotation.processing.Processor</code> 文件中, 添加刚才创建的 <code>MyProcessor</code> 的完整路径.</p>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 完整路径指的是相对路径, 对于当前测试项目而言, 为: <code>com.congspark.annotation.MyProcessor</code></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 项目目录的最终的截图如下(请忽略这屎绿色的背景…):</p>
+<div align="center"><br><img src="/images/apt-fundamental-detail/pic01.png" width="700" height="100" title="项目目录结构"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 前期的准备工作大致完成了, 现在我们向 <code>MyProcessor</code> 中添加写简单的功能, 仅仅是用来打印一些信息.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// omit the package and import...</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@SupportedAnnotationTypes</span>(<span class="string">"com.congspark.annotation.MyAnnotation"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyProcessor</span> <span class="keyword">extends</span> <span class="title">AbstractProcessor</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnv)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">// 找出每一个使用 MyAnnotation 的元素</span></div><div class="line">        <span class="keyword">for</span> (Element element : roundEnv.getElementsAnnotatedWith(MyAnnotation.class)) &#123;</div><div class="line"></div><div class="line">            <span class="comment">// is a method</span></div><div class="line">            <span class="keyword">if</span> (element.getKind() == ElementKind.METHOD) &#123;</div><div class="line"></div><div class="line">                <span class="comment">// divide line</span></div><div class="line">                System.out.println(<span class="string">"----------------------------"</span>);</div><div class="line"></div><div class="line">                ExecutableElement executableElement = (ExecutableElement) element;</div><div class="line"></div><div class="line">                <span class="comment">// 打印方法名.</span></div><div class="line">                System.out.println(executableElement.getSimpleName());</div><div class="line"></div><div class="line">                <span class="comment">// 打印方法类型.</span></div><div class="line">                System.out.println(executableElement.getReturnType().toString());</div><div class="line"></div><div class="line">                <span class="comment">// get parameters</span></div><div class="line">                List&lt;? extends VariableElement&gt; params = executableElement.getParameters();</div><div class="line"></div><div class="line">                <span class="comment">// print parameters</span></div><div class="line">                <span class="keyword">for</span> (VariableElement param : params) &#123;</div><div class="line">                    System.out.println(param.getSimpleName());</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="comment">// 打印注解的值</span></div><div class="line">                System.out.println(executableElement.getAnnotation(MyAnnotation.class).value());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// maybe always false.</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// @Override</span></div><div class="line">    <span class="comment">// public Set&lt;String&gt; getSupportedAnnotationTypes() &#123;</span></div><div class="line">    <span class="comment">//     HashSet&lt;String&gt; set = new HashSet&lt;&gt;();</span></div><div class="line">    <span class="comment">//     set.add("com.congspark.annotation.MyAnnotation");</span></div><div class="line">    <span class="comment">//     return set;</span></div><div class="line">    <span class="comment">// &#125;</span></div><div class="line">    <span class="comment">//</span></div><div class="line">    <span class="comment">// 与类注解 SupportedAnnotationTypes 具有相同的功能.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; <strong>NOTE</strong>, <code>getSupportedAnnotationTypes()</code> 方法与类注解 <code>@SupportedAnnotationTypes</code> 的功能相同, 保留其中之一即可.<br>&nbsp;&nbsp;&nbsp;&nbsp; 好了, 现在我们尝试着运行一下, 额, 不, 是编译一下程序. 使用 gradle 或者直接点击编译按钮都可以.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然而, 居然报错了… Gradle Console 的输出结果如下.</p>
+<div align="center"><br><img src="/images/apt-fundamental-detail/pic02.png" width="700" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 提示我们 <code>Annotation processors must be explicitly declared now.</code> 注解编译器必须明确的声明, 而且还给出了一个问题连接. 点击去看一下.</p>
+<div align="center"><br><img src="/images/apt-fundamental-detail/pic03.png" width="700" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 很是感动的说, 谷歌居然给出的是中文的, 不过, 这个翻译的… 其实就是让我们添加对 APT 插件的依赖. 跟着指导方案, 我们在 app 下的 build.gradle 文件中添加:</p>
+<div align="center"><br><img src="/images/apt-fundamental-detail/pic04.png" width="500" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后再次运行一下.</p>
+<div align="center"><br><img src="/images/apt-fundamental-detail/pic05.png" width="400" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后我们看到, 相应的方法名和相关信息, 同时上面的 <code>:app:compileDebugJavaWithJavac</code> 也证实了, 确实实在编译时运行的 <code>MyProcessor</code> 中的 <code>process()</code> 方法.</p>
+<h4 id="继续进阶"><a href="#继续进阶" class="headerlink" title="继续进阶"></a>继续进阶</h4><p>&nbsp;&nbsp;&nbsp;&nbsp; 现在我们回到 &#60;&#60;Think in Java &#62;&#62; 中, 书中用的是 JDK1.5. 而现在的已经更新到 JDK1.8 了, 书中使用的 api 已经废弃不用了, 现在我们用新的 api 和 Android Studio, 重写调试一下. 实现的的功能为, 将 <code>Multiplier</code> 中的非静态的公共方法提取出来, 生成 <code>IMultipler.java</code> 的接口文件.<br>&nbsp;&nbsp;&nbsp;&nbsp; 添加注解类.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// omit package and import...</span></div><div class="line"></div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.CLASS)</div><div class="line"><span class="meta">@Target</span>(ElementType.TYPE)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ExtractInterface &#123;</div><div class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 具体的实体类. <strong>NOTE</strong>: 该实体类需要放在 app Model 中, 而不是 annotation Model 中, 否则无效.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// omit package and import...</span></div><div class="line"></div><div class="line"><span class="meta">@ExtractInterface</span>(<span class="string">"IMultiplier"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Multiplier</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">multiply</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> total = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; x; i++) &#123;</div><div class="line">            total = add(total, y);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> total;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> x + y;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Multiplier m = <span class="keyword">new</span> Multiplier();</div><div class="line">        System.out.println(<span class="string">"11 * 16 = "</span> + m.multiply(<span class="number">11</span>, <span class="number">16</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后是注解处理器.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// omit package and import...</span></div><div class="line"></div><div class="line"><span class="meta">@SupportedAnnotationTypes</span>(<span class="string">"com.congspark.annotation.ExtractInterface"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterfaceExtractProcessor</span> <span class="keyword">extends</span> <span class="title">AbstractProcessor</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ArrayList&lt;ExecutableElement&gt; interfaceMethods =</div><div class="line">            <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="comment">// 为了简化, 路径直接指定, 应该获取注解的路径和包名.</span></div><div class="line">    <span class="keyword">private</span> String outPath = <span class="string">"annotation/src/main/java/com/congspark/annotation/"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// 为了简化, 路径直接指定.</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String pack = <span class="string">"package com.congspark.annotation;"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> PrintWriter writer = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnv)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (Element element : roundEnv.getElementsAnnotatedWith(ExtractInterface.class)) &#123;</div><div class="line">            <span class="keyword">if</span> (element <span class="keyword">instanceof</span> TypeElement) &#123;</div><div class="line">                <span class="comment">// need a type-element here</span></div><div class="line">                TypeElement typeElement = (TypeElement) element;</div><div class="line"></div><div class="line">                <span class="comment">// make out put</span></div><div class="line">                ExtractInterface anno = typeElement.getAnnotation(ExtractInterface.class);</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    File file = <span class="keyword">new</span> File(outPath + anno.value() + <span class="string">".java"</span>);</div><div class="line">                    file.createNewFile();</div><div class="line">                    writer = <span class="keyword">new</span> PrintWriter(</div><div class="line">                            <span class="keyword">new</span> OutputStreamWriter(</div><div class="line">                                    <span class="keyword">new</span> FileOutputStream(outPath + anno.value() + <span class="string">".java"</span>), <span class="string">"UTF-8"</span>));</div><div class="line">                    <span class="comment">// put the package and interface name</span></div><div class="line">                    writer.println(pack);</div><div class="line">                    writer.println();</div><div class="line">                    writer.println(<span class="string">"public interface "</span> + anno.value() + <span class="string">"&#123;"</span>);</div><div class="line"></div><div class="line"></div><div class="line">                &#125; <span class="keyword">catch</span> (FileNotFoundException | UnsupportedEncodingException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="comment">// find method</span></div><div class="line">                <span class="keyword">for</span> (Element method : typeElement.getEnclosedElements()) &#123;</div><div class="line">                    ExecutableElement executableElement = (ExecutableElement) method;</div><div class="line"></div><div class="line">                    <span class="comment">// put PUBLIC and NOT STATIC methods in a list.</span></div><div class="line">                    <span class="keyword">if</span> (executableElement.getModifiers().contains(Modifier.PUBLIC) &amp;&amp;</div><div class="line">                            !executableElement.getModifiers().contains(Modifier.STATIC) &amp;&amp;</div><div class="line">                            !(executableElement.getKind() == ElementKind.CONSTRUCTOR)) &#123;</div><div class="line">                        interfaceMethods.add(executableElement);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// put the methods in the interface and make a relative .java file</span></div><div class="line">            <span class="keyword">for</span> (ExecutableElement method : interfaceMethods) &#123;</div><div class="line">                writer.print(<span class="string">"  "</span>);</div><div class="line">                writer.print(method.getReturnType().toString() + <span class="string">" "</span>);</div><div class="line">                writer.print(method.getSimpleName() + <span class="string">"("</span>);</div><div class="line">                <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">                <span class="keyword">for</span> (VariableElement param : method.getParameters()) &#123;</div><div class="line">                    <span class="comment">// parameter type and parameter name.</span></div><div class="line">                    writer.print(param.asType() + <span class="string">" "</span> + param.getSimpleName());</div><div class="line">                    <span class="keyword">if</span> (++i &lt; method.getParameters().size()) &#123;</div><div class="line">                        writer.print(<span class="string">", "</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                writer.println(<span class="string">");"</span>);</div><div class="line">            &#125;</div><div class="line">            writer.println(<span class="string">"&#125;"</span>);</div><div class="line">            writer.close();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 编译一下, 然后就可以看到 <code>IMultipler</code> 接口了.</p>
+<div align="center"><br><img src="/images/apt-fundamental-detail/pic06.png" width="400" height="100"><br></div>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 小小的总结一下, 这个仅仅是一个小小的示例, 算是辅助学习 &#60;&#60;Think in Java &#62;&#62; 吧. 项目中如果是生成 .java 文件, 可以考虑使用 JavaPoet 框架. 而且, 实际开发中, 应该引入访问者模式来解除耦合, 否则功能稍微多一点, 那么自己编写的注解处理器就会非常的复杂且难以维护.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>~感谢捧场，您的支持将鼓励我继续创作~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="Shao Cheng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpeg" alt="Shao Cheng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/07/work_log/work-log-2018-05/" rel="next" title="工作日志(2018-05)">
+                <i class="fa fa-chevron-left"></i> 工作日志(2018-05)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shao Cheng" />
+          <p class="site-author-name" itemprop="name">Shao Cheng</p>
+           
+              <p class="site-description motion-element" itemprop="description">Talk less, Think more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#知识准备"><span class="nav-number">1.</span> <span class="nav-text">知识准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编码-amp-问题-amp-操作"><span class="nav-number">2.</span> <span class="nav-text">编码 & 问题 & 操作.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继续进阶"><span class="nav-number">3.</span> <span class="nav-text">继续进阶</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Cheng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IVOziuThoLlJneucTgk2EdIh-gzGzoHsz", "4LA70tV2pHILaxLV1M3ja9Sl");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
