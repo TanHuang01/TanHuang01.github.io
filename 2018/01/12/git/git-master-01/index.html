@@ -110,11 +110,11 @@
 <meta property="og:image" content="http://yoursite.com/images/git-master-01/git-master-02.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-master-01/git-master-03.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-master-01/git-master-04.gif">
-<meta property="og:image" content="http://yoursite.com/images/git-master-01/git-master-05.png">
+<meta property="og:image" content="http://yoursite.com/images/git-master-01/git-master-05.gif">
 <meta property="og:image" content="http://yoursite.com/images/git-master-01/git-master-06.png">
 <meta property="og:image" content="http://yoursite.com/images/git-master-01/git-master-07.png">
 <meta property="og:image" content="http://yoursite.com/images/git-master-01/git-master-08.png">
-<meta property="og:updated_time" content="2018-01-12T07:29:07.000Z">
+<meta property="og:updated_time" content="2018-11-09T09:26:28.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git - 高级篇 (1)">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; rebase 并没有你想象的那么难用; --amend 也是一种黑科技操作.">
@@ -419,7 +419,7 @@
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 为什么要从 <code>branch1</code> 来 <code>rebase</code>，然后再切回 <code>master</code> 再 <code>merge</code> 一下这么麻烦，而不是直接在 <code>master</code> 上执行 <code>rebase</code>？</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 从图中可以看出，<code>rebase</code> 后的 <code>commit</code> 虽然内容和 <code>rebase</code> 之前相同，但它们已经是不同的 <code>commits</code> 了。如果直接从 <code>master</code> 执行 <code>rebase</code> 的话，就会是下面这样：</p>
-<div align="center"><br><img src="/images/git-master-01/git-master-05.png" width="500" height="100"><br></div>
+<div align="center"><br><img src="/images/git-master-01/git-master-05.gif" width="500" height="100"><br></div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 这就导致 <code>master</code> 上之前的两个最新 <code>commit</code> 被剔除了。如果这两个 <code>commit</code> 之前已经在中央仓库存在，这就会导致没法 <code>push</code> 了：</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 所以，为了避免和远端仓库发生冲突，一般不要从 <code>master</code> 向其他 <code>branch</code> 执行 <code>rebase</code> 操作。而如果是 <code>master</code> 以外的 <code>branch</code> 之间的 <code>rebase</code>（比如 <code>branch1</code> 和 <code>branch2</code> 之间），就不必这么多费一步，直接 <code>rebase</code> 就好。</p>
@@ -427,7 +427,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase 目标基础点</div></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 需要说明的是，<code>rebase</code> 是站在需要被 <code>rebase</code> 的 <code>commit</code> 上进行操作，这点和 <code>merge</code> 是不同的。</p>
 <h2 id="刚刚提交的代码，发现写错了怎么办？"><a href="#刚刚提交的代码，发现写错了怎么办？" class="headerlink" title="刚刚提交的代码，发现写错了怎么办？"></a>刚刚提交的代码，发现写错了怎么办？</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; 刚提交了一个代码，发现有几个字写错了：</p>
- <div align="center"><br> <img src="/images/git-master-01/git-master-06.png" width="200" height="100"><br> </div>
+ <div align="center"><br> <img src="/images/git-master-01/git-master-06.png" width="500" height="500"><br> </div>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 怎么修复？</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp; 当场再写一个修复这几个错别字的 <code>commit</code>？可以是可以，不过还有一个更加优雅和简单的解决方法：<code>commit -—amend</code>。</p>
